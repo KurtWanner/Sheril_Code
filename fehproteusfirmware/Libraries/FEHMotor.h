@@ -56,11 +56,17 @@ public:
      */
 	void SetPercent( float percent );
 
+    /**
+     * 
+     */
+    void SetPolarity( bool polarity);
+
 private:
     void SetPower( int power );
     float _max_percent;
     FEHMotorPort _motorport;
 	char _power;
+    bool polarity = true;
 };
 
 #endif // FEHMOTOR_H
