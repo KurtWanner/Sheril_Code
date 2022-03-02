@@ -1,3 +1,6 @@
 *.o
 *.d
 .vscode
+*.map
+Proteus.elf
+Proteus.s19

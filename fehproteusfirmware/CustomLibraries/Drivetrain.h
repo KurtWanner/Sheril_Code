@@ -4,32 +4,38 @@
 #include "FEHMotor.h"
 #include "FEHIO.h"
 
-FEHMotor leftMotor(FEHMotor::Motor0,7.2);
-FEHMotor rightMotor(FEHMotor::Motor1,7.2);
-DigitalEncoder leftEncoder(FEHIO::P0_1);
-DigitalEncoder rightEncoder(FEHIO::P3_4);
+
 
 class Drivetrain {
 
     
     public:
 
-    Drivetrain();
+    void PIDForward(double dist);
+    void PIDForwardToX(double x);
+    void PIDForwardToY(double y);
+    void PIDTurn(double angle);
+    void PIDTurnToHeading(double heading);
 
-    void PIDForward(double);
-    void PIDForwardToX(double);
-    void PIDForwardToY(double);
-    void PIDTurn(double);
-    void PIDTurnToHeading(double);
+    void EncoderForward(double distance, double speed);
+    void EncoderForwardToX(double x, double speed);
+    void EncoderForwardToY(double y, double speed);
+    void EncoderTurn(double angle, double speed);
+    void EncoderTurnToHeading(double heading, double speed);
 
-    void EncoderForward(double, double);
-    void EncoderForwardToX(double, double);
-    void EncoderForwardToY(double, double);
-    void EncoderTurn(double, double);
-    void EncoderTurnToHeading(double, double);
+    void Drive(double speed, double time);
+    void DriveTurn(double speedLeft, double speedRight, double time);
 
-    void Drive(double, double);
-    void DriveTurn(double, double, double);
+    int GetLeftEnc1();
+    int GetLeftEnc2();
+    int GetRightEnc1();
+    int GetRightEnc2();
+
+    void ResetLeftCounts();
+    void ResetRightCounts();
+
+    void SetLeftPolarity(bool b);
+    void SetRightPolarity(bool b);
 
 };
 

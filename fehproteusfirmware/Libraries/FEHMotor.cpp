@@ -49,7 +49,7 @@ void FEHMotor::SetPower( int power )
 
 void FEHMotor::SetPercent( float percent )
 {
-    if(this->polarity){
+    if(polarity){
         percent *= -1;
     }
     
@@ -80,6 +80,6 @@ void FEHMotor::SetPercent( float percent )
 
 }
 
-void FEHMotor::SetPolarity( bool polarity ){
-    this->polarity = polarity;
+void FEHMotor::SetPolarity( bool p ){
+    polarity = p;
 }

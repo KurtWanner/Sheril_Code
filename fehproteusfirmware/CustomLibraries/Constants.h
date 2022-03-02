@@ -10,6 +10,27 @@ enum StartMenu {
     Run
 };
 
+typedef struct  { //TODO
+    double MiddleTop = 20;
+} FieldXPositions;
+
+
+
+typedef struct  { //TODO
+    double Middle = 20;
+    double AlignSink = 20;
+} FieldYPositions;
+
+
+typedef struct {
+    double a90 = 206.7;
+
+} AngleCounters;
+
+#define a90 206.7
+
+
+
 #define RobotWidth 8.3
 
 #define RedMax .31
@@ -27,3 +48,5 @@ enum StartMenu {
 
 #define BurgerRotMax 2445
 #define BurgerRotMin 730
+
+#define CountsPerInch 16.6
