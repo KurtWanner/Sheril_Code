@@ -37,15 +37,30 @@ int main(void)
 
     if(input == RunCode){
 
-        dt.Drive(25, 2.0);
-        start(&course, &region, &iceCream);
+        //start(&course, &region, &iceCream);
 
         // Go Up Ramp
-        dt.EncoderForward(10, 20);
-        dt.EncoderTurn(-90, 20);
-        dt.EncoderForward(10, 20);
-        dt.EncoderTurn(90, 20);
-        dt.EncoderForward(10, 20);
+        dt.EncoderForward(5, 20); // To Middle
+        dt.EncoderTurn(45, 20); // Turn to Ramp
+        dt.EncoderForward(20, 20); // Up Ramp
+
+        // Sink Dump
+        dt.EncoderTurn(-90, 20); // Turn left
+        dt.EncoderForward(10, 20); // Align with sink
+        dt.EncoderTurn(90, 20); // Turn back to sink
+        dt.EncoderBackward(10, 20); // Back into Sink
+        // trayFlip.dump();
+        dt.EncoderBackward(10, 20); // Back away from sink
+
+        // Order slide
+        dt.EncoderTurn(90, 20); //Turn to order
+        dt.EncoderForward(20, 20); //Drive to order
+        dt.EncoderTurn(90, 20); //Turn to order
+        dt.EncoderForward(10, 20); // Go into order slide
+        //burgerFlip.moveOrder();
+
+        // Hit hot plate
+        dt.EncoderBackward(30, 20); 
 
 
     } else if(input == TestingCode){
@@ -93,7 +108,7 @@ void start(int *course, char *region, int *iceCream){
     LCD.WriteAt("Welcome to Carmen's Dinner!", 5, 5);
     Sleep(1.0);
     LCD.Clear();
-    /*
+    
     while(!CdS.onStartLight()){
       
         LCD.WriteAt(CdS.Value(), 5,5);
@@ -101,7 +116,7 @@ void start(int *course, char *region, int *iceCream){
         LCD.Clear();
     
     }  
-    */ 
+    
 }
 
 void printStartMenu(){

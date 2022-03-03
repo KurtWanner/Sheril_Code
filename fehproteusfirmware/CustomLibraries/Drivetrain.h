@@ -18,6 +18,7 @@ class Drivetrain {
     void PIDTurnToHeading(double heading);
 
     void EncoderForward(double distance, double speed);
+    void EncoderBackward(double distance, double speed);
     void EncoderForwardToX(double x, double speed);
     void EncoderForwardToY(double y, double speed);
     void EncoderTurn(double angle, double speed);

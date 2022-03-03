@@ -49,6 +49,28 @@ void Drivetrain::EncoderForward(double dist, double speed){
     leftMotor.Stop();
     rightMotor.Stop();
 }
+
+void Drivetrain::EncoderBackward(double dist, double speed){
+    ResetLeftCounts();
+    ResetRightCounts();
+    leftMotor.SetPercent(-speed);
+    rightMotor.SetPercent(-speed);
+    while((GetLeftEnc1() + GetRightEnc1())/2 < dist * CountsPerInch){
+        LCD.Clear();
+        LCD.WriteAt("Left 1 Enc:", 5, 5);
+        LCD.WriteAt("Left 2 Enc:", 5, 30);
+        LCD.WriteAt("Right 1 Enc:", 5, 55);
+        LCD.WriteAt("Right 2 Enc:", 5, 80);
+        LCD.WriteAt(GetLeftEnc1(), 100, 5);
+        LCD.WriteAt(GetLeftEnc2(), 100, 30);
+        LCD.WriteAt(GetRightEnc1(), 100, 55);
+        LCD.WriteAt(GetRightEnc2(), 100, 80);
+        Sleep(.02);
+    }
+    leftMotor.Stop();
+    rightMotor.Stop();
+}
+
 void Drivetrain::EncoderForwardToX(double x, double speed){
 
 }
