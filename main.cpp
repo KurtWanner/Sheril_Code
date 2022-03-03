@@ -17,7 +17,7 @@ RobotClass Robot = RobotClass();
 int main(void)
 {
 
-    Robot.dt.SetLeftPolarity(true);
+    Robot.drivetrain.SetLeftPolarity(true);
 
     int course = 0;
     char region = 'a';
@@ -35,27 +35,27 @@ int main(void)
         //start(&course, &region, &iceCream);
 
         // Go Up Ramp
-        Robot.dt.EncoderForward(5, 20); // To Middle
-        Robot.dt.EncoderTurn(45, 20); // Turn to Ramp
-        Robot.dt.EncoderForward(20, 20); // Up Ramp
+        Robot.drivetrain.EncoderForward(5, 20); // To Middle
+        Robot.drivetrain.EncoderTurn(45, 20); // Turn to Ramp
+        Robot.drivetrain.EncoderForward(20, 20); // Up Ramp
 
         // Sink Dump
-        Robot.dt.EncoderTurn(-90, 20); // Turn left
-        Robot.dt.EncoderForward(10, 20); // Align with sink
-        Robot.dt.EncoderTurn(90, 20); // Turn back to sink
-        Robot.dt.EncoderBackward(10, 20); // Back into Sink
+        Robot.drivetrain.EncoderTurn(-90, 20); // Turn left
+        Robot.drivetrain.EncoderForward(10, 20); // Align with sink
+        Robot.drivetrain.EncoderTurn(90, 20); // Turn back to sink
+        Robot.drivetrain.EncoderBackward(10, 20); // Back into Sink
         // trayFlip.dump();
-        Robot.dt.EncoderBackward(10, 20); // Back away from sink
+        Robot.drivetrain.EncoderBackward(10, 20); // Back away from sink
 
         // Order slide
-        Robot.dt.EncoderTurn(90, 20); //Turn to order
-        Robot.dt.EncoderForward(20, 20); //Drive to order
-        Robot.dt.EncoderTurn(90, 20); //Turn to order
-        Robot.dt.EncoderForward(10, 20); // Go into order slide
+        Robot.drivetrain.EncoderTurn(90, 20); //Turn to order
+        Robot.drivetrain.EncoderForward(20, 20); //Drive to order
+        Robot.drivetrain.EncoderTurn(90, 20); //Turn to order
+        Robot.drivetrain.EncoderForward(10, 20); // Go into order slide
         //burgerFlip.moveOrder();
 
         // Hit hot plate
-        Robot.dt.EncoderBackward(30, 20); 
+        Robot.drivetrain.EncoderBackward(30, 20); 
 
 
     } else if(input == TestingCode){
