@@ -11,19 +11,13 @@ enum StartMenu {
 };
 
 enum TestingCodes {
-    Stop,
+    Encoder,
     Forward,
     Backward,
-    Right,
     Left,
-    Forward10Inches,
-    Backward10Inches,
-    Right180,
-    Right90,
-    Right45,
-    Left180,
-    Left90,
-    Left45
+    Right,
+    Stop,
+
 };
 
 typedef struct  { //TODO

@@ -4,6 +4,7 @@
 class Testing {
     public:
 
+    void getEncValues();
     void forwardXInches(float x);
     void backwardXInches(float x);
     void rightXDegrees(float deg);

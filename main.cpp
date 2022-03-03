@@ -58,7 +58,9 @@ int main(void)
             choice = getTestMenuInput();
             
             switch(choice){
-
+                case Encoder:
+                    Test.getEncValues();
+                    break;
                 case Forward:
                     Test.forwardXInches(10);
                     break;
@@ -72,16 +74,8 @@ int main(void)
                     Test.rightXDegrees(90);
                     break;
 
-
-
             }
-            LCD.Clear();
-            LCD.WriteAt(dt.GetLeftEnc1(), 5, 50);
-            LCD.WriteAt(dt.GetLeftEnc2(), 5, 100);
-            LCD.WriteAt(dt.GetRightEnc1(), 200, 50);
-            LCD.WriteAt(dt.GetRightEnc2(), 200, 100);
 
-            Sleep(.02);
         }
 
     }
@@ -114,7 +108,7 @@ void printStartMenu(){
     LCD.Clear();
     LCD.SetBackgroundColor(BLACK);
     LCD.SetFontColor(WHITE);
-    LCD.DrawLine(0, 120, 319, 120);
+    LCD.DrawLine(0, 120, LCDRight, 120);
     LCD.WriteAt("Testing", 140, 60);
     LCD.WriteAt("Start Run", 140, 180);
 }
@@ -158,7 +152,6 @@ int getTestMenuInput(){
         }
     }
 
-
-
+    return (int) (x / TestMenuX) + 3 * (int) (y / TestMenuY);
 
 }
