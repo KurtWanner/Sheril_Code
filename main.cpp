@@ -16,7 +16,7 @@ RobotClass Robot = RobotClass();
 
 int main(void)
 {
-    
+
     Robot.dt.SetLeftPolarity(true);
 
     int course = 0;
