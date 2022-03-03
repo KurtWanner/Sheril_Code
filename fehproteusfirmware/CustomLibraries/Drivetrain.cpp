@@ -4,6 +4,7 @@
 #include "FEHUtility.h"
 #include "Constants.h"
 #include "math.h"
+#include "FEHLCD.h"
 
 FEHMotor leftMotor(FEHMotor::Motor0,7.2);
 FEHMotor rightMotor(FEHMotor::Motor1,7.2);
@@ -33,7 +34,18 @@ void Drivetrain::EncoderForward(double dist, double speed){
     ResetRightCounts();
     leftMotor.SetPercent(speed);
     rightMotor.SetPercent(speed);
-    while((GetLeftEnc1() + GetRightEnc1())/2 < dist * CountsPerInch);
+    while((GetLeftEnc1() + GetRightEnc1())/2 < dist * CountsPerInch){
+        LCD.Clear();
+        LCD.WriteAt("Left 1 Enc:", 5, 5);
+        LCD.WriteAt("Left 2 Enc:", 5, 30);
+        LCD.WriteAt("Right 1 Enc:", 5, 55);
+        LCD.WriteAt("Right 2 Enc:", 5, 80);
+        LCD.WriteAt(GetLeftEnc1(), 100, 5);
+        LCD.WriteAt(GetLeftEnc2(), 100, 30);
+        LCD.WriteAt(GetRightEnc1(), 100, 55);
+        LCD.WriteAt(GetRightEnc2(), 100, 80);
+        Sleep(.02);
+    }
     leftMotor.Stop();
     rightMotor.Stop();
 }
@@ -52,7 +64,22 @@ void Drivetrain::EncoderTurn(double angle, double speed){
         leftMotor.SetPercent(speed);
     }
 
-    while(abs(GetLeftEnc1() - GetRightEnc1()) < a90 * angle / 90);
+    while(abs(GetLeftEnc1() - GetRightEnc1()) < a90 * angle / 90){
+        LCD.Clear();
+        LCD.WriteAt("Left 1 Enc:", 5, 5);
+        LCD.WriteAt("Left 2 Enc:", 5, 30);
+        LCD.WriteAt("Right 1 Enc:", 5, 55);
+        LCD.WriteAt("Right 2 Enc:", 5, 80);
+        LCD.WriteAt(GetLeftEnc1(), 100, 5);
+        LCD.WriteAt(GetLeftEnc2(), 100, 30);
+        LCD.WriteAt(GetRightEnc1(), 100, 55);
+        LCD.WriteAt(GetRightEnc2(), 100, 80);    
+
+        LCD.WriteAt("Difference:", 5, 105);
+        LCD.WriteAt(GetLeftEnc1() - GetRightEnc1(), 100, 105);
+
+        Sleep(.02);
+    }
 
     rightMotor.Stop();
     leftMotor.Stop();

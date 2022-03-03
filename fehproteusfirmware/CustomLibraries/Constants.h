@@ -6,8 +6,24 @@ enum Colors {
 };
 
 enum StartMenu {
-    Testing,
-    Run
+    TestingCode,
+    RunCode
+};
+
+enum TestingCodes {
+    Stop,
+    Forward,
+    Backward,
+    Right,
+    Left,
+    Forward10Inches,
+    Backward10Inches,
+    Right180,
+    Right90,
+    Right45,
+    Left180,
+    Left90,
+    Left45
 };
 
 typedef struct  { //TODO
@@ -50,3 +66,5 @@ typedef struct {
 #define BurgerRotMin 730
 
 #define CountsPerInch 16.6
+
+#define SlowSpeed 20

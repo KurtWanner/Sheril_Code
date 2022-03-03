@@ -6,52 +6,38 @@
 #include <FEHSD.h>
 #include "CdSSensor.h"
 #include "Constants.h"
+#include "InitializeRobot.h"
+#include "Testing.h"
 
-CdSSensor CdS(FEHIO::P2_0);
-FEHServo burgerFlip(FEHServo::Servo0);
-FEHServo trayFlip(FEHServo::Servo1);
-
-
+Testing Test;
 
 void start(int*, char*, int*);
 
-void printMenus();
+void printStartMenu();
 int getMenuInput();
+
+void printTestMenu();
+int getTestMenuInput();
 
 int main(void)
 {
     
-    Drivetrain dt;
+
+
     dt.SetLeftPolarity(true);
+
     int course = 0;
     char region = 'a';
     int iceCream;
 
 
-    printMenus();
+    printStartMenu();
 
     int input = getMenuInput();
 
-    if(input == Testing){
-
-        dt.ResetLeftCounts();
-        dt.ResetRightCounts();
-
-        while(true){
-            LCD.Clear();
-            LCD.WriteAt(dt.GetLeftEnc1(), 5, 50);
-            LCD.WriteAt(dt.GetLeftEnc2(), 5, 100);
-            LCD.WriteAt(dt.GetRightEnc1(), 200, 50);
-            LCD.WriteAt(dt.GetRightEnc2(), 200, 100);
-
-            Sleep(.02);
-        }
+    if(input == RunCode){
 
         dt.Drive(25, 2.0);
-
-    } else if(input == Run){
-        
-
         start(&course, &region, &iceCream);
 
         // Go Up Ramp
@@ -60,9 +46,43 @@ int main(void)
         dt.EncoderForward(10, 20);
         dt.EncoderTurn(90, 20);
         dt.EncoderForward(10, 20);
-        
 
 
+    } else if(input == TestingCode){
+
+        int choice = 1;
+
+        while(choice != Stop){
+
+            printTestMenu();
+            choice = getTestMenuInput();
+            
+            switch(choice){
+
+                case Forward:
+                    Test.forwardXInches(10);
+                    break;
+                case Backward:
+                    Test.backwardXInches(10);
+                    break;
+                case Left:
+                    Test.leftXDegrees(90);
+                    break;
+                case Right:
+                    Test.rightXDegrees(90);
+                    break;
+
+
+
+            }
+            LCD.Clear();
+            LCD.WriteAt(dt.GetLeftEnc1(), 5, 50);
+            LCD.WriteAt(dt.GetLeftEnc2(), 5, 100);
+            LCD.WriteAt(dt.GetRightEnc1(), 200, 50);
+            LCD.WriteAt(dt.GetRightEnc2(), 200, 100);
+
+            Sleep(.02);
+        }
 
     }
 
@@ -90,7 +110,7 @@ void start(int *course, char *region, int *iceCream){
     */ 
 }
 
-void printMenus(){
+void printStartMenu(){
     LCD.Clear();
     LCD.SetBackgroundColor(BLACK);
     LCD.SetFontColor(WHITE);
@@ -109,10 +129,9 @@ int getMenuInput(){
     }
     LCD.WriteAt(y, 50, 50);
     
-    return Run;
     if(y < 120){
-        return Testing;
+        return TestingCode;
     } else {
-        return Run;
+        return RunCode;
     }
 }
