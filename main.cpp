@@ -25,7 +25,6 @@ int main(void)
 
     Testing Test = Testing();
 
-
     printStartMenu();
 
     int input = getMenuInput();

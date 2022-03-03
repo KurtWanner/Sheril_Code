@@ -1,3 +1,5 @@
+#ifndef CONSTANTS_H
+#define CONSTANTS_H
 
 enum Colors {
     Red,
@@ -60,6 +62,14 @@ typedef struct {
 #define BurgerRotMax 2445
 #define BurgerRotMin 730
 
+// TODO Add values
+#define IceTrayRotMin 1
+#define IceTrayRotMax 1
+
+// TODO Add values
+#define OrderSlideRotMin 1
+#define OrderSlideRotMax 1
+
 #define CountsPerInch 16.6
 
 #define SlowSpeed 20
@@ -71,3 +81,5 @@ typedef struct {
 #define TestMenuX 100
 #define TestMenuYOffset 35
 #define TestMenuXOffset 5
+
+#endif

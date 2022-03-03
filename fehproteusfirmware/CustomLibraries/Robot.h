@@ -4,14 +4,16 @@
 #include "Drivetrain.h"
 #include "CdSSensor.h"
 #include "FEHServo.h"
+#include "ServoTypes.h"
 
 class RobotClass {
     public:
-    RobotClass();
     Drivetrain drivetrain;
     CdSSensor CdS = CdSSensor(FEHIO::P2_0);
-    FEHServo burgerFlip = FEHServo(FEHServo::Servo0);
-    FEHServo trayFlip = FEHServo(FEHServo::Servo1);
+    BurgerFliperServo burgerServo = BurgerFliperServo(FEHServo::Servo0);
+
+    //IceCreamTrayServo iceCreamTrayServo = IceCreamTrayServo(FEHServo::Servo1);
+    //OrderSlideServo orderSlideServo = OrderSlideServo(FEHServo::Servo2);
 };
 
 #endif
