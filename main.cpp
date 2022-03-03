@@ -124,7 +124,10 @@ void printTestMenu(){
     LCD.WriteAt("Backward", TestMenuXOffset + TestMenuX * 2, TestMenuYOffset);
     LCD.WriteAt("Left", TestMenuXOffset, TestMenuYOffset + TestMenuY);
     LCD.WriteAt("Right", TestMenuXOffset + TestMenuX, TestMenuYOffset + TestMenuY);
-    LCD.WriteAt("Return", TestMenuXOffset + TestMenuX * 2, TestMenuYOffset + TestMenuY);
+    LCD.WriteAt("Get CdS", TestMenuXOffset + TestMenuX * 2, TestMenuYOffset + TestMenuY);
+    LCD.WriteAt("Return", TestMenuXOffset, TestMenuYOffset + TestMenuY * 2);
+
+    
 }
 
 int getMenuInput(){

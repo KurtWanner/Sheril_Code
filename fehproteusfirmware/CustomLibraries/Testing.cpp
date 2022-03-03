@@ -36,3 +36,19 @@ void Testing::rightXDegrees(float deg){
     dt.EncoderTurn(deg, SlowSpeed);
     Sleep(5.0);
 }
+
+void Testing::getCdSValue(){
+    int x, y;
+    LCD.Clear();
+    while(!LCD.Touch(&x, &y)){
+        LCD.WriteAt("Value:", 5, 20);
+        LCD.WriteAt("onBlueLight:", 5, 50);
+        LCD.WriteAt("onRedLight:", 5, 80);
+        LCD.WriteAt("onStartLight", 5, 110);
+        LCD.WriteAt(CdS.Value(), 100, 20);
+        LCD.WriteAt(CdS.onBlueLight(), 100, 50);
+        LCD.WriteAt(CdS.onBlueLight(), 100, 80);
+        LCD.WriteAt(CdS.onStartLight(), 100, 110);
+    }
+    Sleep(5.0);
+}

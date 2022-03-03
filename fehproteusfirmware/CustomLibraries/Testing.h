@@ -9,6 +9,7 @@ class Testing {
     void backwardXInches(float x);
     void rightXDegrees(float deg);
     void leftXDegrees(float deg);
+    void getCdSValue();
 };
 
 

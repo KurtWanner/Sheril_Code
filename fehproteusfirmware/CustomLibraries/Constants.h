@@ -16,7 +16,8 @@ enum TestingCodes {
     Backward,
     Left,
     Right,
-    Stop,
+    GetCdS,
+    Stop
 
 };
 
