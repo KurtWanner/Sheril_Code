@@ -119,19 +119,46 @@ void printStartMenu(){
     LCD.WriteAt("Start Run", 140, 180);
 }
 
+void printTestMenu(){
+    LCD.Clear();
+    LCD.DrawLine(0, TestMenuY, LCDRight, TestMenuY);
+    LCD.DrawLine(0, 2 * TestMenuY, LCDRight, 2 * TestMenuY);
+    LCD.DrawLine(TestMenuX, 0, TestMenuX, LCDBottom);
+    LCD.DrawLine(2 * TestMenuX, 0, 2 * TestMenuX, LCDBottom);
+    LCD.WriteAt("Enc", TestMenuXOffset, TestMenuYOffset);
+    LCD.WriteAt("Forward", TestMenuXOffset + TestMenuX, TestMenuYOffset);
+    LCD.WriteAt("Backward", TestMenuXOffset + TestMenuX * 2, TestMenuYOffset);
+    LCD.WriteAt("Left", TestMenuXOffset, TestMenuYOffset + TestMenuY);
+    LCD.WriteAt("Right", TestMenuXOffset + TestMenuX, TestMenuYOffset + TestMenuY);
+    LCD.WriteAt("Return", TestMenuXOffset + TestMenuX * 2, TestMenuYOffset + TestMenuY);
+}
+
 int getMenuInput(){
     int x, y;
-    while(!LCD.Touch(&x, &y)){
-        Sleep(.02);
+    bool getXY = false;
+    while(!getXY){
+        if(LCD.Touch(&x, &y)){
+            getXY = true;
+        }
     }
-    while(LCD.Touch(&x, &y)){
-        Sleep(.02);
-    }
-    LCD.WriteAt(y, 50, 50);
     
     if(y < 120){
         return TestingCode;
     } else {
         return RunCode;
     }
+}
+
+int getTestMenuInput(){
+    int x, y;
+    bool getXY = false;
+    while(!getXY){
+        if(LCD.Touch(&x, &y)){
+            getXY = true;
+        }
+    }
+
+
+
+
 }

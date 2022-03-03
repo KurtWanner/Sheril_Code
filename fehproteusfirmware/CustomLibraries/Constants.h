@@ -68,3 +68,11 @@ typedef struct {
 #define CountsPerInch 16.6
 
 #define SlowSpeed 20
+
+#define LCDBottom 319
+#define LCDRight 239
+
+#define TestMenuY 80
+#define TestMenuX 100
+#define TestMenuYOffset 35
+#define TestMenuXOffset 5
