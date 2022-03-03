@@ -1,15 +1,8 @@
 #include <FEHLCD.h>
 #include <FEHIO.h>
-#include <FEHMotor.h>
-#include <FEHServo.h>
-#include <Drivetrain.h>
-#include <FEHSD.h>
-#include "CdSSensor.h"
 #include "Constants.h"
-#include "InitializeRobot.h"
 #include "Testing.h"
-
-Testing Test;
+#include "Robot.h"
 
 void start(int*, char*, int*);
 
@@ -19,16 +12,18 @@ int getMenuInput();
 void printTestMenu();
 int getTestMenuInput();
 
+RobotClass Robot = RobotClass();
+
 int main(void)
 {
     
-
-
-    dt.SetLeftPolarity(true);
+    Robot.dt.SetLeftPolarity(true);
 
     int course = 0;
     char region = 'a';
     int iceCream;
+
+    Testing Test = Testing();
 
 
     printStartMenu();
@@ -40,27 +35,27 @@ int main(void)
         //start(&course, &region, &iceCream);
 
         // Go Up Ramp
-        dt.EncoderForward(5, 20); // To Middle
-        dt.EncoderTurn(45, 20); // Turn to Ramp
-        dt.EncoderForward(20, 20); // Up Ramp
+        Robot.dt.EncoderForward(5, 20); // To Middle
+        Robot.dt.EncoderTurn(45, 20); // Turn to Ramp
+        Robot.dt.EncoderForward(20, 20); // Up Ramp
 
         // Sink Dump
-        dt.EncoderTurn(-90, 20); // Turn left
-        dt.EncoderForward(10, 20); // Align with sink
-        dt.EncoderTurn(90, 20); // Turn back to sink
-        dt.EncoderBackward(10, 20); // Back into Sink
+        Robot.dt.EncoderTurn(-90, 20); // Turn left
+        Robot.dt.EncoderForward(10, 20); // Align with sink
+        Robot.dt.EncoderTurn(90, 20); // Turn back to sink
+        Robot.dt.EncoderBackward(10, 20); // Back into Sink
         // trayFlip.dump();
-        dt.EncoderBackward(10, 20); // Back away from sink
+        Robot.dt.EncoderBackward(10, 20); // Back away from sink
 
         // Order slide
-        dt.EncoderTurn(90, 20); //Turn to order
-        dt.EncoderForward(20, 20); //Drive to order
-        dt.EncoderTurn(90, 20); //Turn to order
-        dt.EncoderForward(10, 20); // Go into order slide
+        Robot.dt.EncoderTurn(90, 20); //Turn to order
+        Robot.dt.EncoderForward(20, 20); //Drive to order
+        Robot.dt.EncoderTurn(90, 20); //Turn to order
+        Robot.dt.EncoderForward(10, 20); // Go into order slide
         //burgerFlip.moveOrder();
 
         // Hit hot plate
-        dt.EncoderBackward(30, 20); 
+        Robot.dt.EncoderBackward(30, 20); 
 
 
     } else if(input == TestingCode){
@@ -77,7 +72,7 @@ int main(void)
                     Test.getEncValues();
                     break;
                 case Forward:
-                    Test.forwardXInches(10);
+                    Test.forwardXInches(10.0);
                     break;
                 case Backward:
                     Test.backwardXInches(10);
@@ -109,9 +104,9 @@ void start(int *course, char *region, int *iceCream){
     Sleep(1.0);
     LCD.Clear();
     
-    while(!CdS.onStartLight()){
+    while(!Robot.CdS.onStartLight()){
       
-        LCD.WriteAt(CdS.Value(), 5,5);
+        LCD.WriteAt(Robot.CdS.Value(), 5,5);
         Sleep(5);
         LCD.Clear();
     

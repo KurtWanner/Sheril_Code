@@ -1,7 +1,9 @@
 #ifndef TESTING_H
 #define TESTING_H
 
-class Testing {
+#include "Robot.h"
+
+class Testing: public RobotClass{
     public:
 
     void getEncValues();

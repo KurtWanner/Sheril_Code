@@ -1,5 +1,4 @@
 #include "Testing.h"
-#include "InitializeRobot.h"
 #include "Constants.h"
 #include "FEHUtility.h"
 #include "FEHLCD.h"
@@ -15,6 +14,7 @@ void Testing::getEncValues(){
 
         Sleep(.02);
     }
+    
 }
 
 void Testing::forwardXInches(float x){
@@ -25,6 +25,7 @@ void Testing::forwardXInches(float x){
 void Testing::backwardXInches(float x){
     dt.EncoderForward(x, SlowSpeed);
     Sleep(5.0);
+    
 }
 
 void Testing::leftXDegrees(float deg){
