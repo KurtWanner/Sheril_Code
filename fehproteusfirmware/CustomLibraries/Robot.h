@@ -12,7 +12,10 @@ class RobotClass {
     CdSSensor CdS = CdSSensor(FEHIO::P2_0);
     BurgerFliperServo burgerServo = BurgerFliperServo(FEHServo::Servo0);
 
-    //IceCreamTrayServo iceCreamTrayServo = IceCreamTrayServo(FEHServo::Servo1);
+    // TODO Get ice cream tray servo functional
+    IceCreamTrayServo iceCreamTrayServo = IceCreamTrayServo(FEHServo::Servo2);
+
+    // TODO Eventually deal with order slide
     //OrderSlideServo orderSlideServo = OrderSlideServo(FEHServo::Servo2);
 };
 

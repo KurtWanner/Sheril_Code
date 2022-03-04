@@ -17,6 +17,8 @@ RobotClass Robot = RobotClass();
 int main(void)
 {
 
+    int x, y;
+
     Robot.drivetrain.SetLeftPolarity(true);
 
     int course = 0;
@@ -31,30 +33,60 @@ int main(void)
 
     if(input == RunCode){
 
-        //start(&course, &region, &iceCream);
 
+        //start(&course, &region, &iceCream);
+        
         // Go Up Ramp
-        Robot.drivetrain.EncoderForward(5, 20); // To Middle
-        Robot.drivetrain.EncoderTurn(45, 20); // Turn to Ramp
-        Robot.drivetrain.EncoderForward(20, 20); // Up Ramp
+        Robot.drivetrain.EncoderForward(8, 35); // To Middle
+        Sleep(0.5);
+        Robot.drivetrain.EncoderTurn(45, 35); // Turn to Ramp
+        Sleep(0.5);
+        Robot.drivetrain.EncoderForward(34, 35);
+        Sleep(0.5);
+  
 
         // Sink Dump
-        Robot.drivetrain.EncoderTurn(-90, 20); // Turn left
-        Robot.drivetrain.EncoderForward(10, 20); // Align with sink
-        Robot.drivetrain.EncoderTurn(90, 20); // Turn back to sink
-        Robot.drivetrain.EncoderBackward(10, 20); // Back into Sink
-        // trayFlip.dump();
-        Robot.drivetrain.EncoderBackward(10, 20); // Back away from sink
-
+        Robot.drivetrain.EncoderTurn(-90, 35); // Turn left
+        Sleep(0.5);
+        Robot.drivetrain.EncoderForward(1.5, 35); // Align with sink
+        Sleep(0.5);
+        Robot.drivetrain.EncoderTurn(90, 35); // Turn back to sink
+        
+        Sleep(0.5);
+        Robot.drivetrain.EncoderBackward(5.5, 35); // Back into Sink
+        Sleep(0.5);
+        Robot.iceCreamTrayServo.dumpTray();
+        Sleep(1.0);
+        Robot.iceCreamTrayServo.restingPosition();
+        
+        Robot.drivetrain.EncoderForward(1, 35); // Back away from sink
+        Sleep(1.0);
         // Order slide
-        Robot.drivetrain.EncoderTurn(90, 20); //Turn to order
-        Robot.drivetrain.EncoderForward(20, 20); //Drive to order
-        Robot.drivetrain.EncoderTurn(90, 20); //Turn to order
-        Robot.drivetrain.EncoderForward(10, 20); // Go into order slide
+        
+        Robot.drivetrain.EncoderTurn(-60, 30); //Turn to order
+        Sleep(0.5);
+        Robot.drivetrain.EncoderBackward(3, 30);
+        Sleep(0.5);
+        Robot.drivetrain.EncoderTurn(-30, 25);
+        Robot.drivetrain.EncoderBackward(19, 30); //Drive to order
+        Sleep(0.5);
+        Robot.drivetrain.EncoderTurn(65, 35); //Turn to order
+
+        Robot.iceCreamTrayServo.SetDegree(170);
+        
+        Robot.drivetrain.EncoderBackward(13.5, 35); // Go into order slide
+
+        Robot.drivetrain.EncoderTurn(45, 30);
+        Sleep(1.5);
+        Robot.drivetrain.EncoderForward(30, 60);
+        
+        /*
         //burgerFlip.moveOrder();
 
         // Hit hot plate
         Robot.drivetrain.EncoderBackward(30, 20); 
+        */
+        
 
 
     } else if(input == TestingCode){
