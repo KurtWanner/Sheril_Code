@@ -234,7 +234,11 @@ void Drivetrain::Drive(double speed, double time){
     rightMotor.Stop();
 }
 void Drivetrain::DriveTurn(double speedLeft, double speedRight, double time){
-
+    leftMotor.SetPercent(speedLeft);
+    rightMotor.SetPercent(speedRight);
+    Sleep(time);
+    leftMotor.Stop();
+    leftMotor.Stop();
 }
 
 int Drivetrain::GetLeftEnc1(){

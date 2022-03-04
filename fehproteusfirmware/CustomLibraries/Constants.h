@@ -52,8 +52,8 @@ typedef struct {
 #define BlueMax .6
 #define BlueMin .4
 
-#define StartLightMax .31
-#define StartLightMin .29
+#define StartLightMax .1
+#define StartLightMin .10
 
 #define Radius 1.75
 #define CountsPerRev 180

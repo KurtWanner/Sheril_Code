@@ -3,15 +3,15 @@
 
 
 bool CdSSensor::onBlueLight(){
-    float value = this->Value();
+    float value = Value();
     return value < BlueMax && value > BlueMin;
 }
 bool CdSSensor::onRedLight(){
-    float value = this->Value();
+    float value = Value();
     return value < RedMax && value > RedMin;
 }
 bool CdSSensor::onStartLight(){
-    float value = this->Value();
+    float value = Value();
     return value < StartLightMax && value > StartLightMin;
 }
 

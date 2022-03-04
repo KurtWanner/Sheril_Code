@@ -9,7 +9,7 @@
 class RobotClass {
     public:
     Drivetrain drivetrain;
-    CdSSensor CdS = CdSSensor(FEHIO::P2_0);
+    CdSSensor CdS = CdSSensor(FEHIO::P1_0);
     BurgerFliperServo burgerServo = BurgerFliperServo(FEHServo::Servo0);
 
     IceCreamTrayServo iceCreamTrayServo = IceCreamTrayServo(FEHServo::Servo2);
