@@ -24,6 +24,7 @@ int main(void)
     int iceCream;
 
     Testing Test = Testing();
+    while(true){
 
     printStartMenu();
 
@@ -34,14 +35,8 @@ int main(void)
 
         //start(&course, &region, &iceCream);
         
-        Robot.drivetrain.EncoderForward(5, 50);
-        Robot.drivetrain.EncoderLeftMotorTurn(90, 35);
-        Sleep(2.0);
-        Robot.drivetrain.EncoderLeftMotorTurn(-90, 35);
-        Sleep(2.0);
-        Robot.drivetrain.EncoderRightMotorTurn(90, 35);
-        Sleep(2.0);
-        Robot.drivetrain.EncoderRightMotorTurn(-90, 35);
+        Robot.drivetrain.EncoderBackward(10, 35);
+
         // Go Up Ramp
         /*
         Robot.drivetrain.EncoderForward(8, 35); // To Middle
@@ -93,6 +88,8 @@ int main(void)
         // Hit hot plate
         Robot.drivetrain.EncoderBackward(30, 20); 
         */
+
+       return 0;
         
 
 
@@ -128,7 +125,7 @@ int main(void)
 
     }
 
-	return 0;
+    }
 }
 
 void start(int *course, char *region, int *iceCream){
@@ -180,13 +177,7 @@ void printTestMenu(){
 
 int getMenuInput(){
     int x, y;
-    bool getXY = false;
-    while(!getXY){
-        if(LCD.Touch(&x, &y)){
-            getXY = true;
-        }
-    }
-    
+    WaitForTouch(&x, &y);
     if(y < 120){
         return TestingCode;
     } else {
@@ -196,12 +187,7 @@ int getMenuInput(){
 
 int getTestMenuInput(){
     int x, y;
-    bool getXY = false;
-    while(!getXY){
-        if(LCD.Touch(&x, &y)){
-            getXY = true;
-        }
-    }
+    WaitForTouch(&x, &y);
 
     return (int) (x / TestMenuX) + 3 * (int) (y / TestMenuY);
 

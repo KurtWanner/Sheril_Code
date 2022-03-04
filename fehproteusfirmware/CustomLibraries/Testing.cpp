@@ -14,28 +14,29 @@ void Testing::getEncValues(){
 
         Sleep(.02);
     }
+    WaitForTouch();
     
 }
 
 void Testing::forwardXInches(float x){
     drivetrain.EncoderForward(x, SlowSpeed);
-    Sleep(5.0);
+    WaitForTouch();
 }
 
 void Testing::backwardXInches(float x){
     drivetrain.EncoderForward(x, SlowSpeed);
-    Sleep(5.0);
+    WaitForTouch();
     
 }
 
 void Testing::leftXDegrees(float deg){
     drivetrain.EncoderTurn(-deg, SlowSpeed);
-    Sleep(5.0);
+    WaitForTouch();
 }
 
 void Testing::rightXDegrees(float deg){
     drivetrain.EncoderTurn(deg, SlowSpeed);
-    Sleep(5.0);
+    WaitForTouch();
 }
 
 void Testing::getCdSValue(){
@@ -51,5 +52,5 @@ void Testing::getCdSValue(){
         LCD.WriteAt(CdS.onBlueLight(), 100, 80);
         LCD.WriteAt(CdS.onStartLight(), 100, 110);
     }
-    Sleep(5.0);
+    WaitForTouch();
 }

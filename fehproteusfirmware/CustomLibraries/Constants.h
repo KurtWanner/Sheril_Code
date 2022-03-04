@@ -77,8 +77,8 @@ typedef struct {
 
 #define SlowSpeed 20
 
-#define LCDBottom 319
-#define LCDRight 239
+#define LCDBottom 239
+#define LCDRight 319
 
 #define TestMenuY 80
 #define TestMenuX 100

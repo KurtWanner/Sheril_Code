@@ -1,4 +1,5 @@
 #include "FEHUtility.h"
+#include "FEHLCD.h"
 #include "lptmr.h"
 
 #define __USE_NEW_SLEEP__
@@ -14,6 +15,25 @@ static void Delay(unsigned long ms, const unsigned int tsr0, const unsigned int 
     tsrf += tprf / 0x8000u;
     tprf %= 0x8000u;
     while( RTC_TSR < tsrf || (RTC_TSR == tsrf && RTC_TPR <tprf)) {}
+}
+
+void WaitForTouch(int * x, int * y){
+
+    LCD.ClearBuffer();
+
+    while(LCD.Touch(x, y)){};
+    while(!LCD.Touch(x, y)){};
+    while(LCD.Touch(x, y)){};
+}
+
+void WaitForTouch(){
+
+    LCD.ClearBuffer();
+    int x, y;
+
+    while(LCD.Touch(&x, &y)){};
+    while(!LCD.Touch(&x, &y)){};
+    while(LCD.Touch(&x, &y)){};
 }
 
 void Sleep( int msec )

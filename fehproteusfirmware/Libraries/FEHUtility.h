@@ -9,6 +9,13 @@
 void Sleep( int msec );
 
 /**
+ * Will wait until touch and release.
+ */
+void WaitForTouch(int * x, int * y);
+
+void WaitForTouch();
+
+/**
  * @brief Pauses the Proteus for an amount of time.
  * 
  * @param sec Time, in seconds, to pause
