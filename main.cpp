@@ -36,7 +36,9 @@ int main(void)
 
         //start(&course, &region, &iceCream);
         
+        Robot.drivetrain.EncoderForward(5, 50);
         // Go Up Ramp
+        /*
         Robot.drivetrain.EncoderForward(8, 35); // To Middle
         Sleep(0.5);
         Robot.drivetrain.EncoderTurn(45, 35); // Turn to Ramp
@@ -80,7 +82,7 @@ int main(void)
         Sleep(1.5);
         Robot.drivetrain.EncoderForward(30, 60);
         
-        /*
+        
         //burgerFlip.moveOrder();
 
         // Hit hot plate

@@ -7,12 +7,11 @@
 #include "FEHLCD.h"
 #include "math.h"
 
-FEHMotor leftMotor(FEHMotor::Motor0,7.2);
-FEHMotor rightMotor(FEHMotor::Motor1,7.2);
-DigitalEncoder leftEncoder1(FEHIO::P0_1);
-DigitalEncoder leftEncoder2(FEHIO::P0_7);
-DigitalEncoder rightEncoder1(FEHIO::P2_7);
-DigitalEncoder rightEncoder2(FEHIO::P3_4);
+
+Drivetrain::Drivetrain(){
+    leftMotor.SetPolarity(true);
+    rightMotor.SetPolarity(false);
+}
 
 void Drivetrain::PIDForward(double dist){
 
@@ -39,7 +38,7 @@ double Drivetrain::sigmoid(double x){
 void Drivetrain::EncoderForward(double dist, double speed){
     ResetLeftCounts();
     ResetRightCounts();
-    leftMotor.SetPercent(-speed * 0.88);
+    leftMotor.SetPercent(speed * 0.88);
     rightMotor.SetPercent(speed);
 
     bool leftDone = false;
@@ -61,7 +60,7 @@ void Drivetrain::EncoderForward(double dist, double speed){
         LCD.WriteAt(0.88 * (-speed - sigmoid(diff)), 190, 110);
         LCD.WriteAt(speed - sigmoid(diff), 190, 140);
         if(!leftDone){
-            leftMotor.SetPercent(0.88 * (-speed - sigmoid(diff)));
+            leftMotor.SetPercent(0.88 * (speed + sigmoid(diff)));
         }
         if(!rightDone){
             rightMotor.SetPercent(speed - sigmoid(diff));
@@ -74,7 +73,7 @@ void Drivetrain::EncoderForward(double dist, double speed){
             leftDone = true;
             leftMotor.Stop();
         }
-        Sleep(.02);
+        Sleep(.01);
 
     }
     leftMotor.Stop();
@@ -148,13 +147,13 @@ void Drivetrain::EncoderTurn(double angle, double speed){
         LCD.WriteAt("Left 2 Enc:", 5, 30);
         LCD.WriteAt("Right 1 Enc:", 5, 55);
         LCD.WriteAt("Right 2 Enc:", 5, 80);
-        LCD.WriteAt(GetLeftEnc1(), 100, 5);
-        LCD.WriteAt(GetLeftEnc2(), 100, 30);
-        LCD.WriteAt(GetRightEnc1(), 100, 55);
-        LCD.WriteAt(GetRightEnc2(), 100, 80);    
+        LCD.WriteAt(GetLeftEnc1(), 180, 5);
+        LCD.WriteAt(GetLeftEnc2(), 180, 30);
+        LCD.WriteAt(GetRightEnc1(), 180, 55);
+        LCD.WriteAt(GetRightEnc2(), 180, 80);    
 
         LCD.WriteAt("Difference:", 5, 105);
-        LCD.WriteAt(GetLeftEnc1() - GetRightEnc1(), 100, 105);
+        LCD.WriteAt(GetLeftEnc1() - GetRightEnc1(), 180, 105);
 
         Sleep(.02);
     }
