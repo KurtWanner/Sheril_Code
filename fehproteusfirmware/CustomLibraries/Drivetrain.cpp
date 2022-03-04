@@ -9,8 +9,8 @@
 
 
 Drivetrain::Drivetrain(){
-    leftMotor.SetPolarity(true);
-    rightMotor.SetPolarity(false);
+    leftMotor.SetPolarity(false);
+    rightMotor.SetPolarity(true);
 }
 
 void Drivetrain::PIDForward(double dist){
@@ -83,7 +83,7 @@ void Drivetrain::EncoderForward(double dist, double speed){
 void Drivetrain::EncoderBackward(double dist, double speed){
     ResetLeftCounts();
     ResetRightCounts();
-    leftMotor.SetPercent(speed * 0.88);
+    leftMotor.SetPercent(-speed * 0.88);
     rightMotor.SetPercent(-speed);
 
     bool leftDone = false;
@@ -105,7 +105,7 @@ void Drivetrain::EncoderBackward(double dist, double speed){
         LCD.WriteAt(0.88 * (-speed - sigmoid(diff)), 190, 110);
         LCD.WriteAt(speed - sigmoid(diff), 190, 140);
         if(!leftDone){
-            leftMotor.SetPercent(0.88 * (speed + sigmoid(diff)));
+            leftMotor.SetPercent(0.88 * (-speed - sigmoid(diff)));
         }
         if(!rightDone){
             rightMotor.SetPercent(-speed + sigmoid(diff));
@@ -138,6 +138,36 @@ void Drivetrain::EncoderTurn(double angle, double speed){
     if(angle < 0){
         rightMotor.SetPercent(speed);
     } else {
+        leftMotor.SetPercent(speed);
+    }
+
+    while(abs(GetLeftEnc1() - GetRightEnc1()) < a90 * abs(angle) / 90){
+        LCD.Clear();
+        LCD.WriteAt("Left 1 Enc:", 5, 5);
+        LCD.WriteAt("Left 2 Enc:", 5, 30);
+        LCD.WriteAt("Right 1 Enc:", 5, 55);
+        LCD.WriteAt("Right 2 Enc:", 5, 80);
+        LCD.WriteAt(GetLeftEnc1(), 180, 5);
+        LCD.WriteAt(GetLeftEnc2(), 180, 30);
+        LCD.WriteAt(GetRightEnc1(), 180, 55);
+        LCD.WriteAt(GetRightEnc2(), 180, 80);    
+
+        LCD.WriteAt("Difference:", 5, 105);
+        LCD.WriteAt(GetLeftEnc1() - GetRightEnc1(), 180, 105);
+
+        Sleep(.02);
+    }
+
+    rightMotor.Stop();
+    leftMotor.Stop();
+}
+
+void Drivetrain::EncoderLeftMotorTurn(double angle, double speed){
+    ResetLeftCounts();
+    ResetRightCounts();
+    if(angle > 0){
+        leftMotor.SetPercent(speed);
+    } else {
         leftMotor.SetPercent(-speed);
     }
 
@@ -161,6 +191,37 @@ void Drivetrain::EncoderTurn(double angle, double speed){
     rightMotor.Stop();
     leftMotor.Stop();
 }
+
+void Drivetrain::EncoderRightMotorTurn(double angle, double speed){
+    ResetLeftCounts();
+    ResetRightCounts();
+    if(angle > 0){
+        rightMotor.SetPercent(speed);
+    } else {
+        rightMotor.SetPercent(-speed);
+    }
+
+    while(abs(GetLeftEnc1() - GetRightEnc1()) < a90 * abs(angle) / 90){
+        LCD.Clear();
+        LCD.WriteAt("Left 1 Enc:", 5, 5);
+        LCD.WriteAt("Left 2 Enc:", 5, 30);
+        LCD.WriteAt("Right 1 Enc:", 5, 55);
+        LCD.WriteAt("Right 2 Enc:", 5, 80);
+        LCD.WriteAt(GetLeftEnc1(), 180, 5);
+        LCD.WriteAt(GetLeftEnc2(), 180, 30);
+        LCD.WriteAt(GetRightEnc1(), 180, 55);
+        LCD.WriteAt(GetRightEnc2(), 180, 80);    
+
+        LCD.WriteAt("Difference:", 5, 105);
+        LCD.WriteAt(GetLeftEnc1() - GetRightEnc1(), 180, 105);
+
+        Sleep(.02);
+    }
+
+    rightMotor.Stop();
+    leftMotor.Stop();
+}
+
 void Drivetrain::EncoderTurnToHeading(double heading, double speed){
 
 }

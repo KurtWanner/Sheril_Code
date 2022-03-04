@@ -19,8 +19,6 @@ int main(void)
 
     int x, y;
 
-    Robot.drivetrain.SetLeftPolarity(true);
-
     int course = 0;
     char region = 'a';
     int iceCream;
@@ -37,6 +35,13 @@ int main(void)
         //start(&course, &region, &iceCream);
         
         Robot.drivetrain.EncoderForward(5, 50);
+        Robot.drivetrain.EncoderLeftMotorTurn(90, 35);
+        Sleep(2.0);
+        Robot.drivetrain.EncoderLeftMotorTurn(-90, 35);
+        Sleep(2.0);
+        Robot.drivetrain.EncoderRightMotorTurn(90, 35);
+        Sleep(2.0);
+        Robot.drivetrain.EncoderRightMotorTurn(-90, 35);
         // Go Up Ramp
         /*
         Robot.drivetrain.EncoderForward(8, 35); // To Middle
