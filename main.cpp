@@ -3,6 +3,7 @@
 #include "Constants.h"
 #include "Testing.h"
 #include "Robot.h"
+#include "math.h"
 
 void start(int*, char*, int*);
 
@@ -17,11 +18,11 @@ RobotClass Robot = RobotClass();
 int main(void)
 {
 
-    int x, y;
+    int x, y, i;
 
     int course = 0;
     char region = 'a';
-    int iceCream;
+    int iceCream = -1;
 
     Testing Test = Testing();
     while(true){
@@ -31,14 +32,10 @@ int main(void)
     int input = getMenuInput();
 
     if(input == RunCode){
-
-
-        start(&course, &region, &iceCream);
-        
         
         // Go Up Ramp
         
-        Robot.drivetrain.EncoderBackward(12.5, 35); // To Middle
+        /*Robot.drivetrain.EncoderBackward(12.5, 35); // To Middle
         Sleep(0.5);
         Robot.drivetrain.EncoderRightMotorTurn(-45, 30);
         //Robot.drivetrain.EncoderTurn(45, 35); // Turn to Ramp
@@ -81,8 +78,126 @@ int main(void)
 
 
         // Hit hot plate
-        Robot.drivetrain.EncoderForward(30, 30); 
+        Robot.drivetrain.EncoderForward(30, 30); */
         
+        //performance test #3
+        start(&course, &region, &iceCream);
+        
+        bool iceCreamRead;
+
+        if(iceCream >= 0){
+            iceCreamRead = true;
+        } else {
+            iceCreamRead = false;
+        }
+
+        Robot.drivetrain.EncoderBackward(15.4, 35);
+        Robot.drivetrain.check_x(14.8);
+        Robot.drivetrain.EncoderLeftMotorTurn(45, 35);
+        Robot.drivetrain.check_heading(270);
+        LCD.Clear();
+        LCD.WriteAt(RPS.X(), 5, 5);
+        LCD.WriteAt(RPS.Y(), 5, 32);
+        LCD.WriteAt(RPS.Heading(), 5, 59);
+
+        Robot.drivetrain.EncoderBackward(4.3, 35);
+
+        Robot.drivetrain.EncoderBackward(28.5, 35);
+        LCD.WriteAt(RPS.X(), 5, 5);
+        LCD.WriteAt(RPS.Y(), 5, 32);
+        LCD.WriteAt(RPS.Heading(), 5, 59);
+        Robot.drivetrain.check_heading(270);
+        
+        Robot.drivetrain.EncoderLeftMotorTurn(-90, 35);
+   
+        Robot.drivetrain.EncoderForward(18.9, 35);
+        Robot.drivetrain.check_x(30.8);
+        LCD.Clear();
+        LCD.WriteAt(RPS.X(), 5, 5);
+        LCD.WriteAt(RPS.Y(), 5, 32);
+        LCD.WriteAt(RPS.Heading(), 5, 59);
+        
+        Robot.drivetrain.EncoderLeftMotorTurn(-90, 35);
+        Robot.drivetrain.check_heading(90);
+        LCD.Clear();
+        LCD.WriteAt(RPS.X(), 5, 5);
+        LCD.WriteAt(RPS.Y(), 5, 32);
+        LCD.WriteAt(RPS.Heading(), 5, 59);
+
+        Robot.drivetrain.EncoderForward(14, 35);
+        Robot.drivetrain.check_y(62);
+        LCD.Clear();
+        LCD.WriteAt(RPS.X(), 5, 5);
+        LCD.WriteAt(RPS.Y(), 5, 32);
+        LCD.WriteAt(RPS.Heading(), 5, 59);
+        Sleep(2.0);
+
+        Robot.burgerServo.flipBurger();
+        Sleep(3.0);
+        Robot.burgerServo.returnPlate();
+
+        if(iceCreamRead){
+            //TODO go to iceCreamFlip
+
+            Robot.drivetrain.EncoderBackward(15, 35);
+            Robot.drivetrain.check_y(10);
+            LCD.Clear();
+            LCD.WriteAt(RPS.X(), 5, 5);
+            LCD.WriteAt(RPS.Y(), 5, 32);
+            LCD.WriteAt(RPS.Heading(), 5, 59);
+            Robot.drivetrain.EncoderLeftMotorTurn(90, 35);
+            Robot.drivetrain.EncoderBackward(16, 35);
+            Robot.drivetrain.EncoderLeftMotorTurn(-45, 35);
+            Robot.drivetrain.check_heading(45);
+            LCD.Clear();
+            LCD.WriteAt(RPS.X(), 5, 5);
+            LCD.WriteAt(RPS.Y(), 5, 32);
+            LCD.WriteAt(RPS.Heading(), 5, 59);
+            Robot.drivetrain.EncoderBackward(2, 35);
+
+
+            switch(iceCream){
+                case 0:
+                    //turn towards vanilla
+                    Robot.drivetrain.EncoderLeftMotorTurn(-30, 35);
+                    break;
+                case 1:
+                    //turn towards twist
+                    break;
+                case 2:
+                    //turn towards chocolate
+                    Robot.drivetrain.EncoderRightMotorTurn(-30, 35);
+                    break;
+            }
+
+            Robot.iceCreamTrayServo.setAboveLever();
+            Robot.drivetrain.EncoderForward(1, 35);
+            Robot.iceCreamTrayServo.flipLeverFromAbove();
+            Sleep(1.0);
+            Robot.iceCreamTrayServo.setAboveLever();
+            Robot.drivetrain.EncoderBackward(2, 35);
+            Robot.iceCreamTrayServo.setBelowLever();
+            Robot.drivetrain.EncoderForward(2, 35);
+            Sleep(8.0);
+            Robot.iceCreamTrayServo.flipLeverFromBelow();
+            Sleep(1.0);
+            Robot.iceCreamTrayServo.setBelowLever();
+        }
+        
+        /*Robot.iceCreamTrayServo.setAboveLever();
+        Sleep(3.0);
+        Robot.iceCreamTrayServo.flipLeverFromAbove();
+        Sleep(5.0);
+        Robot.iceCreamTrayServo.setBelowLever();
+        Sleep(3.0);
+        Robot.iceCreamTrayServo.flipLeverFromBelow();
+        RPS.InitializeTouchMenu();*/
+        /*while(true){
+            LCD.WriteAt(RPS.X(), 5, 5);
+            LCD.WriteAt(RPS.Y(), 5, 32);
+            LCD.WriteAt(RPS.Heading(), 5, 59);
+            Sleep(10);
+        }*/
         
        return 0;
         
@@ -124,11 +239,11 @@ int main(void)
 }
 
 void start(int *course, char *region, int *iceCream){
-    /*RPS.InitializeTouchMenu();
+    RPS.InitializeTouchMenu();
     *course = RPS.CurrentCourse();
     *region = RPS.CurrentRegionLetter();
-    *iceCream = RPS.GetIceCream();*/
-
+    *iceCream = RPS.GetIceCream();
+    
     LCD.Clear();
     LCD.WriteAt("Welcome to Carmen's Dinner!", 5, 5);
     Sleep(1.0);
@@ -137,11 +252,15 @@ void start(int *course, char *region, int *iceCream){
     while(!Robot.CdS.onStartLight()){
       
         LCD.WriteAt(Robot.CdS.Value(), 5,5);
-        Sleep(5);
+        LCD.WriteAt(RPS.X(), 5, 32);
+        LCD.WriteAt(RPS.Y(), 5, 59);
+        LCD.WriteAt(RPS.Heading(), 5, 86);
+        Sleep(10);
         LCD.Clear();
     
-    }  
-    
+    }
+
+    Robot.burgerServo.SetDegree(BurgerDown);
 }
 
 void printStartMenu(){
@@ -188,3 +307,154 @@ int getTestMenuInput(){
     return (int) (x / TestMenuX) + 3 * (int) (y / TestMenuY);
 
 }
+
+void Drivetrain::pulse_forward(int leftPercent, int rightPercent) 
+{
+    // Set both motors to desired percent
+    rightMotor.SetPercent(rightPercent);
+    leftMotor.SetPercent(leftPercent);
+
+
+    // Wait for the correct number of seconds
+    Sleep(PULSE_TIME);
+
+
+    // Turn off motors
+    rightMotor.Stop();
+    leftMotor.Stop();
+
+
+}
+// Pulse counterclockwise a short distance using time
+ 
+void Drivetrain::pulse_counterclockwise(int leftPercent, int rightPercent) 
+{
+    // Set both motors to desired percent
+    rightMotor.SetPercent(rightPercent);
+    leftMotor.SetPercent(-leftPercent);
+
+
+    // Wait for the correct number of seconds
+    Sleep(PULSE_TIME);
+
+
+    // Turn off motors
+    rightMotor.Stop();
+    leftMotor.Stop();
+}
+
+// Use RPS to move to the desired x_coordinate based on the orientation of the QR code
+
+
+void Drivetrain::check_x(float x_coordinate)
+{
+    // Check if receiving proper RPS coordinates and whether the robot is within an acceptable range
+    while(RPS.X() >= 0 && (RPS.X() < x_coordinate - .5 || RPS.X() > x_coordinate + .55))
+    {
+        if(RPS.X() > x_coordinate + .5)
+        {
+            // Pulse the motors for a short duration in the correct direction
+            pulse_forward(-PULSE_POWER_LEFT, -PULSE_POWER_RIGHT);
+        }
+        else if(RPS.X() < x_coordinate - .5)
+        {
+            // Pulse the motors for a short duration in the correct direction
+            pulse_forward(PULSE_POWER_LEFT, PULSE_POWER_RIGHT);
+        }
+        Sleep(RPS_WAIT_TIME_IN_SEC);
+    }
+}
+
+
+// Use RPS to move to the desired y_coordinate based on the orientation of the QR code
+void Drivetrain::check_y(float y_coordinate)
+{
+    // Check if receiving proper RPS coordinates and whether the robot is within an acceptable range
+    while(RPS.Y() >= 0 && (RPS.Y() < y_coordinate -.5 || RPS.Y() > y_coordinate + .5))
+    {
+        if( RPS.Y() > y_coordinate + .5)
+        {
+            // Pulse the motors for a short duration in the correct direction
+            pulse_forward(-PULSE_POWER_LEFT, -PULSE_POWER_RIGHT);
+        }
+        else if(RPS.Y() < y_coordinate - .5)
+        {
+            // Pulse the motors for a short duration in the correct direction
+           pulse_forward(PULSE_POWER_LEFT, PULSE_POWER_RIGHT);
+        }
+        Sleep(RPS_WAIT_TIME_IN_SEC);
+    }
+}
+
+
+//Use RPS to move to the desired heading
+ 
+void Drivetrain::check_heading(float heading)
+{
+
+
+   while (RPS.Heading() >= 0 && (RPS.Heading() > heading + 1 || RPS.Heading() < heading - 1)){
+
+        if(RPS.Heading() < 5 && heading == 0){
+            if(RPS.Heading() > heading + 2){
+                pulse_counterclockwise(-PULSE_POWER_LEFT, -PULSE_POWER_RIGHT);
+            }
+        }
+        if(RPS.Heading() > 355 && heading == 0){
+            if(RPS.Heading() < 360 - 2){
+                pulse_counterclockwise(PULSE_POWER_LEFT, PULSE_POWER_RIGHT);
+            }
+        }
+        if(((RPS.Heading() > heading + 1)) && heading != 0){
+            pulse_counterclockwise(-PULSE_POWER_LEFT, -PULSE_POWER_RIGHT);
+        }
+        else if((RPS.Heading() < heading - 1) && heading != 0){
+            pulse_counterclockwise(PULSE_POWER_LEFT, PULSE_POWER_RIGHT);
+        }
+        Sleep(RPS_WAIT_TIME_IN_SEC);
+   }
+}
+
+void Drivetrain::turnLeft(int percent, int degree){ 
+
+    rightEncoder1.ResetCounts(); 
+
+    float trip = 0; 
+
+    int revolutions = 0; 
+
+    float distance = (degree * 2 * PI * RobotWidth) / 360; 
+
+    rightMotor.SetPercent(-percent); 
+
+    while(trip < distance){ 
+
+        revolutions = rightEncoder1.Counts(); 
+
+        trip = (2 * PI * Radius * revolutions) / countsPerRotation; 
+    } 
+
+    rightMotor.Stop();   
+} 
+
+void Drivetrain::turnRight(int percent, int degree){ 
+
+    leftEncoder1.ResetCounts(); 
+
+    float trip = 0; 
+
+    int revolutions = 0; 
+
+    float distance = (degree * 2 * PI * RobotWidth) / 360; 
+
+    leftMotor.SetPercent(percent); 
+
+    while(trip < distance){ 
+
+        revolutions = leftEncoder1.Counts(); 
+
+        trip = (2 * PI * Radius * revolutions) / countsPerRotation; 
+    } 
+
+    leftMotor.Stop();   
+} 

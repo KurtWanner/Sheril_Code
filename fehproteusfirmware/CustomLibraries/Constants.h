@@ -44,7 +44,7 @@ typedef struct {
 
 
 
-#define RobotWidth 8.3
+#define RobotWidth 8.0
 
 #define RedMax .31
 #define RedMin .29
@@ -52,8 +52,8 @@ typedef struct {
 #define BlueMax .6
 #define BlueMin .4
 
-#define StartLightMax .1
-#define StartLightMin .10
+#define StartLightMax 1.0
+#define StartLightMin .05
 
 #define Radius 1.75
 #define CountsPerRev 180
@@ -68,6 +68,12 @@ typedef struct {
 
 #define StartAngle 30
 #define DumpAngle 140
+
+#define burgerUp 100 
+#define burgerDown 5
+
+#define leverUp 50
+#define leverDown 100
 
 // TODO Add values
 #define OrderSlideRotMin 1
@@ -84,5 +90,30 @@ typedef struct {
 #define TestMenuX 100
 #define TestMenuYOffset 35
 #define TestMenuXOffset 5
+
+#define RPS_WAIT_TIME_IN_SEC 0.35 
+
+ 
+ 
+
+// Shaft encoding counts for CrayolaBots 
+
+#define COUNTS_PER_INCH 17.63 
+
+#define COUNTS_PER_DEGREE .6153 
+
+// Defines for pulsing the robot 
+
+#define PULSE_TIME .1 
+
+#define PULSE_POWER_LEFT 20 
+#define PULSE_POWER_RIGHT 20
+
+#define burgerUp 75 
+#define BurgerDown 5
+
+#define radius 1.625 
+
+#define countsPerRotation 180 
 
 #endif

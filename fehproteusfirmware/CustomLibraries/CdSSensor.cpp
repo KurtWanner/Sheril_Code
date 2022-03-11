@@ -12,7 +12,7 @@ bool CdSSensor::onRedLight(){
 }
 bool CdSSensor::onStartLight(){
     float value = Value();
-    return value < StartLightMax && value > StartLightMin;
+    return value < StartLightMax;
 }
 
 int CdSSensor::getLight(double value){

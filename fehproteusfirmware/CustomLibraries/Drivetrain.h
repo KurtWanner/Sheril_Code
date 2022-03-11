@@ -3,6 +3,7 @@
 
 #include "FEHMotor.h"
 #include "FEHIO.h"
+#include "FEHRPS.h"
 
 
 
@@ -54,6 +55,17 @@ class Drivetrain {
     void SetLeftPolarity(bool b);
     void SetRightPolarity(bool b);
 
+    void turn_counterclockwise(int, int);
+    void pulse_forward(int, int);
+    void pulse_counterclockwise(int, int);
+
+
+    void check_y(float);
+    void check_x(float);
+    void check_heading(float);  
+
+    void turnLeft(int, int);
+    void turnRight(int, int); 
 };
 
 #endif
