@@ -275,11 +275,11 @@ void Drivetrain::SetRightPolarity(bool b){
     rightMotor.SetPolarity(b);
 }
 
-/*void Drivetrain::pulse_forward(int percent) 
+void Drivetrain::pulse_forward(int leftPercent, int rightPercent) 
 {
     // Set both motors to desired percent
-    rightMotor.SetPercent(-rightPowerConversion * percent);
-    leftMotor.SetPercent(percent);
+    rightMotor.SetPercent(rightPercent);
+    leftMotor.SetPercent(leftPercent);
 
 
     // Wait for the correct number of seconds
@@ -292,13 +292,13 @@ void Drivetrain::SetRightPolarity(bool b){
 
 
 }
-// Pulse counterclockwise a short distance using time
- 
-void Drivetrain::pulse_counterclockwise(int percent) 
+
+// Pulse counterclockwise a short distance using time 
+void Drivetrain::pulse_counterclockwise(int leftPercent, int rightPercent) 
 {
     // Set both motors to desired percent
-    rightMotor.SetPercent(rightPowerConversion * percent);
-    leftMotor.SetPercent(percent);
+    rightMotor.SetPercent(rightPercent);
+    leftMotor.SetPercent(-leftPercent);
 
 
     // Wait for the correct number of seconds
@@ -309,57 +309,22 @@ void Drivetrain::pulse_counterclockwise(int percent)
     rightMotor.Stop();
     leftMotor.Stop();
 }
-
-
-// Turn counterclockwise using shaft encoders where percent is the motor percent and counts is the distance to travel
- 
-void turn_counterclockwise(int percent, int angle) 
-{
-    // Reset encoder counts
-    rightEncoder.ResetCounts();
-    leftEncoder.ResetCounts();
-
-
-    float counts = angle * COUNTS_PER_DEGREE;
-
-
-    // Set both motors to desired percent
-    rightMotor.SetPercent(rightPowerConversion * percent);
-    leftMotor.SetPercent(percent);
-
-
-    // While the average of the left and right encoder are less than counts,
-    // keep running motors
-    while((leftEncoder.Counts() + rightEncoder.Counts()) / 2. < counts){
-        int x = 0;
-    }
-
-
-    // Turn off motors
-    rightMotor.Stop();
-    leftMotor.Stop();
-}
-
 
 // Use RPS to move to the desired x_coordinate based on the orientation of the QR code
-
-
 void Drivetrain::check_x(float x_coordinate)
 {
-
-
     // Check if receiving proper RPS coordinates and whether the robot is within an acceptable range
-    while(RPS.X() >= 0 && (RPS.X() < x_coordinate - 1 || RPS.X() > x_coordinate + 1))
+    while(RPS.X() >= 0 && (RPS.X() < x_coordinate - .5 || RPS.X() > x_coordinate + .55))
     {
-        if(RPS.X() > x_coordinate + 1)
+        if(RPS.X() > x_coordinate + .5)
         {
             // Pulse the motors for a short duration in the correct direction
-            pulse_forward(-PULSE_POWER);
+            pulse_forward(-PULSE_POWER_LEFT, -PULSE_POWER_RIGHT);
         }
-        else if(RPS.X() < x_coordinate - 1)
+        else if(RPS.X() < x_coordinate - .5)
         {
             // Pulse the motors for a short duration in the correct direction
-            pulse_forward(PULSE_POWER);
+            pulse_forward(PULSE_POWER_LEFT, PULSE_POWER_RIGHT);
         }
         Sleep(RPS_WAIT_TIME_IN_SEC);
     }
@@ -370,17 +335,17 @@ void Drivetrain::check_x(float x_coordinate)
 void Drivetrain::check_y(float y_coordinate)
 {
     // Check if receiving proper RPS coordinates and whether the robot is within an acceptable range
-    while(RPS.Y() >= 0 && (RPS.Y() < y_coordinate - 1 || RPS.Y() > y_coordinate + 1))
+    while(RPS.Y() >= 0 && (RPS.Y() < y_coordinate -.5 || RPS.Y() > y_coordinate + .5))
     {
-        if( RPS.Y() > y_coordinate + 1)
+        if( RPS.Y() > y_coordinate + .5)
         {
             // Pulse the motors for a short duration in the correct direction
-            pulse_forward(-PULSE_POWER);
+            pulse_forward(-PULSE_POWER_LEFT, -PULSE_POWER_RIGHT);
         }
-        else if(RPS.Y() < y_coordinate - 1)
+        else if(RPS.Y() < y_coordinate - .5)
         {
             // Pulse the motors for a short duration in the correct direction
-           pulse_forward(PULSE_POWER);
+           pulse_forward(PULSE_POWER_LEFT, PULSE_POWER_RIGHT);
         }
         Sleep(RPS_WAIT_TIME_IN_SEC);
     }
@@ -394,26 +359,23 @@ void Drivetrain::check_heading(float heading)
 
 
    while (RPS.Heading() >= 0 && (RPS.Heading() > heading + 1 || RPS.Heading() < heading - 1)){
-       int power = PULSE_POWER;
 
-
-        if(RPS.Heading() < 5){
+        if(RPS.Heading() < 5 && heading == 0){
             if(RPS.Heading() > heading + 2){
-                pulse_counterclockwise(-PULSE_POWER);
+                pulse_counterclockwise(-PULSE_POWER_LEFT, -PULSE_POWER_RIGHT);
             }
         }
-        if(RPS.Heading() > 355){
+        if(RPS.Heading() > 355 && heading == 0){
             if(RPS.Heading() < 360 - 2){
-                pulse_counterclockwise(PULSE_POWER);
+                pulse_counterclockwise(PULSE_POWER_LEFT, PULSE_POWER_RIGHT);
             }
         }
         if(((RPS.Heading() > heading + 1)) && heading != 0){
-            pulse_counterclockwise(-PULSE_POWER);
+            pulse_counterclockwise(-PULSE_POWER_LEFT, -PULSE_POWER_RIGHT);
         }
         else if((RPS.Heading() < heading - 1) && heading != 0){
-            pulse_counterclockwise(PULSE_POWER);
+            pulse_counterclockwise(PULSE_POWER_LEFT, PULSE_POWER_RIGHT);
         }
         Sleep(RPS_WAIT_TIME_IN_SEC);
    }
-}*/
-
+}
