@@ -124,6 +124,17 @@ int main(void)
 
         start(&course, &region, &iceCream);
         
+        //Drive towards ramp
+        Robot.drivetrain.encoderBackward(15.4, 35);
+        Robot.drivetrain.checkX(14.8);
+        Robot.drivetrain.encoderLeftMotorTurn(45, 35);
+        Robot.drivetrain.checkHeading(270);
+        Robot.drivetrain.encoderBackward(4.3, 35);
+
+        //Drive up ramp
+        Robot.drivetrain.encoderBackward(28.5, 35);
+        Robot.drivetrain.checkY(10);
+        
         bool iceCreamRead;
 
         if(iceCream >= 0){
