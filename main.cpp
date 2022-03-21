@@ -13,6 +13,8 @@ int getMenuInput();
 void printTestMenu();
 int getTestMenuInput();
 
+void printRPSValues();
+
 RobotClass Robot = RobotClass();
 
 int main(void)
@@ -95,41 +97,27 @@ int main(void)
         Robot.drivetrain.check_x(14.8);
         Robot.drivetrain.EncoderLeftMotorTurn(45, 35);
         Robot.drivetrain.check_heading(270);
-        LCD.Clear();
-        LCD.WriteAt(RPS.X(), 5, 5);
-        LCD.WriteAt(RPS.Y(), 5, 32);
-        LCD.WriteAt(RPS.Heading(), 5, 59);
+        printRPSValues();
 
         Robot.drivetrain.EncoderBackward(4.3, 35);
 
         Robot.drivetrain.EncoderBackward(28.5, 35);
-        LCD.WriteAt(RPS.X(), 5, 5);
-        LCD.WriteAt(RPS.Y(), 5, 32);
-        LCD.WriteAt(RPS.Heading(), 5, 59);
+        printRPSValues();
         Robot.drivetrain.check_heading(270);
         
         Robot.drivetrain.EncoderLeftMotorTurn(-90, 35);
    
         Robot.drivetrain.EncoderForward(18.9, 35);
         Robot.drivetrain.check_x(30.8);
-        LCD.Clear();
-        LCD.WriteAt(RPS.X(), 5, 5);
-        LCD.WriteAt(RPS.Y(), 5, 32);
-        LCD.WriteAt(RPS.Heading(), 5, 59);
+        printRPSValues();
         
         Robot.drivetrain.EncoderLeftMotorTurn(-90, 35);
         Robot.drivetrain.check_heading(90);
-        LCD.Clear();
-        LCD.WriteAt(RPS.X(), 5, 5);
-        LCD.WriteAt(RPS.Y(), 5, 32);
-        LCD.WriteAt(RPS.Heading(), 5, 59);
+        printRPSValues();
 
         Robot.drivetrain.EncoderForward(14, 35);
         Robot.drivetrain.check_y(62);
-        LCD.Clear();
-        LCD.WriteAt(RPS.X(), 5, 5);
-        LCD.WriteAt(RPS.Y(), 5, 32);
-        LCD.WriteAt(RPS.Heading(), 5, 59);
+        printRPSValues();
         Sleep(2.0);
 
         Robot.burgerServo.flipBurger();
@@ -141,18 +129,12 @@ int main(void)
 
             Robot.drivetrain.EncoderBackward(15, 35);
             Robot.drivetrain.check_y(10);
-            LCD.Clear();
-            LCD.WriteAt(RPS.X(), 5, 5);
-            LCD.WriteAt(RPS.Y(), 5, 32);
-            LCD.WriteAt(RPS.Heading(), 5, 59);
+            printRPSValues();
             Robot.drivetrain.EncoderLeftMotorTurn(90, 35);
             Robot.drivetrain.EncoderBackward(16, 35);
             Robot.drivetrain.EncoderLeftMotorTurn(-45, 35);
             Robot.drivetrain.check_heading(45);
-            LCD.Clear();
-            LCD.WriteAt(RPS.X(), 5, 5);
-            LCD.WriteAt(RPS.Y(), 5, 32);
-            LCD.WriteAt(RPS.Heading(), 5, 59);
+            printRPSValues();
             Robot.drivetrain.EncoderBackward(2, 35);
 
 
@@ -306,4 +288,11 @@ int getTestMenuInput(){
 
     return (int) (x / TestMenuX) + 3 * (int) (y / TestMenuY);
 
+}
+
+void printRPSValues(){
+    LCD.Clear();
+    LCD.WriteAt(RPS.X(), 5, 5);
+    LCD.WriteAt(RPS.Y(), 5, 32);
+    LCD.WriteAt(RPS.Heading(), 5, 59);
 }
