@@ -7,10 +7,10 @@ void Testing::getEncValues(){
     int x, y;
     while(!LCD.Touch(&x, &y)){
         LCD.Clear();
-        LCD.WriteAt(drivetrain.GetLeftEnc1(), 5, 50);
-        LCD.WriteAt(drivetrain.GetLeftEnc2(), 5, 100);
-        LCD.WriteAt(drivetrain.GetRightEnc1(), 200, 50);
-        LCD.WriteAt(drivetrain.GetRightEnc2(), 200, 100);
+        LCD.WriteAt(drivetrain.getLeftEnc1(), 5, 50);
+        LCD.WriteAt(drivetrain.getLeftEnc2(), 5, 100);
+        LCD.WriteAt(drivetrain.getRightEnc1(), 200, 50);
+        LCD.WriteAt(drivetrain.getRightEnc2(), 200, 100);
 
         Sleep(.02);
     }
@@ -19,23 +19,23 @@ void Testing::getEncValues(){
 }
 
 void Testing::forwardXInches(float x){
-    drivetrain.EncoderForward(x, SlowSpeed);
+    drivetrain.encoderForward(x, SlowSpeed);
     WaitForTouch();
 }
 
 void Testing::backwardXInches(float x){
-    drivetrain.EncoderForward(x, SlowSpeed);
+    drivetrain.encoderForward(x, SlowSpeed);
     WaitForTouch();
     
 }
 
 void Testing::leftXDegrees(float deg){
-    drivetrain.EncoderTurn(-deg, SlowSpeed);
+    drivetrain.encoderTurn(-deg, SlowSpeed);
     WaitForTouch();
 }
 
 void Testing::rightXDegrees(float deg){
-    drivetrain.EncoderTurn(deg, SlowSpeed);
+    drivetrain.encoderTurn(deg, SlowSpeed);
     WaitForTouch();
 }
 

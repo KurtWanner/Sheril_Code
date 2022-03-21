@@ -63,8 +63,8 @@ typedef struct {
 #define BurgerRotMin 730
 
 // TODO Add values
-#define IceTrayRotMin 825
-#define IceTrayRotMax 2155
+#define IceTrayRotMin 1175
+#define IceTrayRotMax 2165
 
 #define StartAngle 30
 #define DumpAngle 140
@@ -72,8 +72,8 @@ typedef struct {
 #define burgerUp 100 
 #define burgerDown 5
 
-#define leverUp 50
-#define leverDown 100
+#define leverUp 47
+#define leverDown 115
 
 // TODO Add values
 #define OrderSlideRotMin 1
@@ -100,7 +100,7 @@ typedef struct {
 
 #define COUNTS_PER_INCH 17.63 
 
-#define COUNTS_PER_DEGREE .6153 
+#define COUNTS_PER_DEGREE 2.4615384615385 
 
 // Defines for pulsing the robot 
 

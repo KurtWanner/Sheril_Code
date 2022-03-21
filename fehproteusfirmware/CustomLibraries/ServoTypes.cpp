@@ -43,12 +43,12 @@ void IceCreamTrayServo::setAboveLever(){
 
 // TODO Add functionality
 void IceCreamTrayServo::flipLeverFromAbove(){
-    SetDegree(leverUp + 5);
+    SetDegree(leverDown);
 }
 
 // TODO Add functionality
 void IceCreamTrayServo::flipLeverFromBelow(){
-    SetDegree(leverDown - 5);
+    SetDegree(leverUp);
 }
 
 // Order Slide

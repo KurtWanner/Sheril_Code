@@ -378,18 +378,28 @@ void Drivetrain::checkX(float x_coordinate){
 
 // Use RPS to move to the desired y_coordinate based on the orientation of the QR code
 void Drivetrain::checkY(float y_coordinate){
+    float heading;
     // Check if receiving proper RPS coordinates and whether the robot is within an acceptable range
     while(RPS.Y() >= 0 && (RPS.Y() < y_coordinate -.5 || RPS.Y() > y_coordinate + .5))
     {
+        heading = RPS.Heading();
         if( RPS.Y() > y_coordinate + .5)
         {
             // Pulse the motors for a short duration in the correct direction
-            pulseForward();
+            if(heading > 0 && heading < 180){
+                pulseBackward();
+            } else {
+                pulseForward();
+            }
         }
         else if(RPS.Y() < y_coordinate - .5)
         {
+            if(heading > 0 && heading < 180){
+                pulseForward();
+            } else {
+                pulseBackward();
+            }
             // Pulse the motors for a short duration in the correct direction
-           pulseForward();
         }
         Sleep(RPS_WAIT_TIME_IN_SEC);
     }
@@ -420,7 +430,7 @@ void Drivetrain::checkHeading(float heading){
         Sleep(RPS_WAIT_TIME_IN_SEC);
    }
 }
-
+/*
 double Drivetrain::getDistToX(double x){
     double diffX = abs(RPS.X() - x);
     double heading = RPS.Heading();
@@ -429,7 +439,7 @@ double Drivetrain::getDistToX(double x){
     return sqrt(pow(diffX, 2.0) + pow(diffY, 2.0));
 
 }
-
+/*
 double Drivetrain::getDistToY(double y){
     double diffY = abs(RPS.Y() - y);
     double heading = RPS.Heading();
@@ -441,3 +451,4 @@ double Drivetrain::getDistToY(double y){
 double convertToRadians(double degree){
     return degree * PI / 180.0;
 }
+*/

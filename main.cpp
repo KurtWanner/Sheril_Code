@@ -34,6 +34,7 @@ int main(void)
     int input = getMenuInput();
 
     if(input == RunCode){
+        LCD.WriteAt("RunCode", 5, 5);
         
         // Go Up Ramp
         
@@ -121,84 +122,83 @@ int main(void)
         Robot.burgerServo.returnPlate();
 
         */
-
+        //perfromance test 4
         start(&course, &region, &iceCream);
+        
         
         //Drive towards ramp
         Robot.drivetrain.encoderBackward(15.4, 35);
         Robot.drivetrain.checkX(14.8);
-        Robot.drivetrain.encoderLeftMotorTurn(45, 35);
+        Robot.drivetrain.encoderLeftMotorTurn(45, 25);
         Robot.drivetrain.checkHeading(270);
         Robot.drivetrain.encoderBackward(4.3, 35);
 
         //Drive up ramp
-        Robot.drivetrain.encoderBackward(28.5, 35);
-        Robot.drivetrain.checkY(10);
-        
-        bool iceCreamRead;
+        Robot.drivetrain.encoderBackward(31.2, 35);
+        Robot.drivetrain.checkY(55.6);
+        Robot.iceCreamTrayServo.setAboveLever();
 
-        if(iceCream >= 0){
-            iceCreamRead = true;
-        } else {
-            iceCreamRead = false;
-        }
-
-        if(iceCreamRead){
-            //TODO go to iceCreamFlip
-
-            Robot.drivetrain.encoderBackward(15, 35);
-            Robot.drivetrain.checkY(10);
-            printRPSValues();
-            Robot.drivetrain.encoderLeftMotorTurn(90, 35);
-            Robot.drivetrain.encoderBackward(16, 35);
-            Robot.drivetrain.encoderLeftMotorTurn(-45, 35);
-            Robot.drivetrain.checkHeading(45);
-            printRPSValues();
-            Robot.drivetrain.encoderBackward(2, 35);
-
+        Robot.drivetrain.encoderLeftMotorTurn(-45, 25);
+        Robot.drivetrain.checkHeading(315);
 
             switch(iceCream){
                 case 0:
                     //turn towards vanilla
-                    Robot.drivetrain.encoderLeftMotorTurn(-30, 35);
+                    Robot.drivetrain.encoderLeftMotorTurn(-15, 25);
                     break;
                 case 1:
                     //turn towards twist
                     break;
                 case 2:
                     //turn towards chocolate
-                    Robot.drivetrain.encoderRightMotorTurn(-30, 35);
+                    Robot.drivetrain.encoderRightMotorTurn(-15, 25);
                     break;
             }
 
-            Robot.iceCreamTrayServo.setAboveLever();
-            Robot.drivetrain.encoderForward(1, 35);
             Robot.iceCreamTrayServo.flipLeverFromAbove();
-            Sleep(1.0);
-            Robot.iceCreamTrayServo.setAboveLever();
-            Robot.drivetrain.encoderBackward(2, 35);
-            Robot.iceCreamTrayServo.setBelowLever();
-            Robot.drivetrain.encoderForward(2, 35);
             Sleep(8.0);
-            Robot.iceCreamTrayServo.flipLeverFromBelow();
-            Sleep(1.0);
+            Robot.iceCreamTrayServo.setAboveLever();
+            Robot.drivetrain.encoderForward(2, 35);
             Robot.iceCreamTrayServo.setBelowLever();
-        }
+            Sleep(1.0);
+            Robot.drivetrain.encoderBackward(2, 35); 
+            Robot.iceCreamTrayServo.flipLeverFromBelow();
+            Sleep(3.0);
+            Robot.drivetrain.encoderForward(2.0, 35);
+            
+
+            switch(iceCream){
+                case 0:
+                    //turn towards vanilla
+                    Robot.drivetrain.encoderLeftMotorTurn(15, 25);
+                    break;
+                case 1:
+                    //turn towards twist
+                    break;
+                case 2:
+                    //turn towards chocolate
+                    Robot.drivetrain.encoderRightMotorTurn(15, 25);
+                    break;
+            }
+
+            Robot.drivetrain.encoderRightMotorTurn(-45, 25);
+            Robot.drivetrain.encoderForward(36.2, 35);
+            Robot.drivetrain.checkY(23.4);
+            Robot.drivetrain.encoderRightMotorTurn(45.0, 25.0);
+            Robot.drivetrain.checkHeading(225);
+            Robot.drivetrain.encoderForward(50.0, 35.0);
+
+
         
-        /*Robot.iceCreamTrayServo.setAboveLever();
-        Sleep(3.0);
-        Robot.iceCreamTrayServo.flipLeverFromAbove();
-        Sleep(5.0);
-        Robot.iceCreamTrayServo.setBelowLever();
-        Sleep(3.0);
-        Robot.iceCreamTrayServo.flipLeverFromBelow();
-        RPS.InitializeTouchMenu();*/
-        /*while(true){
+        /*RPS.InitializeTouchMenu();
+        while(true){
             LCD.WriteAt(RPS.X(), 5, 5);
             LCD.WriteAt(RPS.Y(), 5, 32);
             LCD.WriteAt(RPS.Heading(), 5, 59);
             Sleep(10);
+            LCD.Clear();
         }*/
+        
         
        return 0;
         
@@ -243,13 +243,15 @@ void start(int *course, char *region, int *iceCream){
     RPS.InitializeTouchMenu();
     *course = RPS.CurrentCourse();
     *region = RPS.CurrentRegionLetter();
-    *iceCream = RPS.GetIceCream();
+    while(*iceCream < 0){
+        *iceCream = RPS.GetIceCream();
+    }
     
     LCD.Clear();
     LCD.WriteAt("Welcome to Carmen's Dinner!", 5, 5);
     Sleep(1.0);
     LCD.Clear();
-    
+
     while(!Robot.CdS.onStartLight()){
       
         LCD.WriteAt(Robot.CdS.Value(), 5,5);
@@ -262,6 +264,17 @@ void start(int *course, char *region, int *iceCream){
     }
 
     Robot.burgerServo.SetDegree(BurgerDown);
+    LCD.WriteAt(*iceCream, 50, 50);
+    if(*iceCream == 0){
+        LCD.WriteAt("Left", 5, 5);
+    } else if(*iceCream == 1){
+        LCD.WriteAt("Middle", 5, 5);
+    } else if(*iceCream == 2){
+        LCD.WriteAt("Right", 5, 5);
+    } else {
+        LCD.WriteAt("AHHHH", 5, 5);
+    }
+    Sleep(3.0);
 }
 
 void printStartMenu(){
