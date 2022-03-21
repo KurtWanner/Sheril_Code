@@ -131,7 +131,7 @@ void Drivetrain::encoderForwardToX(double x, double speed){
     double currX = RPS.X();
     double heading = RPS.Heading();
     if(heading < 90 || heading > 270){
-        
+
     }
 
 }
@@ -177,7 +177,7 @@ void Drivetrain::encoderLeftMotorTurn(double angle, double speed){
         leftMotor.SetPercent(-speed);
     }
 
-    while(abs(getLeftEnc1() - getRightEnc1()) < a90 * abs(angle) / 90){
+    while(abs(getLeftEnc1() - getRightEnc1()) < COUNTS_PER_DEGREE * abs(angle)){
         LCD.Clear();
         LCD.WriteAt("Left 1 Enc:", 5, 5);
         LCD.WriteAt("Left 2 Enc:", 5, 30);
@@ -207,7 +207,7 @@ void Drivetrain::encoderRightMotorTurn(double angle, double speed){
         rightMotor.SetPercent(-speed);
     }
 
-    while(abs(getLeftEnc1() - getRightEnc1()) < a90 * abs(angle) / 90){
+    while(abs(getLeftEnc1() - getRightEnc1()) < COUNTS_PER_DEGREE * abs(angle)){
         LCD.Clear();
         LCD.WriteAt("Left 1 Enc:", 5, 5);
         LCD.WriteAt("Left 2 Enc:", 5, 30);
