@@ -83,24 +83,20 @@ int main(void)
         Robot.drivetrain.EncoderForward(30, 30); */
         
         //performance test #3
-        start(&course, &region, &iceCream);
-        
-        bool iceCreamRead;
+        /*
 
-        if(iceCream >= 0){
-            iceCreamRead = true;
-        } else {
-            iceCreamRead = false;
-        }
 
+        //Align with ramp
         Robot.drivetrain.EncoderBackward(15.4, 35);
         Robot.drivetrain.check_x(14.8);
         Robot.drivetrain.EncoderLeftMotorTurn(45, 35);
         Robot.drivetrain.check_heading(270);
         printRPSValues();
 
+        //To bottom of ramp
         Robot.drivetrain.EncoderBackward(4.3, 35);
 
+        //Go up ramp
         Robot.drivetrain.EncoderBackward(28.5, 35);
         printRPSValues();
         Robot.drivetrain.check_heading(270);
@@ -123,6 +119,18 @@ int main(void)
         Robot.burgerServo.flipBurger();
         Sleep(3.0);
         Robot.burgerServo.returnPlate();
+
+        */
+
+        start(&course, &region, &iceCream);
+        
+        bool iceCreamRead;
+
+        if(iceCream >= 0){
+            iceCreamRead = true;
+        } else {
+            iceCreamRead = false;
+        }
 
         if(iceCreamRead){
             //TODO go to iceCreamFlip
