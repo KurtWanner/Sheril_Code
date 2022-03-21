@@ -29,25 +29,25 @@ class Drivetrain {
     void PIDTurnToHeading(double heading);
 
     // TODO Add overloaded functions for encoder counts
-    void EncoderForward(double distance, double speed);
-    void EncoderBackward(double distance, double speed);
-    void EncoderForwardToX(double x, double speed);
-    void EncoderForwardToY(double y, double speed);
-    void EncoderLeftMotorTurn(double angle, double speed);
-    void EncoderRightMotorTurn(double angle, double speed);
-    void EncoderTurn(double angle, double speed);
-    void EncoderTurnToHeading(double heading, double speed);
+    void encoderForward(double distance, double speed);
+    void encoderBackward(double distance, double speed);
+    void encoderForwardToX(double x, double speed);
+    void encoderForwardToY(double y, double speed);
+    void encoderLeftMotorTurn(double angle, double speed);
+    void encoderRightMotorTurn(double angle, double speed);
+    void encoderTurn(double angle, double speed);
+    void encoderTurnToHeading(double heading, double speed);
 
-    void Drive(double speed, double time);
-    void DriveTurn(double speedLeft, double speedRight, double time);
+    void drive(double speed, double time);
+    void driveTurn(double speedLeft, double speedRight, double time);
 
-    int GetLeftEnc1();
-    int GetLeftEnc2();
-    int GetRightEnc1();
-    int GetRightEnc2();
+    int getLeftEnc1();
+    int getLeftEnc2();
+    int getRightEnc1();
+    int getRightEnc2();
 
-    void ResetLeftCounts();
-    void ResetRightCounts();
+    void resetLeftCounts();
+    void resetRightCounts();
 
     double sigmoid(double x);
 
@@ -55,17 +55,20 @@ class Drivetrain {
     void SetLeftPolarity(bool b);
     void SetRightPolarity(bool b);
 
-    void turn_counterclockwise(int, int);
-    void pulse_forward(int, int);
-    void pulse_counterclockwise(int, int);
+    void turnCounterclockwise(int, int);
+    void pulseForward();
+    void pulseBackward();
+    void pulseClockwise();
+    void pulseCounterclockwise();
 
 
-    void check_y(float);
-    void check_x(float);
-    void check_heading(float);  
+    void checkY(float y);
+    void checkX(float x);
+    void checkHeading(float heading);
 
-    void turnLeft(int, int);
-    void turnRight(int, int); 
+    double getDistToX(double x);
+    double getDistToY(double y);
+
 };
 
 #endif

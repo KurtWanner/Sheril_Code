@@ -135,39 +135,39 @@ int main(void)
         if(iceCreamRead){
             //TODO go to iceCreamFlip
 
-            Robot.drivetrain.EncoderBackward(15, 35);
-            Robot.drivetrain.check_y(10);
+            Robot.drivetrain.encoderBackward(15, 35);
+            Robot.drivetrain.checkY(10);
             printRPSValues();
-            Robot.drivetrain.EncoderLeftMotorTurn(90, 35);
-            Robot.drivetrain.EncoderBackward(16, 35);
-            Robot.drivetrain.EncoderLeftMotorTurn(-45, 35);
-            Robot.drivetrain.check_heading(45);
+            Robot.drivetrain.encoderLeftMotorTurn(90, 35);
+            Robot.drivetrain.encoderBackward(16, 35);
+            Robot.drivetrain.encoderLeftMotorTurn(-45, 35);
+            Robot.drivetrain.checkHeading(45);
             printRPSValues();
-            Robot.drivetrain.EncoderBackward(2, 35);
+            Robot.drivetrain.encoderBackward(2, 35);
 
 
             switch(iceCream){
                 case 0:
                     //turn towards vanilla
-                    Robot.drivetrain.EncoderLeftMotorTurn(-30, 35);
+                    Robot.drivetrain.encoderLeftMotorTurn(-30, 35);
                     break;
                 case 1:
                     //turn towards twist
                     break;
                 case 2:
                     //turn towards chocolate
-                    Robot.drivetrain.EncoderRightMotorTurn(-30, 35);
+                    Robot.drivetrain.encoderRightMotorTurn(-30, 35);
                     break;
             }
 
             Robot.iceCreamTrayServo.setAboveLever();
-            Robot.drivetrain.EncoderForward(1, 35);
+            Robot.drivetrain.encoderForward(1, 35);
             Robot.iceCreamTrayServo.flipLeverFromAbove();
             Sleep(1.0);
             Robot.iceCreamTrayServo.setAboveLever();
-            Robot.drivetrain.EncoderBackward(2, 35);
+            Robot.drivetrain.encoderBackward(2, 35);
             Robot.iceCreamTrayServo.setBelowLever();
-            Robot.drivetrain.EncoderForward(2, 35);
+            Robot.drivetrain.encoderForward(2, 35);
             Sleep(8.0);
             Robot.iceCreamTrayServo.flipLeverFromBelow();
             Sleep(1.0);
