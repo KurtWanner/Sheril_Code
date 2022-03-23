@@ -109,9 +109,6 @@ typedef struct {
 #define PULSE_POWER_LEFT 20 
 #define PULSE_POWER_RIGHT 20
 
-#define burgerUp 75 
-#define BurgerDown 5
-
 #define radius 1.625 
 
 #define countsPerRotation 180 

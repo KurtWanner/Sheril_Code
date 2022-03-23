@@ -156,12 +156,17 @@ int main(void)
             }
 
             Robot.iceCreamTrayServo.flipLeverFromAbove();
-            Sleep(8.0);
+            int start = TimeNowMSec();
+            Sleep(4.0);
             Robot.iceCreamTrayServo.setAboveLever();
             Robot.drivetrain.encoderForward(2, 35);
             Robot.iceCreamTrayServo.setBelowLever();
             Sleep(1.0);
-            Robot.drivetrain.encoderBackward(2, 35); 
+            Robot.drivetrain.encoderBackward(2, 35);
+            int end = TimeNowSec();
+            while(end - start < 8){
+                end = TimeNowSec();
+            } 
             Robot.iceCreamTrayServo.flipLeverFromBelow();
             Sleep(3.0);
             Robot.drivetrain.encoderForward(2.0, 35);
@@ -181,9 +186,14 @@ int main(void)
                     break;
             }
 
+            //turn towards ramp
             Robot.drivetrain.encoderRightMotorTurn(-45, 25);
+
+            //drive down ramp
             Robot.drivetrain.encoderForward(36.2, 35);
             Robot.drivetrain.checkY(23.4);
+
+            //drive towards end button
             Robot.drivetrain.encoderRightMotorTurn(45.0, 25.0);
             Robot.drivetrain.checkHeading(225);
             Robot.drivetrain.encoderForward(50.0, 35.0);
@@ -252,8 +262,11 @@ void start(int *course, char *region, int *iceCream){
     Sleep(1.0);
     LCD.Clear();
 
-    while(!Robot.CdS.onStartLight()){
-      
+    int start = TimeNowSec();
+    int end = TimeNowSec();
+    while(!Robot.CdS.onStartLight() && (end - start < 30)){
+        
+        end = TimeNowSec();
         LCD.WriteAt(Robot.CdS.Value(), 5,5);
         LCD.WriteAt(RPS.X(), 5, 32);
         LCD.WriteAt(RPS.Y(), 5, 59);
@@ -264,6 +277,8 @@ void start(int *course, char *region, int *iceCream){
     }
 
     Robot.burgerServo.SetDegree(BurgerDown);
+    Robot.iceCreamTrayServo.restingPosition();
+
     LCD.WriteAt(*iceCream, 50, 50);
     if(*iceCream == 0){
         LCD.WriteAt("Left", 5, 5);

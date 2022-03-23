@@ -31,7 +31,6 @@ void Drivetrain::PIDTurnToHeading(double heading){
 
 double Drivetrain::sigmoid(double x){
     double e = 2.718;
-
     return (30 / (1 + pow(e, -(x/8)))) - 15;
 }
 
@@ -139,6 +138,7 @@ void Drivetrain::encoderForwardToX(double x, double speed){
 void Drivetrain::encoderForwardToY(double y, double speed){
 
 }
+
 void Drivetrain::encoderTurn(double angle, double speed){
     resetLeftCounts();
     resetRightCounts();
@@ -235,7 +235,7 @@ void Drivetrain::encoderTurnToHeading(double heading, double speed){
 
 void Drivetrain::drive(double speed, double time){
     leftMotor.SetPercent(speed);
-    rightMotor.SetPercent(speed);
+    rightMotor.SetPercent(-speed);
     Sleep(time);
     leftMotor.Stop();
     rightMotor.Stop();
@@ -317,10 +317,8 @@ void Drivetrain::pulseClockwise(){
     rightMotor.SetPercent(-PULSE_POWER_RIGHT);
     leftMotor.SetPercent(PULSE_POWER_LEFT);
 
-
     // Wait for the correct number of seconds
     Sleep(PULSE_TIME);
-
 
     // Turn off motors
     rightMotor.Stop();
@@ -333,10 +331,8 @@ void Drivetrain::pulseCounterclockwise() {
     rightMotor.SetPercent(PULSE_POWER_RIGHT);
     leftMotor.SetPercent(-PULSE_POWER_LEFT);
 
-
     // Wait for the correct number of seconds
     Sleep(PULSE_TIME);
-
 
     // Turn off motors
     rightMotor.Stop();
@@ -411,21 +407,25 @@ void Drivetrain::checkHeading(float heading){
 
    while (RPS.Heading() >= 0 && (RPS.Heading() > heading + 1 || RPS.Heading() < heading - 1)){
 
-        if(RPS.Heading() < 5 && heading == 0){
-            if(RPS.Heading() > heading + 2){
+        if(heading == 0){
+            if(RPS.Heading() < 5){
+                if(RPS.Heading() > heading + 2){
+                    pulseClockwise();
+                }
+            }
+            else if(RPS.Heading() > 355){
+                if(RPS.Heading() < 360 - 2){
+                    pulseCounterclockwise();
+                }
+            }
+        }
+        else {
+            if(((RPS.Heading() > heading + 1))){
                 pulseClockwise();
             }
-        }
-        if(RPS.Heading() > 355 && heading == 0){
-            if(RPS.Heading() < 360 - 2){
+            else if((RPS.Heading() < heading - 1)){
                 pulseCounterclockwise();
             }
-        }
-        if(((RPS.Heading() > heading + 1)) && heading != 0){
-            pulseClockwise();
-        }
-        else if((RPS.Heading() < heading - 1) && heading != 0){
-            pulseCounterclockwise();
         }
         Sleep(RPS_WAIT_TIME_IN_SEC);
    }
