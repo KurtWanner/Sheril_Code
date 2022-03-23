@@ -100,7 +100,7 @@ typedef struct {
 
 #define COUNTS_PER_INCH 17.63 
 
-#define COUNTS_PER_DEGREE 2.4615384615385 
+#define COUNTS_PER_DEGREE 2.35
 
 // Defines for pulsing the robot 
 
