@@ -15,6 +15,8 @@ int getTestMenuInput();
 
 void printRPSValues();
 
+void performanceTestRuns();
+
 RobotClass Robot = RobotClass();
 
 int main(void)
@@ -36,177 +38,18 @@ int main(void)
     if(input == RunCode){
         LCD.WriteAt("RunCode", 5, 5);
         
-        // Go Up Ramp
-        
-        /*Robot.drivetrain.EncoderBackward(12.5, 35); // To Middle
-        Sleep(0.5);
-        Robot.drivetrain.EncoderRightMotorTurn(-45, 30);
-        //Robot.drivetrain.EncoderTurn(45, 35); // Turn to Ramp
-        Sleep(0.5);
-        Robot.drivetrain.EncoderBackward(34, 35);
-        Sleep(0.5);
-  
+        //Robot.drivetrain.driveTurn(50, -50, 5);
 
-        // Sink Dump
-        Robot.drivetrain.EncoderLeftMotorTurn(-165, 35); // Turn left
-        Sleep(0.5);
-        //Robot.drivetrain.EncoderBackward(2.0, 35); // Align with sink
-        //Sleep(0.5);
-        //Robot.drivetrain.EncoderLeftMotorTurn(-90, 35); // Turn back to sink
-        
-        //Sleep(0.5);
-        Robot.drivetrain.EncoderBackward(1, 25); // Back into Sink
-        Sleep(0.5);
-        Robot.iceCreamTrayServo.dumpTray();
-        Sleep(1.0);
-        Robot.iceCreamTrayServo.restingPosition();
-        
-        Robot.drivetrain.EncoderForward(8, 35); // Back away from sink
-        Sleep(0.5);
-        // Order slide
-        Robot.drivetrain.EncoderLeftMotorTurn(-105, 30);
-        
-        //Robot.drivetrain.EncoderTurn(-60, 30); //Turn to order
-        Sleep(0.5);
-        Robot.drivetrain.EncoderBackward(3, 30);
-        Sleep(0.5);
-        Robot.drivetrain.EncoderRightMotorTurn(-59, 25);
-        Sleep(0.5);
-        Robot.iceCreamTrayServo.SetDegree(170);
-        Robot.drivetrain.EncoderBackward(7.2, 30); //Drive to order
-        //Robot.drivetrain.Drive(-30, 1);
-        Sleep(0.5);
-        Robot.drivetrain.DriveTurn(40, -40, 2);
-        //Robot.drivetrain.EncoderTurn(65, 35); //Turn to order
-
-
-        // Hit hot plate
-        Robot.drivetrain.EncoderForward(30, 30); */
-        
-        //performance test #3
-        /*
-
-
-        //Align with ramp
-        Robot.drivetrain.EncoderBackward(15.4, 35);
-        Robot.drivetrain.check_x(14.8);
-        Robot.drivetrain.EncoderLeftMotorTurn(45, 35);
-        Robot.drivetrain.check_heading(270);
-        printRPSValues();
-
-        //To bottom of ramp
-        Robot.drivetrain.EncoderBackward(4.3, 35);
-
-        //Go up ramp
-        Robot.drivetrain.EncoderBackward(28.5, 35);
-        printRPSValues();
-        Robot.drivetrain.check_heading(270);
-        
-        Robot.drivetrain.EncoderLeftMotorTurn(-90, 35);
-   
-        Robot.drivetrain.EncoderForward(18.9, 35);
-        Robot.drivetrain.check_x(30.8);
-        printRPSValues();
-        
-        Robot.drivetrain.EncoderLeftMotorTurn(-90, 35);
-        Robot.drivetrain.check_heading(90);
-        printRPSValues();
-
-        Robot.drivetrain.EncoderForward(14, 35);
-        Robot.drivetrain.check_y(62);
-        printRPSValues();
-        Sleep(2.0);
-
-        Robot.burgerServo.flipBurger();
-        Sleep(3.0);
-        Robot.burgerServo.returnPlate();
-
-        */
-        //perfromance test 4
         start(&course, &region, &iceCream);
-        
-        
         //Drive towards ramp
         Robot.drivetrain.encoderBackward(15.4, 35);
         Robot.drivetrain.checkX(14.8);
         Robot.drivetrain.encoderLeftMotorTurn(45, 25);
         Robot.drivetrain.checkHeading(270);
-        Robot.drivetrain.encoderBackward(4.3, 35);
 
         //Drive up ramp
-        Robot.drivetrain.encoderBackward(31.2, 35);
+        Robot.drivetrain.encoderBackward(35.5, 35);
         Robot.drivetrain.checkY(55.6);
-        Robot.iceCreamTrayServo.setAboveLever();
-
-        Robot.drivetrain.encoderLeftMotorTurn(-45, 25);
-        Robot.drivetrain.checkHeading(315);
-
-            switch(iceCream){
-                case 0:
-                    //turn towards vanilla
-                    Robot.drivetrain.encoderRightMotorTurn(10, 25);
-                    Robot.drivetrain.encoderBackward(2, 25);
-                    break;
-                case 1:
-                    //turn towards twist
-                    break;
-                case 2:
-                    //turn towards chocolate
-                    Robot.drivetrain.encoderLeftMotorTurn(17, 25);
-                    Robot.drivetrain.encoderBackward(3, 25);
-                    break;
-            }
-
-            Sleep(2.0);
-            Robot.iceCreamTrayServo.flipLeverFromAbove();
-            Sleep(8.0);
-            Robot.iceCreamTrayServo.setAboveLever();
-            Robot.drivetrain.encoderForward(2, 35);           
-            Robot.iceCreamTrayServo.setBelowLever();
-            Sleep(1.0);
-            Robot.drivetrain.encoderBackward(2, 35);
-            Robot.iceCreamTrayServo.flipLeverFromBelow();
-            Sleep(3.0);
-            Robot.drivetrain.encoderForward(2.0, 35);
-            
-
-            switch(iceCream){
-                case 0:
-                    //turn towards vanilla
-                    Robot.drivetrain.encoderLeftMotorTurn(10, 25);
-                    break;
-                case 1:
-                    //turn towards twist
-                    break;
-                case 2:
-                    //turn towards chocolate
-                    Robot.drivetrain.encoderRightMotorTurn(17, 25);
-                    break;
-            }
-
-            //turn towards ramp
-            Robot.drivetrain.encoderRightMotorTurn(-45, 25);
-
-            //drive down ramp
-            Robot.drivetrain.encoderForward(36.2, 35);
-            Robot.drivetrain.checkY(23.4);
-
-            //drive towards end button
-            Robot.drivetrain.encoderRightMotorTurn(45.0, 25.0);
-            Robot.drivetrain.checkHeading(315);
-            Robot.drivetrain.encoderForward(50.0, 35.0);
-
-
-        
-        /*RPS.InitializeTouchMenu();
-        while(true){
-            LCD.WriteAt(RPS.X(), 5, 5);
-            LCD.WriteAt(RPS.Y(), 5, 32);
-            LCD.WriteAt(RPS.Heading(), 5, 59);
-            Sleep(10);
-            LCD.Clear();
-        }*/
-        
         
        return 0;
         
@@ -340,4 +183,170 @@ void printRPSValues(){
     LCD.WriteAt(RPS.X(), 5, 5);
     LCD.WriteAt(RPS.Y(), 5, 32);
     LCD.WriteAt(RPS.Heading(), 5, 59);
+}
+
+void performanceTestRuns(){
+    int x, y, i;
+
+    int course = 0;
+    char region = 'a';
+    int iceCream = -1;
+
+        //performance test #2
+        // Go Up Ramp        
+        Robot.drivetrain.EncoderBackward(12.5, 35); // To Middle
+        Sleep(0.5);
+        Robot.drivetrain.EncoderRightMotorTurn(-45, 30);
+        //Robot.drivetrain.EncoderTurn(45, 35); // Turn to Ramp
+        Sleep(0.5);
+        Robot.drivetrain.EncoderBackward(34, 35);
+        Sleep(0.5);
+  
+
+        // Sink Dump
+        Robot.drivetrain.EncoderLeftMotorTurn(-165, 35); // Turn left
+        Sleep(0.5);
+        //Robot.drivetrain.EncoderBackward(2.0, 35); // Align with sink
+        //Sleep(0.5);
+        //Robot.drivetrain.EncoderLeftMotorTurn(-90, 35); // Turn back to sink
+        
+        //Sleep(0.5);
+        Robot.drivetrain.EncoderBackward(1, 25); // Back into Sink
+        Sleep(0.5);
+        Robot.iceCreamTrayServo.dumpTray();
+        Sleep(1.0);
+        Robot.iceCreamTrayServo.restingPosition();
+        
+        Robot.drivetrain.EncoderForward(8, 35); // Back away from sink
+        Sleep(0.5);
+        // Order slide
+        Robot.drivetrain.EncoderLeftMotorTurn(-105, 30);
+        
+        //Robot.drivetrain.EncoderTurn(-60, 30); //Turn to order
+        Sleep(0.5);
+        Robot.drivetrain.EncoderBackward(3, 30);
+        Sleep(0.5);
+        Robot.drivetrain.EncoderRightMotorTurn(-59, 25);
+        Sleep(0.5);
+        Robot.iceCreamTrayServo.SetDegree(170);
+        Robot.drivetrain.EncoderBackward(7.2, 30); //Drive to order
+        //Robot.drivetrain.Drive(-30, 1);
+        Sleep(0.5);
+        Robot.drivetrain.DriveTurn(40, -40, 2);
+        //Robot.drivetrain.EncoderTurn(65, 35); //Turn to order
+
+
+        // Hit hot plate
+        Robot.drivetrain.EncoderForward(30, 30); 
+        
+        //performance test #3
+        //Align with ramp
+        Robot.drivetrain.EncoderBackward(15.4, 35);
+        Robot.drivetrain.check_x(14.8);
+        Robot.drivetrain.EncoderLeftMotorTurn(45, 35);
+        Robot.drivetrain.check_heading(270);
+        printRPSValues();
+
+        //To bottom of ramp
+        Robot.drivetrain.EncoderBackward(4.3, 35);
+
+        //Go up ramp
+        Robot.drivetrain.EncoderBackward(28.5, 35);
+        printRPSValues();
+        Robot.drivetrain.check_heading(270);
+        
+        Robot.drivetrain.EncoderLeftMotorTurn(-90, 35);
+   
+        Robot.drivetrain.EncoderForward(18.9, 35);
+        Robot.drivetrain.check_x(30.8);
+        printRPSValues();
+        
+        Robot.drivetrain.EncoderLeftMotorTurn(-90, 35);
+        Robot.drivetrain.check_heading(90);
+        printRPSValues();
+
+        Robot.drivetrain.EncoderForward(14, 35);
+        Robot.drivetrain.check_y(62);
+        printRPSValues();
+        Sleep(2.0);
+
+        Robot.burgerServo.flipBurger();
+        Sleep(3.0);
+        Robot.burgerServo.returnPlate();
+
+        
+        //perfromance test 4
+        start(&course, &region, &iceCream);
+        
+        
+        //Drive towards ramp
+        Robot.drivetrain.encoderBackward(15.4, 35);
+        Robot.drivetrain.checkX(14.8);
+        Robot.drivetrain.encoderLeftMotorTurn(45, 25);
+        Robot.drivetrain.checkHeading(270);
+        Robot.drivetrain.encoderBackward(4.3, 35);
+
+        //Drive up ramp
+        Robot.drivetrain.encoderBackward(31.2, 35);
+        Robot.drivetrain.checkY(55.6);
+        Robot.iceCreamTrayServo.setAboveLever();
+
+        Robot.drivetrain.encoderLeftMotorTurn(-45, 25);
+        Robot.drivetrain.checkHeading(315);
+
+            switch(iceCream){
+                case 0:
+                    //turn towards vanilla
+                    Robot.drivetrain.encoderRightMotorTurn(10, 25);
+                    Robot.drivetrain.encoderBackward(2, 25);
+                    break;
+                case 1:
+                    //turn towards twist
+                    break;
+                case 2:
+                    //turn towards chocolate
+                    Robot.drivetrain.encoderLeftMotorTurn(17, 25);
+                    Robot.drivetrain.encoderBackward(3, 25);
+                    break;
+            }
+
+            Sleep(2.0);
+            Robot.iceCreamTrayServo.flipLeverFromAbove();
+            Sleep(8.0);
+            Robot.iceCreamTrayServo.setAboveLever();
+            Robot.drivetrain.encoderForward(2, 35);           
+            Robot.iceCreamTrayServo.setBelowLever();
+            Sleep(1.0);
+            Robot.drivetrain.encoderBackward(2, 35);
+            Robot.iceCreamTrayServo.flipLeverFromBelow();
+            Sleep(3.0);
+            Robot.drivetrain.encoderForward(2.0, 35);
+            
+
+            switch(iceCream){
+                case 0:
+                    //turn towards vanilla
+                    Robot.drivetrain.encoderLeftMotorTurn(10, 25);
+                    break;
+                case 1:
+                    //turn towards twist
+                    break;
+                case 2:
+                    //turn towards chocolate
+                    Robot.drivetrain.encoderRightMotorTurn(17, 25);
+                    break;
+            }
+
+            //turn towards ramp
+            Robot.drivetrain.encoderRightMotorTurn(-45, 25);
+
+            //drive down ramp
+            Robot.drivetrain.encoderForward(36.2, 35);
+            Robot.drivetrain.checkY(23.4);
+
+            //drive towards end button
+            Robot.drivetrain.encoderRightMotorTurn(45.0, 25.0);
+            Robot.drivetrain.checkHeading(315);
+            Robot.drivetrain.encoderForward(50.0, 35.0);
+            
 }

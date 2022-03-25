@@ -233,6 +233,55 @@ void Drivetrain::encoderTurnToHeading(double heading, double speed){
 
 }
 
+int Drivetrain::readCdSEncoderForward(double distance, double speed){
+    resetLeftCounts();
+    resetRightCounts();
+    double CdSmin = 3.0;
+    leftMotor.SetPercent(speed * 0.88);
+    rightMotor.SetPercent(speed);
+
+    bool leftDone = false;
+    bool rightDone = false;
+    // TODO See if using average of encoders is better
+    while(!leftDone || !rightDone){
+        if(CdS.Value() < CdSmin){
+            CdSmin = CdS.Value();
+        }
+        int diff = getRightEnc1() - getLeftEnc1();
+        LCD.Clear();
+        LCD.WriteAt("Left 1 Enc:", 5, 5);
+        LCD.WriteAt("Left 2 Enc:", 5, 30);
+        LCD.WriteAt("Right 1 Enc:", 5, 55);
+        LCD.WriteAt("Right 2 Enc:", 5, 80);
+        LCD.WriteAt("Left M S", 5, 110);
+        LCD.WriteAt("Right M S", 5, 140);
+        LCD.WriteAt(getLeftEnc1(), 190, 5);
+        LCD.WriteAt(getLeftEnc2(), 190, 30);
+        LCD.WriteAt(getRightEnc1(), 190, 55);
+        LCD.WriteAt(getRightEnc2(), 190, 80);
+        LCD.WriteAt(0.88 * (-speed - sigmoid(diff)), 190, 110);
+        LCD.WriteAt(speed - sigmoid(diff), 190, 140);
+        if(!leftDone){
+            leftMotor.SetPercent(0.88 * (speed + sigmoid(diff)));
+        }
+        if(!rightDone){
+            rightMotor.SetPercent(speed - sigmoid(diff));
+        }
+        if(getRightEnc1() > dist * CountsPerInch){
+            rightDone = true;
+            rightMotor.Stop();
+        }
+        if(getLeftEnc1() > dist * CountsPerInch){
+            leftDone = true;
+            leftMotor.Stop();
+        }
+        Sleep(.01);
+
+    }
+    leftMotor.Stop();
+    rightMotor.Stop();
+}
+
 void Drivetrain::drive(double speed, double time){
     leftMotor.SetPercent(speed);
     rightMotor.SetPercent(-speed);
@@ -343,31 +392,33 @@ void Drivetrain::pulseCounterclockwise() {
 void Drivetrain::checkX(float x_coordinate){
     float heading;
     // Check if receiving proper RPS coordinates and whether the robot is within an acceptable range
-    while(RPS.X() >= 0 && (RPS.X() < x_coordinate - .5 || RPS.X() > x_coordinate + .55))
+    while(RPS.X() == -1 || (RPS.X() < x_coordinate - .5 || RPS.X() > x_coordinate + .55))
     {
-        heading = RPS.Heading();
+        if(RPS.X() != -1){
+            heading = RPS.Heading();
 
-        // Pulse the motors for a short duration in the correct direction
-        if(RPS.X() > x_coordinate + .5)
-        {
-            if(heading < 90 || heading > 270){ //Facing right
-                pulseBackward();
-            } else { //Facing left
-                pulseForward();
-            }
-            
-        }
-        else if(RPS.X() < x_coordinate - .5)
-        {
             // Pulse the motors for a short duration in the correct direction
-            if(heading < 90 || heading > 270){ //Facing right
-                pulseForward();
-            } else {
-                pulseBackward();
+            if(RPS.X() > x_coordinate + .5)
+            {
+                if(heading < 90 || heading > 270){ //Facing right
+                    pulseBackward();
+                } else { //Facing left
+                    pulseForward();
+                }
+                
             }
-            
+            else if((RPS.X() < x_coordinate - .5))
+            {
+                // Pulse the motors for a short duration in the correct direction
+                if(heading < 90 || heading > 270){ //Facing right
+                    pulseForward();
+                } else {
+                    pulseBackward();
+                }
+                
+            }
+            Sleep(RPS_WAIT_TIME_IN_SEC);
         }
-        Sleep(RPS_WAIT_TIME_IN_SEC);
     }
 }
 
@@ -376,28 +427,30 @@ void Drivetrain::checkX(float x_coordinate){
 void Drivetrain::checkY(float y_coordinate){
     float heading;
     // Check if receiving proper RPS coordinates and whether the robot is within an acceptable range
-    while(RPS.Y() >= 0 && (RPS.Y() < y_coordinate -.5 || RPS.Y() > y_coordinate + .5))
+    while(RPS.Y() == -1 || (RPS.Y() < y_coordinate -.5 || RPS.Y() > y_coordinate + .5))
     {
-        heading = RPS.Heading();
-        if( RPS.Y() > y_coordinate + .5)
-        {
-            // Pulse the motors for a short duration in the correct direction
-            if(heading > 0 && heading < 180){
-                pulseBackward();
-            } else {
-                pulseForward();
+        if(RPS.X() != -1){
+            heading = RPS.Heading();
+            if( RPS.Y() > y_coordinate + .5)
+            {
+                // Pulse the motors for a short duration in the correct direction
+                if(heading > 0 && heading < 180){
+                    pulseBackward();
+                } else {
+                    pulseForward();
+                }
             }
-        }
-        else if(RPS.Y() < y_coordinate - .5)
-        {
-            if(heading > 0 && heading < 180){
-                pulseForward();
-            } else {
-                pulseBackward();
+            else if((RPS.Y() < y_coordinate - .5))
+            {
+                if(heading > 0 && heading < 180){
+                    pulseForward();
+                } else {
+                    pulseBackward();
+                }
+                // Pulse the motors for a short duration in the correct direction
             }
-            // Pulse the motors for a short duration in the correct direction
+            Sleep(RPS_WAIT_TIME_IN_SEC);
         }
-        Sleep(RPS_WAIT_TIME_IN_SEC);
     }
 }
 
@@ -405,29 +458,30 @@ void Drivetrain::checkY(float y_coordinate){
 //Use RPS to move to the desired heading
 void Drivetrain::checkHeading(float heading){
 
-   while (RPS.Heading() >= 0 && (RPS.Heading() > heading + 1 || RPS.Heading() < heading - 1)){
-
-        if(heading == 0){
-            if(RPS.Heading() < 5){
-                if(RPS.Heading() > heading + 2){
-                    pulseClockwise();
+   while (RPS.Heading() == -1 || (RPS.Heading() > heading + 1 || RPS.Heading() < heading - 1)){
+       if(RPS.X() != -1){
+            if(heading == 0){
+                if(RPS.Heading() < 5){
+                    if(RPS.Heading() > heading + 2){
+                        pulseClockwise();
+                    }
+                }
+                else if(RPS.Heading() > 355){
+                    if(RPS.Heading() < 360 - 2){
+                        pulseCounterclockwise();
+                    }
                 }
             }
-            else if(RPS.Heading() > 355){
-                if(RPS.Heading() < 360 - 2){
+            else {
+                if(((RPS.Heading() > heading + 1))){
+                    pulseClockwise();
+                }
+                else if((RPS.Heading() < heading - 1)){
                     pulseCounterclockwise();
                 }
             }
-        }
-        else {
-            if(((RPS.Heading() > heading + 1))){
-                pulseClockwise();
-            }
-            else if((RPS.Heading() < heading - 1)){
-                pulseCounterclockwise();
-            }
-        }
-        Sleep(RPS_WAIT_TIME_IN_SEC);
+            Sleep(RPS_WAIT_TIME_IN_SEC);
+       }
    }
 }
 /*
@@ -437,7 +491,6 @@ double Drivetrain::getDistToX(double x){
 
     double diffY = tan(convertToRadians(heading)) * diffX;
     return sqrt(pow(diffX, 2.0) + pow(diffY, 2.0));
-
 }
 /*
 double Drivetrain::getDistToY(double y){
@@ -450,5 +503,17 @@ double Drivetrain::getDistToY(double y){
 
 double convertToRadians(double degree){
     return degree * PI / 180.0;
+}
+
+double Drivetrain::getDistToPt(double x, double y){
+    double diffX = abs(RPS.X() - x);
+    double diffY = abs(RPS.Y() - y);
+    if(diffx < .1){
+        diffx = 0;
+    }
+    if(diffx < .1){
+        diffy = 0;
+    }
+    return sqrt(pow(diffX, 2.0) + pow(diffY, 2.0));
 }
 */

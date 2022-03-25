@@ -38,6 +38,9 @@ class Drivetrain {
     void encoderTurn(double angle, double speed);
     void encoderTurnToHeading(double heading, double speed);
 
+    //use to drive over jukebox
+    int readCdSEncoderForward(double distance, double speed);
+
     void drive(double speed, double time);
     void driveTurn(double speedLeft, double speedRight, double time);
 
@@ -55,13 +58,12 @@ class Drivetrain {
     void SetLeftPolarity(bool b);
     void SetRightPolarity(bool b);
 
+    //check & pulse functions
     void turnCounterclockwise(int, int);
     void pulseForward();
     void pulseBackward();
     void pulseClockwise();
     void pulseCounterclockwise();
-
-
     void checkY(float y);
     void checkX(float x);
     void checkHeading(float heading);
