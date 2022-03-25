@@ -5,6 +5,7 @@
 #include "FEHUtility.h"
 #include "FEHServo.h"
 #include "string.h"
+#include "Constants.h"
 
 FEHRPS RPS;
 
@@ -579,17 +580,35 @@ int FEHRPS::WaitForPacketDebug(int *packetsFound, int *packetsLost, int *lastFou
 
 float FEHRPS::X()
 {
-	return _RPS_x;
+	return _RPS_x - xDiff;
 }
 
 float FEHRPS::Y()
 {
-	return _RPS_y;
+	return _RPS_y - yDiff;
 }
 
 float FEHRPS::Heading()
 {
-	return _RPS_heading;
+    if(_RPS_heading - headingDiff > 360){
+        return _RPS_heading - headingDiff - 360;
+    } else if(_RPS_heading - headingDiff < 0){
+        return _RPS_heading - headingDiff + 360;
+    } else {
+        return _RPS_heading - headingDiff;
+    }
+	
+}
+
+void FEHRPS::Calibrate(){
+    float currX = X();
+    float currY = Y();
+    float currHeading = Heading();
+    
+    xDiff = currX - X_BASELINE;
+    yDiff = currY - Y_BASELINE;
+    headingDiff = currHeading - 90;
+
 }
 
 void RPSDataProcess( unsigned char *data, unsigned char length )
@@ -611,6 +630,4 @@ void RPSDataProcess( unsigned char *data, unsigned char length )
 			GPIOD_PDOR &= ~GPIO_PDOR_PDO( GPIO_PIN( 13 ) );
 		}
 	}
-
-
 }

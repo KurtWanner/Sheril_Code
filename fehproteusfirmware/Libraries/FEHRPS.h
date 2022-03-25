@@ -22,6 +22,8 @@ public:
 	 */
 	void InitializeTouchMenu();
 
+	void Calibrate();
+
 	/**
 	 * @brief Get course number corresponding to current region
 	 * 
@@ -103,6 +105,8 @@ public:
 	// char region => { a, b, c, d, e, f, g, h, i, j, k, l } || { A, B, C, D, E, F, G, H, I, J, K, L }
 	void Initialize( int region );
 	void Initialize( char region );
+
+	float xDiff = 0, yDiff = 0, headingDiff = 0;
 
 	FEHRPS();
 

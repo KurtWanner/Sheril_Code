@@ -93,7 +93,8 @@ typedef struct {
 
 #define RPS_WAIT_TIME_IN_SEC 0.35 
 
- 
+#define X_BASELINE 17.7
+#define Y_BASELINE 4.5
  
 
 // Shaft encoding counts for CrayolaBots 

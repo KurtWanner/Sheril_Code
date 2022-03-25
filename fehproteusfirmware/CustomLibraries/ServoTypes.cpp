@@ -11,7 +11,7 @@ void BurgerFliperServo::flipBurger(){
 
 // TODO Add functionality
 void BurgerFliperServo::returnPlate(){
-    for(int i = burgerUp; i > BurgerDown; i--){
+    for(int i = burgerUp; i > burgerDown; i--){
         SetDegree(i);
         Sleep(10);
     }

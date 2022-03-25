@@ -6,12 +6,15 @@
 #include "math.h"
 #include "FEHLCD.h"
 #include "math.h"
+#include "Robot.h"
 
 
 Drivetrain::Drivetrain(){
     leftMotor.SetPolarity(false);
     rightMotor.SetPolarity(true);
 }
+
+double convertToRadians(double);
 
 void Drivetrain::PIDForward(double dist){
 
@@ -233,55 +236,6 @@ void Drivetrain::encoderTurnToHeading(double heading, double speed){
 
 }
 
-int Drivetrain::readCdSEncoderForward(double distance, double speed){
-    resetLeftCounts();
-    resetRightCounts();
-    double CdSmin = 3.0;
-    leftMotor.SetPercent(speed * 0.88);
-    rightMotor.SetPercent(speed);
-
-    bool leftDone = false;
-    bool rightDone = false;
-    // TODO See if using average of encoders is better
-    while(!leftDone || !rightDone){
-        if(CdS.Value() < CdSmin){
-            CdSmin = CdS.Value();
-        }
-        int diff = getRightEnc1() - getLeftEnc1();
-        LCD.Clear();
-        LCD.WriteAt("Left 1 Enc:", 5, 5);
-        LCD.WriteAt("Left 2 Enc:", 5, 30);
-        LCD.WriteAt("Right 1 Enc:", 5, 55);
-        LCD.WriteAt("Right 2 Enc:", 5, 80);
-        LCD.WriteAt("Left M S", 5, 110);
-        LCD.WriteAt("Right M S", 5, 140);
-        LCD.WriteAt(getLeftEnc1(), 190, 5);
-        LCD.WriteAt(getLeftEnc2(), 190, 30);
-        LCD.WriteAt(getRightEnc1(), 190, 55);
-        LCD.WriteAt(getRightEnc2(), 190, 80);
-        LCD.WriteAt(0.88 * (-speed - sigmoid(diff)), 190, 110);
-        LCD.WriteAt(speed - sigmoid(diff), 190, 140);
-        if(!leftDone){
-            leftMotor.SetPercent(0.88 * (speed + sigmoid(diff)));
-        }
-        if(!rightDone){
-            rightMotor.SetPercent(speed - sigmoid(diff));
-        }
-        if(getRightEnc1() > dist * CountsPerInch){
-            rightDone = true;
-            rightMotor.Stop();
-        }
-        if(getLeftEnc1() > dist * CountsPerInch){
-            leftDone = true;
-            leftMotor.Stop();
-        }
-        Sleep(.01);
-
-    }
-    leftMotor.Stop();
-    rightMotor.Stop();
-}
-
 void Drivetrain::drive(double speed, double time){
     leftMotor.SetPercent(speed);
     rightMotor.SetPercent(-speed);
@@ -427,9 +381,9 @@ void Drivetrain::checkX(float x_coordinate){
 void Drivetrain::checkY(float y_coordinate){
     float heading;
     // Check if receiving proper RPS coordinates and whether the robot is within an acceptable range
-    while(RPS.Y() == -1 || (RPS.Y() < y_coordinate -.5 || RPS.Y() > y_coordinate + .5))
+    while(RPS.Y() < 0 || (RPS.Y() < y_coordinate -.5 || RPS.Y() > y_coordinate + .5))
     {
-        if(RPS.X() != -1){
+        if(RPS.X() > 0){
             heading = RPS.Heading();
             if( RPS.Y() > y_coordinate + .5)
             {
@@ -458,8 +412,8 @@ void Drivetrain::checkY(float y_coordinate){
 //Use RPS to move to the desired heading
 void Drivetrain::checkHeading(float heading){
 
-   while (RPS.Heading() == -1 || (RPS.Heading() > heading + 1 || RPS.Heading() < heading - 1)){
-       if(RPS.X() != -1){
+   while (RPS.Heading() < 0 || (RPS.Heading() > heading + 1 || RPS.Heading() < heading - 1)){
+       if(RPS.X() > 0){
             if(heading == 0){
                 if(RPS.Heading() < 5){
                     if(RPS.Heading() > heading + 2){
@@ -484,7 +438,7 @@ void Drivetrain::checkHeading(float heading){
        }
    }
 }
-/*
+
 double Drivetrain::getDistToX(double x){
     double diffX = abs(RPS.X() - x);
     double heading = RPS.Heading();
@@ -500,11 +454,12 @@ double Drivetrain::getDistToY(double y){
     double diffX = diffY / tan(convertToRadians(heading));
     return sqrt(pow(diffX, 2.0) + pow(diffY, 2.0));
 }
+*/
 
 double convertToRadians(double degree){
     return degree * PI / 180.0;
 }
-
+/*
 double Drivetrain::getDistToPt(double x, double y){
     double diffX = abs(RPS.X() - x);
     double diffY = abs(RPS.Y() - y);

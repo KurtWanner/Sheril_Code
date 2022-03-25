@@ -15,7 +15,11 @@ int getTestMenuInput();
 
 void printRPSValues();
 
+void calibrate();
+
 void performanceTestRuns();
+//use to drive over jukebox
+int readCdSEncoderForward(double distance, double speed);
 
 RobotClass Robot = RobotClass();
 
@@ -38,7 +42,7 @@ int main(void)
     if(input == RunCode){
         LCD.WriteAt("RunCode", 5, 5);
         
-        //Robot.drivetrain.driveTurn(50, -50, 5);
+        /*//Robot.drivetrain.driveTurn(50, -50, 5);
 
         start(&course, &region, &iceCream);
 
@@ -54,6 +58,9 @@ int main(void)
 
         //turn towards sink
         Robot.drivetrain.encoderRightMotorTurn(90, 25);
+        Robot.drivetrain.encoderBackward(3, 35);*/
+ 
+        start(&course, &region, &iceCream);
         
        return 0;
         
@@ -100,6 +107,18 @@ void start(int *course, char *region, int *iceCream){
     *region = RPS.CurrentRegionLetter();
     while(*iceCream < 0){
         *iceCream = RPS.GetIceCream();
+    }
+
+    LCD.Clear();
+    LCD.WriteAt("Touch To Calibrate", 10, 10);
+    int x, y;
+    while(!LCD.Touch(&x, &y)){
+        printRPSValues();
+    }
+    WaitForTouch();
+    RPS.Calibrate();
+    while(!LCD.Touch(&x, &y)){
+        printRPSValues();
     }
     
     LCD.Clear();
@@ -189,6 +208,56 @@ void printRPSValues(){
     LCD.WriteAt(RPS.Heading(), 5, 59);
 }
 
+int readCdSEncoderForward(double distance, double speed){
+    Robot.drivetrain.resetLeftCounts();
+    Robot.drivetrain.resetRightCounts();
+    double CdSmin = 3.0;
+    Robot.drivetrain.leftMotor.SetPercent(speed * 0.88);
+    Robot.drivetrain.rightMotor.SetPercent(speed);
+
+    bool leftDone = false;
+    bool rightDone = false;
+    // TODO See if using average of encoders is better
+    while(!leftDone || !rightDone){
+        if(Robot.CdS.Value() < CdSmin){
+            CdSmin = Robot.CdS.Value();
+        }
+        int diff = Robot.drivetrain.getRightEnc1() - Robot.drivetrain.getLeftEnc1();
+        LCD.Clear();
+        LCD.WriteAt("Left 1 Enc:", 5, 5);
+        LCD.WriteAt("Left 2 Enc:", 5, 30);
+        LCD.WriteAt("Right 1 Enc:", 5, 55);
+        LCD.WriteAt("Right 2 Enc:", 5, 80);
+        LCD.WriteAt("Left M S", 5, 110);
+        LCD.WriteAt("Right M S", 5, 140);
+        LCD.WriteAt(Robot.drivetrain.getLeftEnc1(), 190, 5);
+        LCD.WriteAt(Robot.drivetrain.getLeftEnc2(), 190, 30);
+        LCD.WriteAt(Robot.drivetrain.getRightEnc1(), 190, 55);
+        LCD.WriteAt(Robot.drivetrain.getRightEnc2(), 190, 80);
+        LCD.WriteAt(0.88 * (-speed - Robot.drivetrain.sigmoid(diff)), 190, 110);
+        LCD.WriteAt(speed - Robot.drivetrain.sigmoid(diff), 190, 140);
+        if(!leftDone){
+            Robot.drivetrain.leftMotor.SetPercent(0.88 * (speed + Robot.drivetrain.sigmoid(diff)));
+        }
+        if(!rightDone){
+            Robot.drivetrain.rightMotor.SetPercent(speed - Robot.drivetrain.sigmoid(diff));
+        }
+        if(Robot.drivetrain.getRightEnc1() > distance * CountsPerInch){
+            rightDone = true;
+            Robot.drivetrain.rightMotor.Stop();
+        }
+        if(Robot.drivetrain.getLeftEnc1() > distance * CountsPerInch){
+            leftDone = true;
+            Robot.drivetrain.leftMotor.Stop();
+        }
+        Sleep(.01);
+
+    }
+    Robot.drivetrain.leftMotor.Stop();
+    Robot.drivetrain.rightMotor.Stop();
+    return CdSmin;
+}
+
 void performanceTestRuns(){
     int x, y, i;
 
@@ -198,79 +267,79 @@ void performanceTestRuns(){
 
         //performance test #2
         // Go Up Ramp        
-        Robot.drivetrain.EncoderBackward(12.5, 35); // To Middle
+        Robot.drivetrain.encoderBackward(12.5, 35); // To Middle
         Sleep(0.5);
-        Robot.drivetrain.EncoderRightMotorTurn(-45, 30);
+        Robot.drivetrain.encoderRightMotorTurn(-45, 30);
         //Robot.drivetrain.EncoderTurn(45, 35); // Turn to Ramp
         Sleep(0.5);
-        Robot.drivetrain.EncoderBackward(34, 35);
+        Robot.drivetrain.encoderBackward(34, 35);
         Sleep(0.5);
   
 
         // Sink Dump
-        Robot.drivetrain.EncoderLeftMotorTurn(-165, 35); // Turn left
+        Robot.drivetrain.encoderLeftMotorTurn(-165, 35); // Turn left
         Sleep(0.5);
         //Robot.drivetrain.EncoderBackward(2.0, 35); // Align with sink
         //Sleep(0.5);
         //Robot.drivetrain.EncoderLeftMotorTurn(-90, 35); // Turn back to sink
         
         //Sleep(0.5);
-        Robot.drivetrain.EncoderBackward(1, 25); // Back into Sink
+        Robot.drivetrain.encoderBackward(1, 25); // Back into Sink
         Sleep(0.5);
         Robot.iceCreamTrayServo.dumpTray();
         Sleep(1.0);
         Robot.iceCreamTrayServo.restingPosition();
         
-        Robot.drivetrain.EncoderForward(8, 35); // Back away from sink
+        Robot.drivetrain.encoderForward(8, 35); // Back away from sink
         Sleep(0.5);
         // Order slide
-        Robot.drivetrain.EncoderLeftMotorTurn(-105, 30);
+        Robot.drivetrain.encoderLeftMotorTurn(-105, 30);
         
         //Robot.drivetrain.EncoderTurn(-60, 30); //Turn to order
         Sleep(0.5);
-        Robot.drivetrain.EncoderBackward(3, 30);
+        Robot.drivetrain.encoderBackward(3, 30);
         Sleep(0.5);
-        Robot.drivetrain.EncoderRightMotorTurn(-59, 25);
+        Robot.drivetrain.encoderRightMotorTurn(-59, 25);
         Sleep(0.5);
         Robot.iceCreamTrayServo.SetDegree(170);
-        Robot.drivetrain.EncoderBackward(7.2, 30); //Drive to order
+        Robot.drivetrain.encoderBackward(7.2, 30); //Drive to order
         //Robot.drivetrain.Drive(-30, 1);
         Sleep(0.5);
-        Robot.drivetrain.DriveTurn(40, -40, 2);
+        Robot.drivetrain.driveTurn(40, -40, 2);
         //Robot.drivetrain.EncoderTurn(65, 35); //Turn to order
 
 
         // Hit hot plate
-        Robot.drivetrain.EncoderForward(30, 30); 
+        Robot.drivetrain.encoderForward(30, 30); 
         
         //performance test #3
         //Align with ramp
-        Robot.drivetrain.EncoderBackward(15.4, 35);
-        Robot.drivetrain.check_x(14.8);
-        Robot.drivetrain.EncoderLeftMotorTurn(45, 35);
-        Robot.drivetrain.check_heading(270);
+        Robot.drivetrain.encoderBackward(15.4, 35);
+        Robot.drivetrain.checkX(14.8);
+        Robot.drivetrain.encoderLeftMotorTurn(45, 35);
+        Robot.drivetrain.checkHeading(270);
         printRPSValues();
 
         //To bottom of ramp
-        Robot.drivetrain.EncoderBackward(4.3, 35);
+        Robot.drivetrain.encoderBackward(4.3, 35);
 
         //Go up ramp
-        Robot.drivetrain.EncoderBackward(28.5, 35);
+        Robot.drivetrain.encoderBackward(28.5, 35);
         printRPSValues();
-        Robot.drivetrain.check_heading(270);
+        Robot.drivetrain.checkHeading(270);
         
-        Robot.drivetrain.EncoderLeftMotorTurn(-90, 35);
+        Robot.drivetrain.encoderLeftMotorTurn(-90, 35);
    
-        Robot.drivetrain.EncoderForward(18.9, 35);
-        Robot.drivetrain.check_x(30.8);
+        Robot.drivetrain.encoderForward(18.9, 35);
+        Robot.drivetrain.checkX(30.8);
         printRPSValues();
         
-        Robot.drivetrain.EncoderLeftMotorTurn(-90, 35);
-        Robot.drivetrain.check_heading(90);
+        Robot.drivetrain.encoderLeftMotorTurn(-90, 35);
+        Robot.drivetrain.checkHeading(90);
         printRPSValues();
 
-        Robot.drivetrain.EncoderForward(14, 35);
-        Robot.drivetrain.check_y(62);
+        Robot.drivetrain.encoderForward(14, 35);
+        Robot.drivetrain.checkY(62);
         printRPSValues();
         Sleep(2.0);
 
@@ -354,3 +423,4 @@ void performanceTestRuns(){
             Robot.drivetrain.encoderForward(50.0, 35.0);
             
 }
+
