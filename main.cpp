@@ -41,6 +41,7 @@ int main(void)
         //Robot.drivetrain.driveTurn(50, -50, 5);
 
         start(&course, &region, &iceCream);
+
         //Drive towards ramp
         Robot.drivetrain.encoderBackward(15.4, 35);
         Robot.drivetrain.checkX(14.8);
@@ -50,6 +51,9 @@ int main(void)
         //Drive up ramp
         Robot.drivetrain.encoderBackward(35.5, 35);
         Robot.drivetrain.checkY(55.6);
+
+        //turn towards sink
+        Robot.drivetrain.encoderRightMotorTurn(90, 25);
         
        return 0;
         
