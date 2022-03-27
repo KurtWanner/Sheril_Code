@@ -14,6 +14,8 @@ class RobotClass {
 
     IceCreamTrayServo iceCreamTrayServo = IceCreamTrayServo(FEHServo::Servo2);
 
+    int readCdSEncoderForward(double distance, double speed);
+
 };
 
 #endif

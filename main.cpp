@@ -153,7 +153,7 @@ void start(int *course, char *region, int *iceCream){
     } else {
         LCD.WriteAt("AHHHH", 5, 5);
     }
-    Sleep(3.0);
+    
 }
 
 void printStartMenu(){
@@ -206,56 +206,6 @@ void printRPSValues(){
     LCD.WriteAt(RPS.X(), 5, 5);
     LCD.WriteAt(RPS.Y(), 5, 32);
     LCD.WriteAt(RPS.Heading(), 5, 59);
-}
-
-int readCdSEncoderForward(double distance, double speed){
-    Robot.drivetrain.resetLeftCounts();
-    Robot.drivetrain.resetRightCounts();
-    double CdSmin = 3.0;
-    Robot.drivetrain.leftMotor.SetPercent(speed * 0.88);
-    Robot.drivetrain.rightMotor.SetPercent(speed);
-
-    bool leftDone = false;
-    bool rightDone = false;
-    // TODO See if using average of encoders is better
-    while(!leftDone || !rightDone){
-        if(Robot.CdS.Value() < CdSmin){
-            CdSmin = Robot.CdS.Value();
-        }
-        int diff = Robot.drivetrain.getRightEnc1() - Robot.drivetrain.getLeftEnc1();
-        LCD.Clear();
-        LCD.WriteAt("Left 1 Enc:", 5, 5);
-        LCD.WriteAt("Left 2 Enc:", 5, 30);
-        LCD.WriteAt("Right 1 Enc:", 5, 55);
-        LCD.WriteAt("Right 2 Enc:", 5, 80);
-        LCD.WriteAt("Left M S", 5, 110);
-        LCD.WriteAt("Right M S", 5, 140);
-        LCD.WriteAt(Robot.drivetrain.getLeftEnc1(), 190, 5);
-        LCD.WriteAt(Robot.drivetrain.getLeftEnc2(), 190, 30);
-        LCD.WriteAt(Robot.drivetrain.getRightEnc1(), 190, 55);
-        LCD.WriteAt(Robot.drivetrain.getRightEnc2(), 190, 80);
-        LCD.WriteAt(0.88 * (-speed - Robot.drivetrain.sigmoid(diff)), 190, 110);
-        LCD.WriteAt(speed - Robot.drivetrain.sigmoid(diff), 190, 140);
-        if(!leftDone){
-            Robot.drivetrain.leftMotor.SetPercent(0.88 * (speed + Robot.drivetrain.sigmoid(diff)));
-        }
-        if(!rightDone){
-            Robot.drivetrain.rightMotor.SetPercent(speed - Robot.drivetrain.sigmoid(diff));
-        }
-        if(Robot.drivetrain.getRightEnc1() > distance * CountsPerInch){
-            rightDone = true;
-            Robot.drivetrain.rightMotor.Stop();
-        }
-        if(Robot.drivetrain.getLeftEnc1() > distance * CountsPerInch){
-            leftDone = true;
-            Robot.drivetrain.leftMotor.Stop();
-        }
-        Sleep(.01);
-
-    }
-    Robot.drivetrain.leftMotor.Stop();
-    Robot.drivetrain.rightMotor.Stop();
-    return CdSmin;
 }
 
 void performanceTestRuns(){
