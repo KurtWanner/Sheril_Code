@@ -32,17 +32,4 @@ class IceCreamTrayServo: public FEHServo {
     void flipLeverFromBelow();
 };
 
-class OrderSlideServo: public FEHServo {
-
-    public:
-    OrderSlideServo(FEHServoPort _servo) : FEHServo(_servo){
-        SetMin(OrderSlideRotMin);
-        SetMax(OrderSlideRotMax);
-    }
-
-    void extend();
-    void retract();
-};
-
-
 #endif

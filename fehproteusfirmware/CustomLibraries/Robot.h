@@ -14,8 +14,6 @@ class RobotClass {
 
     IceCreamTrayServo iceCreamTrayServo = IceCreamTrayServo(FEHServo::Servo2);
 
-    // TODO Eventually deal with order slide
-    //OrderSlideServo orderSlideServo = OrderSlideServo(FEHServo::Servo2);
 };
 
 #endif
