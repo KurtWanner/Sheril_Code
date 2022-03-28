@@ -14,6 +14,7 @@ class RobotClass {
 
     IceCreamTrayServo iceCreamTrayServo = IceCreamTrayServo(FEHServo::Servo2);
 
+    //use to drive over jukebox
     int readCdSEncoderForward(double distance, double speed);
 
 };

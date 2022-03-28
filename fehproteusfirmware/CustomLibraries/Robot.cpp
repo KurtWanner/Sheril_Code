@@ -1,6 +1,7 @@
 #include "Robot.h"
 #include "FEHLCD.h"
 
+//use to drive over jukebox
 int RobotClass::readCdSEncoderForward(double distance, double speed){
     drivetrain.resetLeftCounts();
     drivetrain.resetRightCounts();

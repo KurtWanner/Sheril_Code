@@ -6,6 +6,7 @@
 #include "FEHServo.h"
 #include "string.h"
 #include "Constants.h"
+#include "math.h"
 
 FEHRPS RPS;
 
@@ -580,12 +581,28 @@ int FEHRPS::WaitForPacketDebug(int *packetsFound, int *packetsLost, int *lastFou
 
 float FEHRPS::X()
 {
-	return _RPS_x - xDiff;
+    float x1 = _RPS_x - xDiff - X_BASELINE;
+    float y1 = _RPS_y - yDiff - Y_BASELINE;
+
+	return x1 * cos(-headingDiff * PI / 180.0) - y1 * sin(-headingDiff * PI / 180.0) + X_BASELINE;
 }
 
 float FEHRPS::Y()
 {
-	return _RPS_y - yDiff;
+    float x1 = _RPS_x - xDiff - X_BASELINE;
+    float y1 = _RPS_y - yDiff - Y_BASELINE;
+
+	return x1 * sin(-headingDiff * PI / 180.0) + y1 * cos(-headingDiff * PI / 180.0) + Y_BASELINE;
+}
+
+float FEHRPS::BaseX()
+{
+    return _RPS_x;
+}
+
+float FEHRPS::BaseY()
+{
+    return _RPS_y;
 }
 
 float FEHRPS::Heading()
@@ -601,8 +618,8 @@ float FEHRPS::Heading()
 }
 
 void FEHRPS::Calibrate(){
-    float currX = X();
-    float currY = Y();
+    float currX = BaseX();
+    float currY = BaseY();
     float currHeading = Heading();
     
     xDiff = currX - X_BASELINE;

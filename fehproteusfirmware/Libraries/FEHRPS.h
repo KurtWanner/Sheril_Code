@@ -108,6 +108,9 @@ public:
 
 	float xDiff = 0, yDiff = 0, headingDiff = 0;
 
+	float BaseX();
+	float BaseY();
+
 	FEHRPS();
 
 private:

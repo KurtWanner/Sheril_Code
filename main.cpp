@@ -18,8 +18,6 @@ void printRPSValues();
 void calibrate();
 
 void performanceTestRuns();
-//use to drive over jukebox
-int readCdSEncoderForward(double distance, double speed);
 
 RobotClass Robot = RobotClass();
 
