@@ -59,6 +59,16 @@ int main(void)
         Robot.drivetrain.encoderBackward(3, 35);*/
  
         start(&course, &region, &iceCream);
+        Robot.iceCreamTrayServo.restingPosition();
+        Robot.drivetrain.encoderForwardToX(17, 35);
+        Robot.drivetrain.encoderRightMotorTurn(-45, 35);
+        Robot.drivetrain.checkHeading(90);
+        Robot.drivetrain.encoderForwardToY(55.4, 35);
+        Robot.drivetrain.encoderRightMotorTurn(90 + 32.1, 35);
+        Robot.drivetrain.checkHeading(32.1);
+        Robot.drivetrain.encoderForwardToX(18.9, 35);
+        Robot.iceCreamTrayServo.dumpTray();
+
         
        return 0;
         
@@ -139,19 +149,7 @@ void start(int *course, char *region, int *iceCream){
     }
 
     Robot.burgerServo.SetDegree(burgerDown);
-    Robot.iceCreamTrayServo.restingPosition();
-
-    LCD.WriteAt(*iceCream, 50, 50);
-    if(*iceCream == 0){
-        LCD.WriteAt("Left", 5, 5);
-    } else if(*iceCream == 1){
-        LCD.WriteAt("Middle", 5, 5);
-    } else if(*iceCream == 2){
-        LCD.WriteAt("Right", 5, 5);
-    } else {
-        LCD.WriteAt("AHHHH", 5, 5);
-    }
-    
+    Robot.iceCreamTrayServo.restingPosition();    
 }
 
 void printStartMenu(){
@@ -204,6 +202,8 @@ void printRPSValues(){
     LCD.WriteAt(RPS.X(), 5, 5);
     LCD.WriteAt(RPS.Y(), 5, 32);
     LCD.WriteAt(RPS.Heading(), 5, 59);
+    LCD.WriteAt(RPS.BaseX(), 100, 5);
+    LCD.WriteAt(RPS.BaseY(), 100, 32);
 }
 
 void performanceTestRuns(){

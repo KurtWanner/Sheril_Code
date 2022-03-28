@@ -28,7 +28,6 @@ typedef struct  { //TODO
 } FieldXPositions;
 
 
-
 typedef struct  { //TODO
     double Middle = 20;
     double AlignSink = 20;

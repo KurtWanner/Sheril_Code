@@ -581,18 +581,22 @@ int FEHRPS::WaitForPacketDebug(int *packetsFound, int *packetsLost, int *lastFou
 
 float FEHRPS::X()
 {
+    /*
     float x1 = _RPS_x - xDiff - X_BASELINE;
     float y1 = _RPS_y - yDiff - Y_BASELINE;
 
-	return x1 * cos(-headingDiff * PI / 180.0) - y1 * sin(-headingDiff * PI / 180.0) + X_BASELINE;
+	return x1 * cos(headingDiff * PI / 180.0) - y1 * sin(headingDiff * PI / 180.0) + X_BASELINE;
+    */
+    return _RPS_x - xDiff;
 }
 
 float FEHRPS::Y()
 {
-    float x1 = _RPS_x - xDiff - X_BASELINE;
-    float y1 = _RPS_y - yDiff - Y_BASELINE;
+    //float x1 = _RPS_x - xDiff - X_BASELINE;
+    //float y1 = _RPS_y - yDiff - Y_BASELINE;
 
-	return x1 * sin(-headingDiff * PI / 180.0) + y1 * cos(-headingDiff * PI / 180.0) + Y_BASELINE;
+	//return x1 * sin(headingDiff * PI / 180.0) + y1 * cos(headingDiff * PI / 180.0) + Y_BASELINE;
+    return _RPS_y - yDiff;
 }
 
 float FEHRPS::BaseX()
@@ -607,6 +611,7 @@ float FEHRPS::BaseY()
 
 float FEHRPS::Heading()
 {
+    /*
     if(_RPS_heading - headingDiff > 360){
         return _RPS_heading - headingDiff - 360;
     } else if(_RPS_heading - headingDiff < 0){
@@ -614,6 +619,8 @@ float FEHRPS::Heading()
     } else {
         return _RPS_heading - headingDiff;
     }
+    */
+   return _RPS_heading;
 	
 }
 
