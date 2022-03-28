@@ -127,19 +127,45 @@ void Drivetrain::encoderBackward(double dist, double speed){
     rightMotor.Stop();
 }
 
-// TODO Add functionality
 void Drivetrain::encoderForwardToX(double x, double speed){
     double dist = getDistToX(x);
-    double currX = RPS.X();
+    double diffX = RPS.X() - x;
     double heading = RPS.Heading();
     if(heading < 90 || heading > 270){
-
+        if(diffX > 0){
+            encoderBackward(dist, speed);
+        } else {
+            encoderForward(dist, speed);
+        }
+    } else {
+        if(diffX > 0){
+            encoderForward(dist, speed);
+        } else {
+            encoderBackward(dist, speed);
+        }
     }
+    checkX(x);
 
 }
 
 void Drivetrain::encoderForwardToY(double y, double speed){
-
+    double dist = getDistToY(y);
+    double diffY = RPS.Y() - y;
+    double heading = RPS.Heading();
+    if(heading > 0 || heading < 180){
+        if(diffY > 0){
+            encoderBackward(dist, speed);
+        } else {
+            encoderForward(dist, speed);
+        }
+    } else {
+        if(diffY > 0){
+            encoderForward(dist, speed);
+        } else {
+            encoderBackward(dist, speed);
+        }
+    }
+    checkY(y);
 }
 
 void Drivetrain::encoderTurn(double angle, double speed){
@@ -446,15 +472,15 @@ double Drivetrain::getDistToX(double x){
     double diffY = tan(convertToRadians(heading)) * diffX;
     return sqrt(pow(diffX, 2.0) + pow(diffY, 2.0));
 }
-/*
+
 double Drivetrain::getDistToY(double y){
     double diffY = abs(RPS.Y() - y);
     double heading = RPS.Heading();
 
-    double diffX = diffY / tan(convertToRadians(heading));
+    double diffX = diffY * tan(convertToRadians(heading + 90));
     return sqrt(pow(diffX, 2.0) + pow(diffY, 2.0));
 }
-*/
+
 
 double convertToRadians(double degree){
     return degree * PI / 180.0;
