@@ -105,10 +105,13 @@ typedef struct {
 
 // Defines for pulsing the robot 
 
-#define PULSE_TIME .1 
+#define PULSE_TIME 0.08 
 
-#define PULSE_POWER_LEFT 20 
-#define PULSE_POWER_RIGHT 20
+#define PULSE_POWER_LEFT 17 
+#define PULSE_POWER_RIGHT 17
+
+#define PULSE_TOLERANCE 0.25
+#define HEADING_TOLERANCE 1.0
 
 #define radius 1.625 
 

@@ -40,7 +40,7 @@ double Drivetrain::sigmoid(double x){
 void Drivetrain::encoderForward(double dist, double speed){
     resetLeftCounts();
     resetRightCounts();
-    leftMotor.SetPercent(speed * 0.88);
+    leftMotor.SetPercent(speed);
     rightMotor.SetPercent(speed);
 
     bool leftDone = false;
@@ -59,10 +59,10 @@ void Drivetrain::encoderForward(double dist, double speed){
         LCD.WriteAt(getLeftEnc2(), 190, 30);
         LCD.WriteAt(getRightEnc1(), 190, 55);
         LCD.WriteAt(getRightEnc2(), 190, 80);
-        LCD.WriteAt(0.88 * (-speed - sigmoid(diff)), 190, 110);
+        LCD.WriteAt(-speed - sigmoid(diff), 190, 110);
         LCD.WriteAt(speed - sigmoid(diff), 190, 140);
         if(!leftDone){
-            leftMotor.SetPercent(0.88 * (speed + sigmoid(diff)));
+            leftMotor.SetPercent(speed + sigmoid(diff));
         }
         if(!rightDone){
             rightMotor.SetPercent(speed - sigmoid(diff));
@@ -85,7 +85,7 @@ void Drivetrain::encoderForward(double dist, double speed){
 void Drivetrain::encoderBackward(double dist, double speed){
     resetLeftCounts();
     resetRightCounts();
-    leftMotor.SetPercent(-speed * 0.88);
+    leftMotor.SetPercent(-speed);
     rightMotor.SetPercent(-speed);
 
     bool leftDone = false;
@@ -104,10 +104,10 @@ void Drivetrain::encoderBackward(double dist, double speed){
         LCD.WriteAt(getLeftEnc2(), 190, 30);
         LCD.WriteAt(getRightEnc1(), 190, 55);
         LCD.WriteAt(getRightEnc2(), 190, 80);
-        LCD.WriteAt(0.88 * (-speed - sigmoid(diff)), 190, 110);
+        LCD.WriteAt(-speed - sigmoid(diff), 190, 110);
         LCD.WriteAt(speed - sigmoid(diff), 190, 140);
         if(!leftDone){
-            leftMotor.SetPercent(0.88 * (-speed - sigmoid(diff)));
+            leftMotor.SetPercent(-speed - sigmoid(diff));
         }
         if(!rightDone){
             rightMotor.SetPercent(-speed + sigmoid(diff));
@@ -372,13 +372,13 @@ void Drivetrain::pulseCounterclockwise() {
 void Drivetrain::checkX(float x_coordinate){
     float heading;
     // Check if receiving proper RPS coordinates and whether the robot is within an acceptable range
-    while(RPS.X() == -1 || (RPS.X() < x_coordinate - .5 || RPS.X() > x_coordinate + .55))
+    while(RPS.X() == -1 || (RPS.X() < x_coordinate - PULSE_TOLERANCE || RPS.X() > x_coordinate + PULSE_TOLERANCE))
     {
         if(RPS.X() != -1){
             heading = RPS.Heading();
 
             // Pulse the motors for a short duration in the correct direction
-            if(RPS.X() > x_coordinate + .5)
+            if(RPS.X() > x_coordinate + PULSE_TOLERANCE)
             {
                 if(heading < 90 || heading > 270){ //Facing right
                     pulseBackward();
@@ -387,7 +387,7 @@ void Drivetrain::checkX(float x_coordinate){
                 }
                 
             }
-            else if((RPS.X() < x_coordinate - .5))
+            else if((RPS.X() < x_coordinate - PULSE_TOLERANCE))
             {
                 // Pulse the motors for a short duration in the correct direction
                 if(heading < 90 || heading > 270){ //Facing right
@@ -407,11 +407,11 @@ void Drivetrain::checkX(float x_coordinate){
 void Drivetrain::checkY(float y_coordinate){
     float heading;
     // Check if receiving proper RPS coordinates and whether the robot is within an acceptable range
-    while(RPS.Y() < 0 || (RPS.Y() < y_coordinate -.5 || RPS.Y() > y_coordinate + .5))
+    while(RPS.Y() < 0 || (RPS.Y() < y_coordinate - PULSE_TOLERANCE || RPS.Y() > y_coordinate + PULSE_TOLERANCE))
     {
         if(RPS.X() > 0){
             heading = RPS.Heading();
-            if( RPS.Y() > y_coordinate + .5)
+            if( RPS.Y() > y_coordinate + PULSE_TOLERANCE)
             {
                 // Pulse the motors for a short duration in the correct direction
                 if(heading > 0 && heading < 180){
@@ -420,7 +420,7 @@ void Drivetrain::checkY(float y_coordinate){
                     pulseForward();
                 }
             }
-            else if((RPS.Y() < y_coordinate - .5))
+            else if((RPS.Y() < y_coordinate - PULSE_TOLERANCE))
             {
                 if(heading > 0 && heading < 180){
                     pulseForward();
@@ -438,25 +438,25 @@ void Drivetrain::checkY(float y_coordinate){
 //Use RPS to move to the desired heading
 void Drivetrain::checkHeading(float heading){
 
-   while (RPS.Heading() < 0 || (RPS.Heading() > heading + 1 || RPS.Heading() < heading - 1)){
+   while (RPS.Heading() < 0 || (RPS.Heading() > heading + HEADING_TOLERANCE || RPS.Heading() < heading - HEADING_TOLERANCE)){
        if(RPS.X() > 0){
             if(heading == 0){
                 if(RPS.Heading() < 5){
-                    if(RPS.Heading() > heading + 2){
+                    if(RPS.Heading() > heading + HEADING_TOLERANCE){
                         pulseClockwise();
                     }
                 }
                 else if(RPS.Heading() > 355){
-                    if(RPS.Heading() < 360 - 2){
+                    if(RPS.Heading() < 360 - HEADING_TOLERANCE){
                         pulseCounterclockwise();
                     }
                 }
             }
             else {
-                if(((RPS.Heading() > heading + 1))){
+                if(((RPS.Heading() > heading + HEADING_TOLERANCE))){
                     pulseClockwise();
                 }
-                else if((RPS.Heading() < heading - 1)){
+                else if((RPS.Heading() < heading - HEADING_TOLERANCE)){
                     pulseCounterclockwise();
                 }
             }
