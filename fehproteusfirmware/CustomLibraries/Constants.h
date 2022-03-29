@@ -62,17 +62,18 @@ typedef struct {
 #define BurgerRotMin 730
 
 // TODO Add values
-#define IceTrayRotMin 1175
-#define IceTrayRotMax 2165
+#define IceTrayRotMin 740
+#define IceTrayRotMax 1750
 
-#define StartAngle 30
+#define restAngle 60
+#define StartAngle 60
 #define DumpAngle 140
 
 #define burgerUp 100 
 #define burgerDown 5
 
 #define leverUp 47
-#define leverDown 115
+#define leverDown 170
 
 // TODO Add values
 #define OrderSlideRotMin 1
@@ -92,15 +93,15 @@ typedef struct {
 
 #define RPS_WAIT_TIME_IN_SEC 0.35 
 
-#define X_BASELINE 17.7
-#define Y_BASELINE 4.5
- 
+#define X_BASELINE 29.2
+#define Y_BASELINE 63.6
+
 
 // Shaft encoding counts for CrayolaBots 
 
 #define COUNTS_PER_INCH 17.63 
 
-#define COUNTS_PER_DEGREE 2.30
+#define COUNTS_PER_DEGREE 2.20
 
 // Defines for pulsing the robot 
 

@@ -20,7 +20,7 @@ void BurgerFliperServo::returnPlate(){
 // Ice Cream Tray
 // TODO Add functionality
 void IceCreamTrayServo::restingPosition(){
-    SetDegree(StartAngle);
+    SetDegree(restAngle);
 }
 
 // TODO Add functionality

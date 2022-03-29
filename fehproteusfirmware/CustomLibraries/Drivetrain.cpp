@@ -40,7 +40,7 @@ double Drivetrain::sigmoid(double x){
 void Drivetrain::encoderForward(double dist, double speed){
     resetLeftCounts();
     resetRightCounts();
-    leftMotor.SetPercent(speed);
+    leftMotor.SetPercent(speed * 0.88);
     rightMotor.SetPercent(speed);
 
     bool leftDone = false;
@@ -59,10 +59,10 @@ void Drivetrain::encoderForward(double dist, double speed){
         LCD.WriteAt(getLeftEnc2(), 190, 30);
         LCD.WriteAt(getRightEnc1(), 190, 55);
         LCD.WriteAt(getRightEnc2(), 190, 80);
-        LCD.WriteAt(-speed - sigmoid(diff), 190, 110);
+        LCD.WriteAt(0.88 * (-speed - sigmoid(diff)), 190, 110);
         LCD.WriteAt(speed - sigmoid(diff), 190, 140);
         if(!leftDone){
-            leftMotor.SetPercent(speed + sigmoid(diff));
+            leftMotor.SetPercent(0.88 * (speed + sigmoid(diff)));
         }
         if(!rightDone){
             rightMotor.SetPercent(speed - sigmoid(diff));
@@ -85,7 +85,7 @@ void Drivetrain::encoderForward(double dist, double speed){
 void Drivetrain::encoderBackward(double dist, double speed){
     resetLeftCounts();
     resetRightCounts();
-    leftMotor.SetPercent(-speed);
+    leftMotor.SetPercent(-speed * 0.88);
     rightMotor.SetPercent(-speed);
 
     bool leftDone = false;
@@ -107,7 +107,7 @@ void Drivetrain::encoderBackward(double dist, double speed){
         LCD.WriteAt(-speed - sigmoid(diff), 190, 110);
         LCD.WriteAt(speed - sigmoid(diff), 190, 140);
         if(!leftDone){
-            leftMotor.SetPercent(-speed - sigmoid(diff));
+            leftMotor.SetPercent(0.88 * (-speed - sigmoid(diff)));
         }
         if(!rightDone){
             rightMotor.SetPercent(-speed + sigmoid(diff));
@@ -129,8 +129,14 @@ void Drivetrain::encoderBackward(double dist, double speed){
 
 void Drivetrain::encoderForwardToX(double x, double speed){
     double dist = getDistToX(x);
-    double diffX = RPS.X() - x;
-    double heading = RPS.Heading();
+    double diffX, heading;
+    while(RPS.X() < 0){
+        diffX = RPS.X() - x;
+    }
+    while(RPS.Y() < 0){
+        heading = RPS.Heading();
+    }
+    
     if(heading < 90 || heading > 270){
         if(diffX > 0){
             encoderBackward(dist, speed);
@@ -150,8 +156,13 @@ void Drivetrain::encoderForwardToX(double x, double speed){
 
 void Drivetrain::encoderForwardToY(double y, double speed){
     double dist = getDistToY(y);
-    double diffY = RPS.Y() - y;
-    double heading = RPS.Heading();
+    double diffY, heading;
+    while(RPS.Y() < 0){
+        diffY = RPS.Y() - y;
+    }
+    while(RPS.Heading() < 0){
+        heading = RPS.Heading();
+    }
     if(heading > 0 || heading < 180){
         if(diffY > 0){
             encoderBackward(dist, speed);
@@ -264,7 +275,7 @@ void Drivetrain::encoderTurnToHeading(double heading, double speed){
 
 void Drivetrain::drive(double speed, double time){
     leftMotor.SetPercent(speed);
-    rightMotor.SetPercent(-speed);
+    rightMotor.SetPercent(speed);
     Sleep(time);
     leftMotor.Stop();
     rightMotor.Stop();
@@ -466,16 +477,26 @@ void Drivetrain::checkHeading(float heading){
 }
 
 double Drivetrain::getDistToX(double x){
-    double diffX = abs(RPS.X() - x);
-    double heading = RPS.Heading();
+    double diffX, heading;
+    while(RPS.X() < 0){
+        diffX = abs(RPS.X() - x);
+    }
+    while(RPS.Heading() < 0){
+        heading = RPS.Heading();
+    }
 
     double diffY = tan(convertToRadians(heading)) * diffX;
     return sqrt(pow(diffX, 2.0) + pow(diffY, 2.0));
 }
 
 double Drivetrain::getDistToY(double y){
-    double diffY = abs(RPS.Y() - y);
-    double heading = RPS.Heading();
+    double diffY, heading;
+    while(RPS.Y() < 0){
+        diffY = abs(RPS.Y() - y);
+    }
+    while(RPS.Heading() < 0){
+        heading = RPS.Heading();
+    }
 
     double diffX = diffY * tan(convertToRadians(heading + 90));
     return sqrt(pow(diffX, 2.0) + pow(diffY, 2.0));

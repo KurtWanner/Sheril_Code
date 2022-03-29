@@ -40,27 +40,88 @@ int main(void)
     if(input == RunCode){
         LCD.WriteAt("RunCode", 5, 5);
         
-        /*//Robot.drivetrain.driveTurn(50, -50, 5);
-
+        /*//Robot.drivetrain.driveTurn(50, -50, 5);*/
         start(&course, &region, &iceCream);
 
         //Drive towards ramp
-        Robot.drivetrain.encoderBackward(15.4, 35);
-        Robot.drivetrain.checkX(14.8);
+        Robot.drivetrain.encoderBackward(15.3, 35);
+        Robot.drivetrain.checkX(14.7);
         Robot.drivetrain.encoderLeftMotorTurn(45, 25);
         Robot.drivetrain.checkHeading(270);
 
         //Drive up ramp
-        Robot.drivetrain.encoderBackward(35.5, 35);
-        Robot.drivetrain.checkY(55.6);
-
+        Robot.drivetrain.encoderBackward(36.3, 35);
+        Robot.drivetrain.checkY(55.4);
+        
         //turn towards sink
-        Robot.drivetrain.encoderRightMotorTurn(90, 25);
-        Robot.drivetrain.encoderBackward(3, 35);*/
- 
-        start(&course, &region, &iceCream);
+        Robot.drivetrain.encoderRightMotorTurn(90 + 30, 35);
+        Robot.drivetrain.checkHeading(30);
+        Robot.drivetrain.encoderBackward(1.5, 35);
+        Robot.iceCreamTrayServo.dumpTray();
+        Sleep(1.0);
         Robot.iceCreamTrayServo.restingPosition();
-        Robot.drivetrain.encoderForwardToX(17, 35);
+        Robot.drivetrain.encoderRightMotorTurn(10, 25);
+        Robot.drivetrain.checkHeading(45);
+
+        //ice cream
+        switch(iceCream){
+                case 0:
+                    //turn towards vanilla
+                    break;
+                case 1:
+                    //turn towards twist
+                    Robot.drivetrain.encoderForward(4.3, 25);
+                    break;
+                case 2:
+                    //turn towards chocolate;
+                    Robot.drivetrain.encoderForward(8.3, 25);
+                    break;
+        }
+
+        //go towards ice cream machine
+        Robot.drivetrain.encoderRightMotorTurn(-90, 35);
+        Robot.drivetrain.encoderBackward(4.4, 35);
+        
+        Sleep(1.0);
+        //Robot.iceCreamTrayServo.flipLeverFromAbove();
+        Robot.iceCreamTrayServo.SetDegree(135);
+        Sleep(8.0);
+        Robot.iceCreamTrayServo.SetDegree(40);
+
+        //Robot.iceCreamTrayServo.setAboveLever();
+        Robot.drivetrain.encoderForward(3, 35);           
+        Robot.iceCreamTrayServo.SetDegree(135);
+
+        Sleep(1.0);
+        Robot.drivetrain.encoderBackward(3, 35);
+        Robot.iceCreamTrayServo.SetDegree(40);
+
+        Sleep(3.0);
+        Robot.drivetrain.encoderForward(2.0, 35);
+        /*
+            
+
+            switch(iceCream){
+                case 0:
+                    //turn towards vanilla
+                    Robot.drivetrain.encoderLeftMotorTurn(10, 25);
+                    break;
+                case 1:
+                    //turn towards twist
+                    break;
+                case 2:
+                    //turn towards chocolate
+                    Robot.drivetrain.encoderRightMotorTurn(17, 25);
+                    break;
+            }
+
+        //Robot.drivetrain.encoderForward(1.5, 35);
+        /*
+        
+        
+        start(&course, &region, &iceCream);
+        Robot.drivetrain.encoderForward(10, 35);
+        //Robot.drivetrain.encoderForwardToX(17, 35);
         Robot.drivetrain.encoderRightMotorTurn(-45, 35);
         Robot.drivetrain.checkHeading(90);
         Robot.drivetrain.encoderForwardToY(55.4, 35);
@@ -68,7 +129,8 @@ int main(void)
         Robot.drivetrain.checkHeading(32.1);
         Robot.drivetrain.encoderForwardToX(18.9, 35);
         Robot.iceCreamTrayServo.dumpTray();
-
+        */
+    
         
        return 0;
         
@@ -204,6 +266,10 @@ void printRPSValues(){
     LCD.WriteAt(RPS.Heading(), 5, 59);
     LCD.WriteAt(RPS.BaseX(), 100, 5);
     LCD.WriteAt(RPS.BaseY(), 100, 32);
+    LCD.WriteAt(RPS.xDiff, 5, 100);
+    LCD.WriteAt(RPS.yDiff, 100, 100);
+    LCD.WriteAt(X_BASELINE, 5, 130);
+    LCD.WriteAt(Y_BASELINE, 100, 130);
 }
 
 void performanceTestRuns(){

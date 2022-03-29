@@ -587,7 +587,11 @@ float FEHRPS::X()
 
 	return x1 * cos(headingDiff * PI / 180.0) - y1 * sin(headingDiff * PI / 180.0) + X_BASELINE;
     */
-    return _RPS_x - xDiff;
+    if(_RPS_x < 0){
+        return _RPS_y;
+    } else {
+        return _RPS_x - xDiff;
+    }
 }
 
 float FEHRPS::Y()
@@ -596,7 +600,11 @@ float FEHRPS::Y()
     //float y1 = _RPS_y - yDiff - Y_BASELINE;
 
 	//return x1 * sin(headingDiff * PI / 180.0) + y1 * cos(headingDiff * PI / 180.0) + Y_BASELINE;
-    return _RPS_y - yDiff;
+    if(_RPS_y < 0){
+        return _RPS_y;
+    } else {
+        return _RPS_y - yDiff;
+    }
 }
 
 float FEHRPS::BaseX()
