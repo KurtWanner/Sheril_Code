@@ -138,7 +138,7 @@ void Drivetrain::encoderForwardToX(double x, double speed){
     }
     
     if(heading < 90 || heading > 270){
-        if(diffX > 0){
+        if(diffX < 0){
             encoderBackward(dist, speed);
         } else {
             encoderForward(dist, speed);
@@ -164,7 +164,7 @@ void Drivetrain::encoderForwardToY(double y, double speed){
         heading = RPS.Heading();
     }
     if(heading > 0 || heading < 180){
-        if(diffY > 0){
+        if(diffY < 0){
             encoderBackward(dist, speed);
         } else {
             encoderForward(dist, speed);
@@ -383,8 +383,11 @@ void Drivetrain::pulseCounterclockwise() {
 void Drivetrain::checkX(float x_coordinate){
     float heading;
     // Check if receiving proper RPS coordinates and whether the robot is within an acceptable range
-    while(RPS.X() == -1 || (RPS.X() < x_coordinate - PULSE_TOLERANCE || RPS.X() > x_coordinate + PULSE_TOLERANCE))
+    while(RPS.X() < 0 || (RPS.X() < x_coordinate - PULSE_TOLERANCE || RPS.X() > x_coordinate + PULSE_TOLERANCE))
     {
+        if(RPS.X() < -1.5){
+            return;
+        }
         if(RPS.X() != -1){
             heading = RPS.Heading();
 
@@ -420,6 +423,9 @@ void Drivetrain::checkY(float y_coordinate){
     // Check if receiving proper RPS coordinates and whether the robot is within an acceptable range
     while(RPS.Y() < 0 || (RPS.Y() < y_coordinate - PULSE_TOLERANCE || RPS.Y() > y_coordinate + PULSE_TOLERANCE))
     {
+        if(RPS.Y() < -1.5){
+            return;
+        }
         if(RPS.X() > 0){
             heading = RPS.Heading();
             if( RPS.Y() > y_coordinate + PULSE_TOLERANCE)
@@ -450,6 +456,9 @@ void Drivetrain::checkY(float y_coordinate){
 void Drivetrain::checkHeading(float heading){
 
    while (RPS.Heading() < 0 || (RPS.Heading() > heading + HEADING_TOLERANCE || RPS.Heading() < heading - HEADING_TOLERANCE)){
+       if(RPS.Heading() < -1.5){
+            return;
+        }
        if(RPS.X() > 0){
             if(heading == 0){
                 if(RPS.Heading() < 5){
@@ -477,6 +486,7 @@ void Drivetrain::checkHeading(float heading){
 }
 
 double Drivetrain::getDistToX(double x){
+    /*
     double diffX, heading;
     while(RPS.X() < 0){
         diffX = abs(RPS.X() - x);
@@ -487,9 +497,17 @@ double Drivetrain::getDistToX(double x){
 
     double diffY = tan(convertToRadians(heading)) * diffX;
     return sqrt(pow(diffX, 2.0) + pow(diffY, 2.0));
+    */
+    double diffX;
+    
+    diffX = abs(RPS.X() - x); 
+    LCD.WriteAt(diffX, 5, 5);
+    Sleep(5.0);
+    return diffX;
 }
 
 double Drivetrain::getDistToY(double y){
+    /*
     double diffY, heading;
     while(RPS.Y() < 0){
         diffY = abs(RPS.Y() - y);
@@ -500,6 +518,12 @@ double Drivetrain::getDistToY(double y){
 
     double diffX = diffY * tan(convertToRadians(heading + 90));
     return sqrt(pow(diffX, 2.0) + pow(diffY, 2.0));
+    */
+    double diffY;
+    diffY = abs(RPS.Y() - y);
+    LCD.WriteAt(diffY, 5, 5);
+    Sleep(5.0);
+    return diffY;
 }
 
 

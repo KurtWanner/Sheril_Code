@@ -39,12 +39,18 @@ int main(void)
 
     if(input == RunCode){
         LCD.WriteAt("RunCode", 5, 5);
+        /*
+        Robot.iceCreamTrayServo.setBelowLever();
+        Sleep(5.0);
+        Robot.iceCreamTrayServo.setAboveLever();
+        Sleep(10.0);
+        */
         
         /*//Robot.drivetrain.driveTurn(50, -50, 5);*/
         start(&course, &region, &iceCream);
 
         //Drive towards ramp
-        Robot.drivetrain.encoderBackward(15.3, 35);
+        Robot.drivetrain.encoderBackward(15.3, 30);
         Robot.drivetrain.checkX(14.7);
         Robot.drivetrain.encoderLeftMotorTurn(45, 25);
         Robot.drivetrain.checkHeading(270);
@@ -60,60 +66,78 @@ int main(void)
         Robot.iceCreamTrayServo.dumpTray();
         Sleep(1.0);
         Robot.iceCreamTrayServo.restingPosition();
-        Robot.drivetrain.encoderRightMotorTurn(10, 25);
+        Robot.drivetrain.encoderRightMotorTurn(11, 25);
         Robot.drivetrain.checkHeading(45);
 
         //ice cream
         switch(iceCream){
                 case 0:
                     //turn towards vanilla
+                    Robot.drivetrain.encoderForward(1, 25);
                     break;
                 case 1:
                     //turn towards twist
-                    Robot.drivetrain.encoderForward(4.3, 25);
+                    Robot.drivetrain.encoderForward(5.3, 25);
                     break;
                 case 2:
                     //turn towards chocolate;
-                    Robot.drivetrain.encoderForward(8.3, 25);
+                    Robot.drivetrain.encoderForward(8.7, 25);
                     break;
         }
 
         //go towards ice cream machine
         Robot.drivetrain.encoderRightMotorTurn(-90, 35);
-        Robot.drivetrain.encoderBackward(4.4, 35);
+        Robot.drivetrain.checkHeading(315);
+        Robot.drivetrain.encoderBackward(2.25, 35);
         
         Sleep(1.0);
-        //Robot.iceCreamTrayServo.flipLeverFromAbove();
-        Robot.iceCreamTrayServo.SetDegree(135);
+        Robot.iceCreamTrayServo.flipLeverFromAbove();
+        //Robot.iceCreamTrayServo.SetDegree(135);
         Sleep(8.0);
-        Robot.iceCreamTrayServo.SetDegree(40);
+        Robot.iceCreamTrayServo.setAboveLever();
 
         //Robot.iceCreamTrayServo.setAboveLever();
         Robot.drivetrain.encoderForward(3, 35);           
-        Robot.iceCreamTrayServo.SetDegree(135);
+        Robot.iceCreamTrayServo.setBelowLever();
 
         Sleep(1.0);
         Robot.drivetrain.encoderBackward(3, 35);
-        Robot.iceCreamTrayServo.SetDegree(40);
+        Robot.iceCreamTrayServo.flipLeverFromBelow();
 
+        // Back away from ice cream
         Sleep(3.0);
         Robot.drivetrain.encoderForward(2.0, 35);
-        /*
-            
-
-            switch(iceCream){
-                case 0:
-                    //turn towards vanilla
-                    Robot.drivetrain.encoderLeftMotorTurn(10, 25);
-                    break;
-                case 1:
-                    //turn towards twist
-                    break;
-                case 2:
-                    //turn towards chocolate
-                    Robot.drivetrain.encoderRightMotorTurn(17, 25);
-                    break;
-            }
+        Robot.iceCreamTrayServo.restingPosition();
+        Robot.drivetrain.encoderLeftMotorTurn(45, 35);
+        Robot.drivetrain.checkHeading(270);
+        switch(iceCream){
+            case 0:
+                //vanilla
+                Robot.drivetrain.encoderBackward(4, 35);
+                break;
+            case 1:
+                // twist
+                Robot.drivetrain.encoderBackward(2, 35);
+                break;
+            case 2:
+                // chocolate
+                //Robot.drivetrain.encoderForward(2, 35);
+            break;
+        }
+        Robot.drivetrain.encoderRightMotorTurn(90, 35);
+        Robot.drivetrain.checkHeading(0);
+        Robot.drivetrain.encoderForwardToX(22.6, 35);
+        Robot.drivetrain.encoderRightMotorTurn(90, 35);
+        Robot.drivetrain.checkHeading(90);
+        Robot.drivetrain.encoderForwardToY(Y_BASELINE, 35);
+        Robot.burgerServo.flipBurger();
+        Sleep(2.0);
+        Robot.burgerServo.returnPlate();
+        while(true){
+            printRPSValues();
+            Sleep(10);
+        }
+        
 
         //Robot.drivetrain.encoderForward(1.5, 35);
         /*
