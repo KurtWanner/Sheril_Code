@@ -30,6 +30,7 @@ class IceCreamTrayServo: public FEHServo {
     void setAboveLever();
     void flipLeverFromAbove();
     void flipLeverFromBelow();
+    void setToTicket();
 };
 
 #endif
