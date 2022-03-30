@@ -58,6 +58,9 @@ void IceCreamTrayServo::flipLeverFromBelow(){
 }
 
 void IceCreamTrayServo::setToTicket(){
-    SetDegree(180);
+    for(int i = 50; i < 180; i++){
+        SetDegree(i);
+        Sleep(5);
+    }
 }
 
