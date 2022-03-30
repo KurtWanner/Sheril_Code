@@ -387,11 +387,8 @@ void Drivetrain::pulseCounterclockwise() {
 void Drivetrain::checkX(float x_coordinate){
     float heading;
     // Check if receiving proper RPS coordinates and whether the robot is within an acceptable range
-    while(RPS.X() < 0 || (RPS.X() < x_coordinate - PULSE_TOLERANCE || RPS.X() > x_coordinate + PULSE_TOLERANCE))
+    while((RPS.X() < 0 && RPS.X() > -1.75) || (RPS.X() < x_coordinate - PULSE_TOLERANCE || RPS.X() > x_coordinate + PULSE_TOLERANCE))
     {
-        if(RPS.X() < -1.5){
-            return;
-        }
         if(RPS.X() != -1){
             heading = RPS.Heading();
 
@@ -416,6 +413,7 @@ void Drivetrain::checkX(float x_coordinate){
                 
             }
             Sleep(RPS_WAIT_TIME_IN_SEC);
+            LCD.WriteAt("CheckX", 100, 100);
         }
     }
 }
@@ -425,11 +423,8 @@ void Drivetrain::checkX(float x_coordinate){
 void Drivetrain::checkY(float y_coordinate){
     float heading;
     // Check if receiving proper RPS coordinates and whether the robot is within an acceptable range
-    while(RPS.Y() < 0 || (RPS.Y() < y_coordinate - PULSE_TOLERANCE || RPS.Y() > y_coordinate + PULSE_TOLERANCE))
+    while((RPS.Y() < 0 && RPS.Y() > -1.75) || (RPS.Y() < y_coordinate - PULSE_TOLERANCE || RPS.Y() > y_coordinate + PULSE_TOLERANCE))
     {
-        if(RPS.Y() < -1.5){
-            return;
-        }
         if(RPS.X() > 0){
             heading = RPS.Heading();
             if( RPS.Y() > y_coordinate + PULSE_TOLERANCE)
@@ -451,6 +446,7 @@ void Drivetrain::checkY(float y_coordinate){
                 // Pulse the motors for a short duration in the correct direction
             }
             Sleep(RPS_WAIT_TIME_IN_SEC);
+            LCD.WriteAt("CheckY", 100, 100);
         }
     }
 }
@@ -459,10 +455,7 @@ void Drivetrain::checkY(float y_coordinate){
 //Use RPS to move to the desired heading
 void Drivetrain::checkHeading(float heading){
 
-   while (RPS.Heading() < 0 || (RPS.Heading() > heading + HEADING_TOLERANCE || RPS.Heading() < heading - HEADING_TOLERANCE)){
-       if(RPS.Heading() < -1.5){
-            return;
-        }
+   while ((RPS.Heading() < 0 && RPS.Heading() > -1.75) || (RPS.Heading() > heading + HEADING_TOLERANCE || RPS.Heading() < heading - HEADING_TOLERANCE)){
        if(RPS.X() > 0){
             if(heading == 0){
                 if(RPS.Heading() < 5){
