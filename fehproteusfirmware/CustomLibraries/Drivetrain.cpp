@@ -130,9 +130,11 @@ void Drivetrain::encoderBackward(double dist, double speed){
 void Drivetrain::encoderForwardToX(double x, double speed){
     double dist = getDistToX(x);
     double diffX, heading;
+    diffX = RPS.X() - x;
     while(RPS.X() < 0){
         diffX = RPS.X() - x;
     }
+    heading = RPS.Heading();
     while(RPS.Y() < 0){
         heading = RPS.Heading();
     }
@@ -157,17 +159,19 @@ void Drivetrain::encoderForwardToX(double x, double speed){
 void Drivetrain::encoderForwardToY(double y, double speed){
     double dist = getDistToY(y);
     double diffY, heading;
+    diffY = RPS.Y() - y;
     while(RPS.Y() < 0){
         diffY = RPS.Y() - y;
     }
+    heading = RPS.Heading();
     while(RPS.Heading() < 0){
         heading = RPS.Heading();
     }
-    if(heading > 0 || heading < 180){
+    if(heading > 0 && heading < 180){
         if(diffY < 0){
-            encoderBackward(dist, speed);
-        } else {
             encoderForward(dist, speed);
+        } else {
+            encoderBackward(dist, speed);
         }
     } else {
         if(diffY > 0){
@@ -501,8 +505,10 @@ double Drivetrain::getDistToX(double x){
     double diffX;
     
     diffX = abs(RPS.X() - x); 
-    LCD.WriteAt(diffX, 5, 5);
-    Sleep(5.0);
+    while(RPS.X() < 0){
+        diffX = abs(RPS.X() - x);
+    }
+
     return diffX;
 }
 
@@ -521,8 +527,10 @@ double Drivetrain::getDistToY(double y){
     */
     double diffY;
     diffY = abs(RPS.Y() - y);
-    LCD.WriteAt(diffY, 5, 5);
-    Sleep(5.0);
+    while(RPS.Y() < 0){
+        diffY = abs(RPS.Y() - y);
+    }
+
     return diffY;
 }
 

@@ -57,3 +57,7 @@ void IceCreamTrayServo::flipLeverFromBelow(){
     SetDegree(leverUp);
 }
 
+void IceCreamTrayServo::setToTicket(){
+    SetDegree(180);
+}
+
