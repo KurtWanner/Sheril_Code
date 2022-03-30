@@ -159,14 +159,15 @@ int main(void)
         Robot.drivetrain.checkHeading(90);
         Robot.drivetrain.encoderForwardToY(Y_BASELINE - 1, 35);
         Robot.drivetrain.checkHeading(90);
-        Robot.drivetrain.encoderForward(1, 20);
         Robot.drivetrain.leftMotor.SetPercent(20);
         Robot.drivetrain.rightMotor.SetPercent(20);
+        Sleep(1.0);
+        Robot.drivetrain.leftMotor.Stop();
+        Robot.drivetrain.rightMotor.Stop();
         Robot.burgerServo.flipBurger();
         Sleep(2.0);
         Robot.burgerServo.returnPlate();
-        Robot.drivetrain.leftMotor.Stop();
-        Robot.drivetrain.rightMotor.Stop();
+
 
         Robot.drivetrain.encoderBackward(2, 20);
         Robot.drivetrain.checkHeading(90);
