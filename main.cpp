@@ -46,7 +46,6 @@ int main(void)
         Sleep(10.0);
         */
         
-        /*//Robot.drivetrain.driveTurn(50, -50, 5);*/
         start(&course, &region, &iceCream);
 
         //Drive towards ramp
@@ -93,15 +92,20 @@ int main(void)
         Sleep(1.0);
         Robot.iceCreamTrayServo.flipLeverFromAbove();
         //Robot.iceCreamTrayServo.SetDegree(135);
-        Sleep(8.0);
+        int start = TimeNowSec();
+        int end = TimeNowSec();
+        Sleep(2.0);
         Robot.iceCreamTrayServo.setAboveLever();
 
         //Robot.iceCreamTrayServo.setAboveLever();
         Robot.drivetrain.encoderForward(3, 35);           
         Robot.iceCreamTrayServo.setBelowLever();
 
-        Sleep(1.0);
         Robot.drivetrain.encoderBackward(3, 35);
+        while(end - start <= 8){
+            end = TimeNowSec();
+        }
+        
         Robot.iceCreamTrayServo.flipLeverFromBelow();
 
         // Back away from ice cream
@@ -124,12 +128,15 @@ int main(void)
                 //Robot.drivetrain.encoderForward(2, 35);
             break;
         }
+        //turn towards and drive left wall
         Robot.drivetrain.encoderRightMotorTurn(90, 35);
         Robot.drivetrain.checkHeading(0);
         Robot.drivetrain.encoderForwardToX(22.6, 35);
+        //turn towards  and drive burger flip
         Robot.drivetrain.encoderRightMotorTurn(90, 35);
         Robot.drivetrain.checkHeading(90);
         Robot.drivetrain.encoderForwardToY(Y_BASELINE, 35);
+        //flip the hot plate then return to rest position
         Robot.burgerServo.flipBurger();
         Sleep(2.0);
         Robot.burgerServo.returnPlate();
