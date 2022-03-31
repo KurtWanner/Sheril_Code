@@ -62,15 +62,15 @@ typedef struct {
 #define BurgerRotMin 730
 
 // TODO Add values
-#define IceTrayRotMin 740
+#define IceTrayRotMin 715
 #define IceTrayRotMax 1750
 
 #define restAngle 45
 #define StartAngle 60
 #define DumpAngle 140
 
-#define burgerUp 100 
-#define burgerDown 5
+#define burgerUp 75 
+#define burgerDown 6
 
 #define leverUp 60
 #define leverDown 135

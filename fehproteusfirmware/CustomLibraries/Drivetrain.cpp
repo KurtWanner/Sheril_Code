@@ -386,10 +386,15 @@ void Drivetrain::pulseCounterclockwise() {
 // Use RPS to move to the desired x_coordinate based on the orientation of the QR code
 void Drivetrain::checkX(float x_coordinate){
     float heading;
+    int timeOut = 0;
     // Check if receiving proper RPS coordinates and whether the robot is within an acceptable range
     while((RPS.X() < 0 && RPS.X() > -1.75) || (RPS.X() < x_coordinate - PULSE_TOLERANCE || RPS.X() > x_coordinate + PULSE_TOLERANCE))
     {
-        if(RPS.X() != -1){
+        timeOut++;
+        if(timeOut > 10){
+            return;
+        }
+        if(RPS.X() > 0){
             heading = RPS.Heading();
 
             // Pulse the motors for a short duration in the correct direction
@@ -411,9 +416,14 @@ void Drivetrain::checkX(float x_coordinate){
                     pulseBackward();
                 }
                 
+            } else {
+                LCD.WriteAt("Fuck you robot", 100, 150);
+                Sleep(3.0);
             }
             Sleep(RPS_WAIT_TIME_IN_SEC);
             LCD.WriteAt("CheckX", 100, 100);
+        } else {
+            LCD.WriteAt("RPS.X is prob neg", 100, 200);
         }
     }
 }

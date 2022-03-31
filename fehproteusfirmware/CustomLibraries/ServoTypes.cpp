@@ -6,6 +6,7 @@
 // Burger Flipper
 // TODO Add functionality
 void BurgerFliperServo::flipBurger(){
+        LCD.WriteAt(burgerUp, 5, 5);
         SetDegree(burgerUp);
 
 }

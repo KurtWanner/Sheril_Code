@@ -39,13 +39,7 @@ int main(void)
 
     if(input == RunCode){
         LCD.WriteAt("RunCode", 5, 5);
-        /*
-        Robot.iceCreamTrayServo.setBelowLever();
-        Sleep(5.0);
-        Robot.iceCreamTrayServo.setAboveLever();
-        Sleep(10.0);
-        */
-        
+
         start(&course, &region, &iceCream);
 
         //Drive towards ramp
@@ -76,7 +70,7 @@ int main(void)
                     break;
                 case 1:
                     //turn towards twist
-                    Robot.drivetrain.encoderForward(5.3, 25);
+                    Robot.drivetrain.encoderForward(5.1, 25);
                     break;
                 case 2:
                     //turn towards chocolate;
@@ -149,26 +143,26 @@ int main(void)
         }
 
         //drive to left wall
-        Robot.drivetrain.checkX(22.8);
+        Robot.drivetrain.checkX(22.6);
         //Robot.drivetrain.encoderForwardToX(22.6, 35);
 
         //turn towards/drives hotplate
         Robot.drivetrain.encoderRightMotorTurn(90, 35);
         Robot.drivetrain.checkHeading(90);
         Robot.drivetrain.encoderForwardToY(Y_BASELINE - 1, 35);
-        Robot.drivetrain.checkY(Y_BASELINE+0.5);
+        Robot.drivetrain.checkY(Y_BASELINE);
         Robot.drivetrain.checkHeading(90);
         Robot.drivetrain.leftMotor.SetPercent(20);
         Robot.drivetrain.rightMotor.SetPercent(20);
         Sleep(1.0);
+        Robot.drivetrain.leftMotor.Stop();
+        Robot.drivetrain.rightMotor.Stop();
         
 
         //flip hotplate
         Robot.burgerServo.flipBurger();
         Sleep(2.0);
         Robot.burgerServo.returnPlate();
-        Robot.drivetrain.leftMotor.Stop();
-        Robot.drivetrain.rightMotor.Stop();
 
         //backup and readjust
         Robot.drivetrain.encoderBackward(2, 20);
@@ -176,10 +170,11 @@ int main(void)
         Robot.iceCreamTrayServo.setToTicket();
 
         //drive to ticket slider
-        Robot.drivetrain.encoderForwardToY(53, 35);
+        //Robot.drivetrain.encoderForwardToY(53, 35);
+        Robot.drivetrain.encoderBackward(10, 35);
         Robot.drivetrain.checkY(49.7);
-        Robot.drivetrain.encoderRightMotorTurn(12, 20);
-        Robot.drivetrain.checkHeading(102);
+        Robot.drivetrain.encoderRightMotorTurn(10, 20);
+        Robot.drivetrain.checkHeading(100);
         Robot.drivetrain.encoderBackward(2, 35);
 
         //slide ticket slider
@@ -193,27 +188,40 @@ int main(void)
 
         //Line up to go down ramp
         Robot.drivetrain.encoderRightMotorTurn(-90, 30);
-        Robot.drivetrain.checkHeading(0);
-        Robot.drivetrain.encoderBackward(5, 25);
+        //Robot.drivetrain.checkHeading(0);
+        Robot.drivetrain.encoderBackward(13, 25);
         Robot.drivetrain.encoderLeftMotorTurn(90, 30);
         Robot.drivetrain.checkHeading(270);
 
         //Drive down ramp
-        Robot.drivetrain.encoderForward(15+8+9, 35);
+        Robot.drivetrain.encoderForward(15+8+2, 35);
         Robot.drivetrain.encoderLeftMotorTurn(90, 35);
         Robot.drivetrain.checkHeading(180);
         Robot.drivetrain.encoderForward(1, 20);
-        //Robot.drivetrain.checkX();
+        Robot.drivetrain.checkX(15.1);
         Robot.drivetrain.encoderRightMotorTurn(90, 35);
         Robot.drivetrain.checkHeading(270);
-        int CdSValue = Robot.readCdSEncoderForward(2, 20);
+        //Robot.drivetrain.checkY();
+        Robot.drivetrain.encoderBackward(3, 25);
+        int CdSValue = Robot.readCdSEncoderForward(4, 20);
+        LCD.Clear();
+        LCD.WriteAt(CdSValue, 5, 5);
+        Sleep(3.0);
         if(CdSValue == Red){
             Robot.burgerServo.SetDegree(180);
         } else {
             Robot.burgerServo.SetDegree(0);
         }
         Sleep(1.0);
-        Robot.drivetrain.encoderForward(5, 35);
+        Robot.drivetrain.encoderForward(4, 35);
+        Robot.drivetrain.encoderBackward(1, 35);
+        Robot.drivetrain.checkHeading(270);
+        Robot.drivetrain.encoderBackward(5, 35); 
+        Robot.drivetrain.encoderRightMotorTurn(-90, 35);
+        Robot.drivetrain.checkHeading(180);
+        Robot.drivetrain.encoderBackward(5, 35);
+        Robot.drivetrain.encoderRightMotorTurn(-45, 35);
+        Robot.drivetrain.encoderBackward(50, 50);
 
         while(true){
             printRPSValues();
@@ -290,11 +298,11 @@ void start(int *course, char *region, int *iceCream){
     while(!LCD.Touch(&x, &y)){
         printRPSValues();
     }
-    WaitForTouch();
     RPS.Calibrate();
     while(!LCD.Touch(&x, &y)){
         printRPSValues();
     }
+    WaitForTouch();
     
     LCD.Clear();
     LCD.WriteAt("Welcome to Carmen's Dinner!", 5, 5);
