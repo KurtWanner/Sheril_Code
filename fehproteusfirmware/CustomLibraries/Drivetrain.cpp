@@ -180,7 +180,6 @@ void Drivetrain::encoderForwardToY(double y, double speed){
             encoderBackward(dist, speed);
         }
     }
-    checkY(y);
 }
 
 void Drivetrain::encoderTurn(double angle, double speed){
@@ -222,7 +221,7 @@ void Drivetrain::encoderLeftMotorTurn(double angle, double speed){
         leftMotor.SetPercent(-speed);
     }
 
-    while(abs(getLeftEnc1() - getRightEnc1()) < COUNTS_PER_DEGREE * abs(angle)){
+    while(abs(getLeftEnc1() + getLeftEnc2() - getRightEnc1() - getRightEnc2()) / 2 < COUNTS_PER_DEGREE * abs(angle)){
         LCD.Clear();
         LCD.WriteAt("Left 1 Enc:", 5, 5);
         LCD.WriteAt("Left 2 Enc:", 5, 30);
@@ -252,7 +251,7 @@ void Drivetrain::encoderRightMotorTurn(double angle, double speed){
         rightMotor.SetPercent(-speed);
     }
 
-    while(abs(getLeftEnc1() - getRightEnc1()) < COUNTS_PER_DEGREE * abs(angle)){
+    while(abs(getLeftEnc1() + getLeftEnc2() - getRightEnc1() - getRightEnc2()) / 2 < COUNTS_PER_DEGREE * abs(angle)){
         LCD.Clear();
         LCD.WriteAt("Left 1 Enc:", 5, 5);
         LCD.WriteAt("Left 2 Enc:", 5, 30);
@@ -385,12 +384,15 @@ void Drivetrain::pulseCounterclockwise() {
 
 // Use RPS to move to the desired x_coordinate based on the orientation of the QR code
 void Drivetrain::checkX(float x_coordinate){
+    LCD.Clear();
+    LCD.WriteAt(PULSE_TOLERANCE, 5, 5);
     float heading;
     int timeOut = 0;
     // Check if receiving proper RPS coordinates and whether the robot is within an acceptable range
     while((RPS.X() < 0 && RPS.X() > -1.75) || (RPS.X() < x_coordinate - PULSE_TOLERANCE || RPS.X() > x_coordinate + PULSE_TOLERANCE))
     {
         timeOut++;
+        LCD.WriteAt(timeOut, 5, 5);
         if(timeOut > 10){
             return;
         }
@@ -422,15 +424,18 @@ void Drivetrain::checkX(float x_coordinate){
             }
             Sleep(RPS_WAIT_TIME_IN_SEC);
             LCD.WriteAt("CheckX", 100, 100);
-        } else {
-            LCD.WriteAt("RPS.X is prob neg", 100, 200);
+            } else {
+                LCD.WriteAt("RPS.X is prob neg", 100, 200);
+            }
         }
-    }
+        Sleep(RPS_WAIT_TIME_IN_SEC);
 }
 
 
 // Use RPS to move to the desired y_coordinate based on the orientation of the QR code
 void Drivetrain::checkY(float y_coordinate){
+    LCD.Clear();
+    LCD.WriteAt(PULSE_TOLERANCE, 5, 5);
     float heading;
     // Check if receiving proper RPS coordinates and whether the robot is within an acceptable range
     while((RPS.Y() < 0 && RPS.Y() > -1.75) || (RPS.Y() < y_coordinate - PULSE_TOLERANCE || RPS.Y() > y_coordinate + PULSE_TOLERANCE))
@@ -464,19 +469,23 @@ void Drivetrain::checkY(float y_coordinate){
 
 //Use RPS to move to the desired heading
 void Drivetrain::checkHeading(float heading){
-
+    LCD.Clear();
+    LCD.WriteAt(HEADING_TOLERANCE, 5, 5);
    while ((RPS.Heading() < 0 && RPS.Heading() > -1.75) || (RPS.Heading() > heading + HEADING_TOLERANCE || RPS.Heading() < heading - HEADING_TOLERANCE)){
        if(RPS.X() > 0){
             if(heading == 0){
-                if(RPS.Heading() < 5){
+                if(RPS.Heading() < 90){
                     if(RPS.Heading() > heading + HEADING_TOLERANCE){
                         pulseClockwise();
                     }
                 }
-                else if(RPS.Heading() > 355){
+                else if(RPS.Heading() > 270){
                     if(RPS.Heading() < 360 - HEADING_TOLERANCE){
                         pulseCounterclockwise();
                     }
+                }
+                if(RPS.Heading() < 1 || RPS.Heading() > 358){
+                    return;
                 }
             }
             else {

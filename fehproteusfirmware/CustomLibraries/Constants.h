@@ -69,11 +69,11 @@ typedef struct {
 #define StartAngle 60
 #define DumpAngle 140
 
-#define burgerUp 75 
+#define burgerUp 90 
 #define burgerDown 6
 
 #define leverUp 60
-#define leverDown 135
+#define leverDown 130
 
 // TODO Add values
 #define OrderSlideRotMin 1
@@ -110,7 +110,7 @@ typedef struct {
 #define PULSE_POWER_LEFT 17 
 #define PULSE_POWER_RIGHT 17
 
-#define PULSE_TOLERANCE 0.25
+#define PULSE_TOLERANCE 0.15
 #define HEADING_TOLERANCE 1.0
 
 #define radius 1.625 
