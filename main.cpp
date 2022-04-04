@@ -52,6 +52,8 @@ int main(void)
         Robot.drivetrain.encoderBackward(36, 35);
         Robot.drivetrain.checkY(55.4);
         
+        iceCream = RPS.GetIceCream();
+
         //turn towards sink
         Robot.drivetrain.encoderRightMotorTurn(90 + 31, 35);
         Robot.drivetrain.checkHeading(31);
