@@ -39,6 +39,17 @@ int main(void)
 
     if(input == RunCode){
         LCD.WriteAt("RunCode", 5, 5);
+        /*
+        int x, y;
+        RPS.InitializeTouchMenu();
+        while(!LCD.Touch(&x, &y)){
+            printRPSValues();
+        }
+        RPS.Calibrate();
+        while(true){
+            printRPSValues();
+        }
+        */
 
         start(&course, &region, &iceCream);
 
@@ -87,7 +98,7 @@ int main(void)
         switch(iceCream){
                 case 0:
                     //turn towards vanilla
-                    Robot.drivetrain.encoderBackward(3.25, 25);
+                    Robot.drivetrain.encoderBackward(3.6, 25);
                     break;
                 case 1:
                     //turn towards twist
@@ -107,7 +118,7 @@ int main(void)
         Robot.iceCreamTrayServo.setAboveLever();
 
         Robot.drivetrain.encoderForward(3, 25);           
-        Robot.iceCreamTrayServo.setBelowLever();
+        Robot.iceCreamTrayServo.SetDegree(140); //Leverdown + 10
         Robot.drivetrain.checkHeading(315);
         while(end - start < 8){
         
@@ -166,11 +177,24 @@ int main(void)
         //Robot.drivetrain.encoderForwardToX(22.6, 35);
 
         //turn towards/drives hotplate
-        Robot.drivetrain.encoderRightMotorTurn(90, 20);
+        Robot.drivetrain.encoderRightMotorTurn(90, 35);
         Robot.drivetrain.checkHeading(90);
-        Robot.drivetrain.encoderForwardToY(Y_BASELINE - 1, 30);
-        Robot.drivetrain.checkY(Y_BASELINE-1);
+        Robot.drivetrain.encoderForwardToY(62.1, 30);
+        Robot.drivetrain.checkY(62.1);
         Robot.drivetrain.checkHeading(90);
+
+        //Burger correction
+        float diffX = RPS.X();
+        while(RPS.X() < 0){
+            diffX = RPS.X();
+        }
+
+        if(diffX > 29.6){
+            Robot.drivetrain.encoderRightMotorTurn(5, 20);
+        } else if(diffX < 29.1){
+            Robot.drivetrain.encoderLeftMotorTurn(5, 20);
+        }
+
         Robot.drivetrain.leftMotor.SetPercent(20);
         Robot.drivetrain.rightMotor.SetPercent(20);
         Sleep(1.0);
@@ -191,13 +215,16 @@ int main(void)
         //drive to ticket slider
         //Robot.drivetrain.encoderForwardToY(53, 35);
         Robot.drivetrain.encoderBackward(10, 35);
-        Robot.drivetrain.checkY(48.2);
+        Robot.drivetrain.checkY(49.7);
+        Robot.drivetrain.driveTurn(-30, 0, 1.0);
+        /*
         Robot.drivetrain.encoderRightMotorTurn(14, 20);
         Robot.drivetrain.checkHeading(103);
-        Robot.drivetrain.encoderBackward(2, 35);
+        */
+        //Robot.drivetrain.encoderBackward(2, 35);
 
         //slide ticket slider
-        Robot.drivetrain.drive(-35, 1.5);
+        Robot.drivetrain.drive(-35, 1);
         Robot.drivetrain.driveTurn(50, 0, 0.75);
 
         //Line up to return to ground level
