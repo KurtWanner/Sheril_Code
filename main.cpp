@@ -102,7 +102,7 @@ int main(void)
                     break;
                 case 1:
                     //turn towards twist
-                    Robot.drivetrain.encoderBackward(3.25, 25);
+                    Robot.drivetrain.encoderBackward(3.6, 25);
                     break;
                 case 2:
                     //turn towards chocolate;
@@ -177,7 +177,7 @@ int main(void)
         //Robot.drivetrain.encoderForwardToX(22.6, 35);
 
         //turn towards/drives hotplate
-        Robot.drivetrain.encoderRightMotorTurn(90, 35);
+        Robot.drivetrain.encoderRightMotorTurn(90, 25);
         Robot.drivetrain.checkHeading(90);
         Robot.drivetrain.encoderForwardToY(62.1, 30);
         Robot.drivetrain.checkY(62.1);
@@ -225,7 +225,7 @@ int main(void)
 
         //slide ticket slider
         Robot.drivetrain.drive(-35, 1);
-        Robot.drivetrain.driveTurn(50, 0, 0.75);
+        Robot.drivetrain.driveTurn(50, -5, 0.75);
 
         //Line up to return to ground level
         Robot.iceCreamTrayServo.restingPosition();
@@ -236,6 +236,7 @@ int main(void)
         Robot.drivetrain.encoderRightMotorTurn(-90, 30);
         Robot.drivetrain.checkHeading(0);
         Robot.drivetrain.encoderBackward(13, 25);
+        Robot.drivetrain.checkX(11.1);
         Robot.drivetrain.encoderLeftMotorTurn(90, 30);
         Robot.drivetrain.checkHeading(270);
 
@@ -359,6 +360,9 @@ void start(int *course, char *region, int *iceCream){
         printRPSValues();
     }
     RPS.Calibrate();
+    while(LCD.Touch(&x, &y)){
+        printRPSValues();
+    }
     while(!LCD.Touch(&x, &y)){
         printRPSValues();
     }
