@@ -49,7 +49,7 @@ typedef struct {
 #define RedMin .29
 
 #define BlueMax .6
-#define BlueMin .4
+#define BlueMin .44
 
 #define StartLightMax 1.0
 #define StartLightMin .05

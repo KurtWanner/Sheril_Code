@@ -23,11 +23,9 @@ int CdSSensor::getLight(double value){
     } else {
         return None;
     }*/
-    if(value <= RedMax){
-        return Red;
-    } else if (value <= BlueMax){
+    if(value > BlueMin){
         return Blue;
     } else {
-        return None;
+        return Red;
     }
 }

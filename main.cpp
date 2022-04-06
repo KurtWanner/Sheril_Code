@@ -19,6 +19,8 @@ void calibrate();
 
 void performanceTestRuns();
 
+float JukeboxX;
+
 RobotClass Robot = RobotClass();
 
 int main(void)
@@ -129,7 +131,7 @@ int main(void)
         Robot.iceCreamTrayServo.flipLeverFromBelow();
 
         // Back away from ice cream
-        Sleep(3.0);
+        Sleep(2.0);
         Robot.drivetrain.encoderForward(2.0, 35);
         Robot.iceCreamTrayServo.setAboveLever();
         Robot.drivetrain.encoderRightMotorTurn(45, 35);
@@ -191,13 +193,17 @@ int main(void)
 
         if(diffX > 29.6){
             Robot.drivetrain.encoderRightMotorTurn(5, 20);
+            Robot.drivetrain.leftMotor.SetPercent(20);
+            
         } else if(diffX < 29.1){
             Robot.drivetrain.encoderLeftMotorTurn(5, 20);
+            Robot.drivetrain.rightMotor.SetPercent(20);
         }
+        Sleep(0.5);
 
         Robot.drivetrain.leftMotor.SetPercent(20);
         Robot.drivetrain.rightMotor.SetPercent(20);
-        Sleep(1.0);
+        Sleep(0.75);
         Robot.drivetrain.leftMotor.Stop();
         Robot.drivetrain.rightMotor.Stop();
         
@@ -228,8 +234,8 @@ int main(void)
         Robot.drivetrain.driveTurn(50, -5, 0.75);
 
         //Line up to return to ground level
-        Robot.iceCreamTrayServo.restingPosition();
         Robot.drivetrain.encoderRightMotorTurn(20, 25);
+        Robot.iceCreamTrayServo.restingPosition();
         Robot.drivetrain.checkHeading(90);
 
         //Line up to go down ramp
@@ -268,6 +274,7 @@ int main(void)
 
         //press button
         Robot.drivetrain.checkHeading(270);
+
         Robot.drivetrain.encoderForward(4, 40);
         Robot.drivetrain.encoderBackward(1, 35);
         Robot.drivetrain.checkHeading(266);
@@ -366,6 +373,10 @@ void start(int *course, char *region, int *iceCream){
     while(!LCD.Touch(&x, &y)){
         printRPSValues();
     }
+
+    JukeboxX = RPS.X();
+
+    //Final Action
     WaitForTouch();
     
     LCD.Clear();
