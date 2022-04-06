@@ -232,6 +232,9 @@ void Drivetrain::encoderTurn(double angle, double speed){
 void Drivetrain::encoderLeftMotorTurn(double angle, double speed){
     resetLeftCounts();
     resetRightCounts();
+
+    int timeout = 0;
+    int oldLeft;
     if(angle > 0){
         leftMotor.SetPercent(speed);
     } else {
@@ -239,6 +242,17 @@ void Drivetrain::encoderLeftMotorTurn(double angle, double speed){
     }
 
     while(abs(getLeftEnc1() + getLeftEnc2() - getRightEnc1() - getRightEnc2()) / 2 < COUNTS_PER_DEGREE * abs(angle)){
+        if(oldLeft == getLeftEnc1()){
+            timeout++;
+        } else {
+            timeout = 0;
+        }
+        if(timeout > 10){
+            return;
+        }
+
+        oldLeft = getLeftEnc1();
+
         LCD.Clear();
         LCD.WriteAt("Left 1 Enc:", 5, 5);
         LCD.WriteAt("Left 2 Enc:", 5, 30);
@@ -260,6 +274,9 @@ void Drivetrain::encoderLeftMotorTurn(double angle, double speed){
 }
 
 void Drivetrain::encoderRightMotorTurn(double angle, double speed){
+
+    int timeout = 0;
+    int oldLeft;
     resetLeftCounts();
     resetRightCounts();
     if(angle > 0){
@@ -269,6 +286,18 @@ void Drivetrain::encoderRightMotorTurn(double angle, double speed){
     }
 
     while(abs(getLeftEnc1() + getLeftEnc2() - getRightEnc1() - getRightEnc2()) / 2 < COUNTS_PER_DEGREE * abs(angle)){
+
+        if(oldLeft == getLeftEnc1()){
+            timeout++;
+        } else {
+            timeout = 0;
+        }
+        if(timeout > 10){
+            return;
+        }
+
+        oldLeft = getLeftEnc1();
+
         LCD.Clear();
         LCD.WriteAt("Left 1 Enc:", 5, 5);
         LCD.WriteAt("Left 2 Enc:", 5, 30);
