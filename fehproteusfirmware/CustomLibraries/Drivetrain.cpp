@@ -482,10 +482,15 @@ void Drivetrain::checkX(float x_coordinate){
 void Drivetrain::checkY(float y_coordinate){
     LCD.Clear();
     LCD.WriteAt(PULSE_TOLERANCE, 5, 5);
+    int timeout = 0;
     float heading;
     // Check if receiving proper RPS coordinates and whether the robot is within an acceptable range
     while((RPS.Y() < 0 && RPS.Y() > -1.75) || (RPS.Y() < y_coordinate - PULSE_TOLERANCE || RPS.Y() > y_coordinate + PULSE_TOLERANCE))
     {
+        timeout++;
+        if(timeout > 10){
+            return;
+        }
         if(RPS.X() > 0){
             heading = RPS.Heading();
             if( RPS.Y() > y_coordinate + PULSE_TOLERANCE)
@@ -515,9 +520,15 @@ void Drivetrain::checkY(float y_coordinate){
 
 //Use RPS to move to the desired heading
 void Drivetrain::checkHeading(float heading){
+    int timeout = 0;
     LCD.Clear();
     LCD.WriteAt(HEADING_TOLERANCE, 5, 5);
    while ((RPS.Heading() < 0 && RPS.Heading() > -1.75) || (RPS.Heading() > heading + HEADING_TOLERANCE || RPS.Heading() < heading - HEADING_TOLERANCE)){
+
+       timeout++;
+       if(timeout > 10){
+           return;
+       }
        if(RPS.X() > 0){
             if(heading == 0){
                 if(RPS.Heading() < 90){
