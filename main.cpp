@@ -85,7 +85,7 @@ int main(void)
                     //turn towards twist
                     Robot.drivetrain.encoderForward(5, 25);
                     break;
-                case 2:
+                default:
                     //turn towards chocolate;
                     Robot.drivetrain.encoderForward(8.7, 25);
                     break;
@@ -104,7 +104,7 @@ int main(void)
                     //turn towards twist
                     Robot.drivetrain.encoderBackward(3.6, 25);
                     break;
-                case 2:
+                default:
                     //turn towards chocolate;
                     Robot.drivetrain.encoderBackward(3.35, 25);
                     break;
@@ -162,7 +162,7 @@ int main(void)
                 // twist
                 Robot.drivetrain.encoderForward(2, 20);
                 break;
-            case 2:
+            default:
                 // chocolate
                 Robot.drivetrain.encoderForward(0.5, 20);
                 //Robot.drivetrain.encoderForward(2, 35);
