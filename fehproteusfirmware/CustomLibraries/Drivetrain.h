@@ -21,14 +21,6 @@ class Drivetrain {
     Drivetrain();
 
     // TODO Add overloaded functions for encoder counts
-    // TODO Add PIDBackward function
-    void PIDForward(double dist);
-    void PIDForwardToX(double x);
-    void PIDForwardToY(double y);
-    void PIDTurn(double angle);
-    void PIDTurnToHeading(double heading);
-
-    // TODO Add overloaded functions for encoder counts
     void encoderForward(double distance, double speed);
     void encoderBackward(double distance, double speed);
     void encoderForwardToX(double x, double speed);

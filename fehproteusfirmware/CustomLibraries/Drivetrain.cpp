@@ -16,22 +16,6 @@ Drivetrain::Drivetrain(){
 
 double convertToRadians(double);
 
-void Drivetrain::PIDForward(double dist){
-
-}
-void Drivetrain::PIDForwardToX(double x){
-
-}
-void Drivetrain::PIDForwardToY(double y){
-
-}
-void Drivetrain::PIDTurn(double angle){
-
-}
-void Drivetrain::PIDTurnToHeading(double heading){
-
-}
-
 double Drivetrain::sigmoid(double x){
     double e = 2.718;
     return (30 / (1 + pow(e, -(x/8)))) - 15;
@@ -45,9 +29,27 @@ void Drivetrain::encoderForward(double dist, double speed){
 
     bool leftDone = false;
     bool rightDone = false;
+    int oldLeft1;
+    int timeout = 0;
+
+
     // TODO See if using average of encoders is better
     while(!leftDone || !rightDone){
+
+        if(oldLeft1 == getLeftEnc1()){
+            timeout++;
+        } else {
+            timeout = 0;
+        }
+        if(timeout > 30){
+            leftMotor.Stop();
+            rightMotor.Stop();
+            return;
+        }
+        
         int diff = getRightEnc1() - getLeftEnc1();
+        oldLeft1 = getLeftEnc1();
+
         LCD.Clear();
         LCD.WriteAt("Left 1 Enc:", 5, 5);
         LCD.WriteAt("Left 2 Enc:", 5, 30);
@@ -90,7 +92,6 @@ void Drivetrain::encoderBackward(double dist, double speed){
 
     bool leftDone = false;
     bool rightDone = false;
-    int oldRight1;
     int oldLeft1;
     int timeout = 0;
     // TODO See if using average of encoders is better
@@ -107,7 +108,6 @@ void Drivetrain::encoderBackward(double dist, double speed){
         }
 
         int diff = getRightEnc1() - getLeftEnc1();
-        oldRight1 = getRightEnc1();
         oldLeft1 = getLeftEnc1();
         
         LCD.Clear();
