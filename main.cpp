@@ -253,9 +253,9 @@ int main(void)
         Robot.drivetrain.encoderLeftMotorTurn(90, 35);
         Robot.drivetrain.checkHeading(180);
         Robot.drivetrain.encoderForward(1, 20);
-        Robot.drivetrain.checkX(15.1);
+        Robot.drivetrain.checkX(15.1 + (JukeboxX - 9.5));
         Robot.drivetrain.checkHeading(180);
-        Robot.drivetrain.checkX(15.1);
+        Robot.drivetrain.checkX(15.1 + (JukeboxX - 9.5));
         Robot.drivetrain.encoderRightMotorTurn(90, 35);
         Robot.drivetrain.checkHeading(270);
         //Robot.drivetrain.checkY();
@@ -265,23 +265,38 @@ int main(void)
         int CdSValue = Robot.readCdSEncoderForward(4, 20);
         LCD.Clear();
         LCD.WriteAt(CdSValue, 5, 5);
+        float diffx = 0;
+        float angle = 0;
         if(CdSValue == Red){
             Robot.burgerServo.SetDegree(180);
+            diffx = RPS.X() - JukeboxX - 0.2;
+            angle = atan(diffx / 4.0);
+            if (angle > 0){
+                Robot.drivetrain.encoderLeftMotorTurn(angle * 180 / PI, 20);
+            } else {
+                Robot.drivetrain.encoderRightMotorTurn(abs(angle * 180 / PI), 20);
+            }
         } else {
             Robot.burgerServo.SetDegree(0);
+            diffx = RPS.X() - JukeboxX;
+            angle = atan(diffx / 4.0);
+            if (angle > 0){
+                Robot.drivetrain.encoderLeftMotorTurn(angle * 180 / PI, 20);
+            } else {
+                Robot.drivetrain.encoderRightMotorTurn(abs(angle * 180 / PI), 20);
+            }
         }
         Sleep(0.75);
 
         //press button
-        Robot.drivetrain.checkHeading(270);
-
         Robot.drivetrain.encoderForward(4, 40);
         Robot.drivetrain.encoderBackward(1, 35);
+        Robot.drivetrain.checkHeading(270);
+        /*//press button again
         Robot.drivetrain.checkHeading(266);
-        //press button again
         Robot.drivetrain.drive(35, 1);
         Robot.drivetrain.encoderBackward(1, 35);
-        Robot.drivetrain.checkHeading(270);
+        Robot.drivetrain.checkHeading(270);*/
 
         //backup and end run
         Robot.drivetrain.encoderBackward(5, 35); 
