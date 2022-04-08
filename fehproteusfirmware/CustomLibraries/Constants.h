@@ -79,7 +79,7 @@ typedef struct {
 #define OrderSlideRotMin 1
 #define OrderSlideRotMax 1
 
-#define CountsPerInch 16.6
+#define CountsPerInch 16.3
 
 #define SlowSpeed 20
 
@@ -101,7 +101,7 @@ typedef struct {
 
 #define COUNTS_PER_INCH 17.63 
 
-#define COUNTS_PER_DEGREE 2.20
+#define COUNTS_PER_DEGREE 2.35
 
 // Defines for pulsing the robot 
 
