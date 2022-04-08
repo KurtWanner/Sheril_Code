@@ -371,6 +371,8 @@ void start(int *course, char *region, int *iceCream){
     }
 
     JukeboxX = RPS.X();
+    LCD.Clear();
+    LCD.WriteAt(JukeboxX, 5, 5);
 
     //Final Action
     WaitForTouch();
