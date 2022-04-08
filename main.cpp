@@ -62,13 +62,13 @@ int main(void)
         Robot.drivetrain.checkHeading(270);
 
         //Drive up ramp
-        Robot.drivetrain.encoderBackward(36, 35);
+        Robot.drivetrain.encoderBackward(36.5, 35);
         Robot.drivetrain.checkY(55.4);
         
         iceCream = RPS.GetIceCream();
 
         //turn towards sink
-        Robot.drivetrain.encoderRightMotorTurn(90 + 31, 35);
+        Robot.drivetrain.encoderRightMotorTurn(90 + 33, 35);
         Robot.drivetrain.checkHeading(31);
         Robot.drivetrain.encoderBackward(2, 35);
         Robot.iceCreamTrayServo.dumpTray();
@@ -138,7 +138,7 @@ int main(void)
         Robot.drivetrain.encoderRightMotorTurn(45, 35);
         Robot.drivetrain.checkHeading(0);
         
-        switch(iceCream){
+        /*switch(iceCream){
             case 0:
                 //vanilla
                 Robot.drivetrain.encoderBackward(4, 35);
@@ -154,16 +154,16 @@ int main(void)
         }
         //turn towards and drive left wall
         Robot.drivetrain.encoderRightMotorTurn(90, 35);
-        Robot.drivetrain.checkHeading(0);
+        Robot.drivetrain.checkHeading(0);*/
         
        switch(iceCream){
             case 0:
                 //vanilla
-                Robot.drivetrain.encoderForward(4, 20);
+                Robot.drivetrain.encoderForward(5.2, 20);
                 break;
             case 1:
                 // twist
-                Robot.drivetrain.encoderForward(2, 20);
+                Robot.drivetrain.encoderForward(2.7, 20);
                 break;
             default:
                 // chocolate
@@ -182,8 +182,8 @@ int main(void)
         //turn towards/drives hotplate
         Robot.drivetrain.encoderRightMotorTurn(90, 25);
         Robot.drivetrain.checkHeading(90);
-        Robot.drivetrain.encoderForwardToY(62.1, 30);
-        Robot.drivetrain.checkY(62.1);
+        Robot.drivetrain.encoderForwardToY(62, 30);
+        Robot.drivetrain.checkY(62);
         Robot.drivetrain.checkHeading(90);
 
         //Burger correction
@@ -210,19 +210,21 @@ int main(void)
         
 
         //flip hotplate
-        Robot.burgerServo.SetDegree(80);
+        Robot.burgerServo.SetDegree(85);
         Sleep(2.0);
         Robot.burgerServo.returnPlate();
 
         //backup and readjust
         Robot.drivetrain.encoderBackward(2, 20);
         Robot.drivetrain.checkHeading(90);
-        Robot.iceCreamTrayServo.setToTicket();
+        Robot.iceCreamTrayServo.SetDegree(180);
 
         //drive to ticket slider
         //Robot.drivetrain.encoderForwardToY(53, 35);
         Robot.drivetrain.encoderBackward(10, 35);
-        Robot.drivetrain.checkY(49.7);
+        Robot.drivetrain.checkY(49.5);
+        Robot.drivetrain.encoderLeftMotorTurn(-10, 20);
+        Robot.drivetrain.encoderBackward(1, 20);
         Robot.drivetrain.driveTurn(-30, 0, 1.0);
         /*
         Robot.drivetrain.encoderRightMotorTurn(14, 20);
@@ -236,7 +238,7 @@ int main(void)
 
         //Line up to return to ground level
         Robot.drivetrain.encoderRightMotorTurn(20, 25);
-        Robot.iceCreamTrayServo.restingPosition();
+        Robot.iceCreamTrayServo.setAboveLever();
         Robot.drivetrain.checkHeading(90);
 
         //Line up to go down ramp
@@ -254,9 +256,9 @@ int main(void)
         Robot.drivetrain.encoderLeftMotorTurn(90, 35);
         Robot.drivetrain.checkHeading(180);
         Robot.drivetrain.encoderForward(1, 20);
-        Robot.drivetrain.checkX(15.1 + (JukeboxX - 9.5));
+        Robot.drivetrain.checkX(15.1 + (JukeboxX - 9.3));
         Robot.drivetrain.checkHeading(180);
-        Robot.drivetrain.checkX(15.1 + (JukeboxX - 9.5));
+        Robot.drivetrain.checkX(15.1 + (JukeboxX - 9.3));
         Robot.drivetrain.encoderRightMotorTurn(90, 35);
         Robot.drivetrain.checkHeading(270);
         //Robot.drivetrain.checkY();
@@ -271,7 +273,7 @@ int main(void)
         if(CdSValue == Red){
             Robot.burgerServo.SetDegree(180);
             diffx = RPS.X() - JukeboxX + 0.2;
-            angle = atan(diffx / 4.0);
+            angle = atan(diffx / 4.2);
             if (angle > 0){
                 Robot.drivetrain.encoderLeftMotorTurn(angle * 180 / PI, 20);
             } else {
@@ -280,7 +282,7 @@ int main(void)
         } else {
             Robot.burgerServo.SetDegree(0);
             diffx = RPS.X() - JukeboxX;
-            angle = atan(diffx / 4.0);
+            angle = atan(diffx / 4.2);
             if (angle > 0){
                 Robot.drivetrain.encoderLeftMotorTurn(angle * 180 / PI, 20);
             } else {
@@ -292,20 +294,32 @@ int main(void)
         //press button
         Robot.drivetrain.encoderForward(4, 40);
         Robot.drivetrain.encoderBackward(1, 35);
+        if(CdSValue == Red){
+            if (angle > 0){
+                Robot.drivetrain.encoderLeftMotorTurn(-angle * 180 / PI, 20);
+            } else {
+                Robot.drivetrain.encoderRightMotorTurn(-abs(angle * 180 / PI), 20);
+            }
+        } else {
+            if (angle > 0){
+                Robot.drivetrain.encoderLeftMotorTurn(-angle * 180 / PI, 20);
+            } else {
+                Robot.drivetrain.encoderRightMotorTurn(-abs(angle * 180 / PI), 20);
+            }
+        }
         Robot.drivetrain.checkHeading(270);
-        //press button again
+        /*//press button again
         Robot.drivetrain.checkHeading(266);
         Robot.drivetrain.drive(35, 1);
         Robot.drivetrain.encoderBackward(1, 35);
-        Robot.drivetrain.checkHeading(270);
+        Robot.drivetrain.checkHeading(270);*/
 
         //backup and end run
         Robot.drivetrain.encoderBackward(5, 35); 
         Robot.drivetrain.encoderRightMotorTurn(-90, 35);
-        Robot.drivetrain.checkHeading(180);
         Robot.drivetrain.encoderBackward(3, 35);
         Robot.drivetrain.encoderRightMotorTurn(-45, 35);
-        Robot.drivetrain.encoderBackward(50, 50);
+        Robot.drivetrain.encoderBackward(50, 80);
 
         while(true){
             printRPSValues();
@@ -363,6 +377,7 @@ void start(int *course, char *region, int *iceCream){
         printRPSValues();
     }
     RPS.Calibrate();
+    LCD.ClearBuffer();  
     while(LCD.Touch(&x, &y)){
         printRPSValues();
     }

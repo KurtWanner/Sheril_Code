@@ -85,7 +85,7 @@ void Drivetrain::encoderForward(double dist, double speed){
 
     /*resetLeftCounts();
     resetRightCounts();
-    leftMotor.SetPercent(speed * 0.88);
+    leftMotor.SetPercent(speed);
     rightMotor.SetPercent(speed);
 
     bool leftDone = false;
@@ -214,7 +214,7 @@ void Drivetrain::encoderBackward(double dist, double speed){
 
     /*resetLeftCounts();
     resetRightCounts();
-    leftMotor.SetPercent(-speed * 0.88);
+    leftMotor.SetPercent(-speed);
     rightMotor.SetPercent(-speed);
 
     bool leftDone = false;
