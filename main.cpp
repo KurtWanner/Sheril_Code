@@ -133,9 +133,10 @@ int main(void)
 
         // Back away from ice cream
         Sleep(2.0);
+        Robot.iceCreamTrayServo.SetDegree(140);
         Robot.drivetrain.encoderForward(2.0, 35);
-        Robot.iceCreamTrayServo.setAboveLever();
         Robot.drivetrain.encoderRightMotorTurn(45, 35);
+        Robot.iceCreamTrayServo.setAboveLever();
         Robot.drivetrain.checkHeading(0);
         
         /*switch(iceCream){
