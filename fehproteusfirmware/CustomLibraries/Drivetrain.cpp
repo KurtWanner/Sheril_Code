@@ -22,6 +22,7 @@ double Drivetrain::sigmoid(double x){
 }
 
 void Drivetrain::encoderForward(double dist, double speed){
+    /*
     resetLeftCounts();
     resetRightCounts();
     leftMotor.SetPercent(speed * 0.88);
@@ -82,8 +83,8 @@ void Drivetrain::encoderForward(double dist, double speed){
     }
     leftMotor.Stop();
     rightMotor.Stop();
-
-    /*resetLeftCounts();
+    */
+    resetLeftCounts();
     resetRightCounts();
     leftMotor.SetPercent(speed * 0.88);
     rightMotor.SetPercent(speed);
@@ -147,11 +148,12 @@ void Drivetrain::encoderForward(double dist, double speed){
 
     }
     leftMotor.Stop();
-    rightMotor.Stop();*/
+    rightMotor.Stop();
 
 }
 
 void Drivetrain::encoderBackward(double dist, double speed){
+    /*
     resetLeftCounts();
     resetRightCounts();
     leftMotor.SetPercent(-speed * 0.88);
@@ -211,8 +213,8 @@ void Drivetrain::encoderBackward(double dist, double speed){
     }
     leftMotor.Stop();
     rightMotor.Stop();
-
-    /*resetLeftCounts();
+    */
+    resetLeftCounts();
     resetRightCounts();
     leftMotor.SetPercent(-speed * 0.88);
     rightMotor.SetPercent(-speed);
@@ -275,7 +277,7 @@ void Drivetrain::encoderBackward(double dist, double speed){
 
     }
     leftMotor.Stop();
-    rightMotor.Stop();*/
+    rightMotor.Stop();
 }
 
 void Drivetrain::encoderForwardToX(double x, double speed){
@@ -364,6 +366,7 @@ void Drivetrain::encoderTurn(double angle, double speed){
 }
 
 void Drivetrain::encoderLeftMotorTurn(double angle, double speed){
+    /*
     resetLeftCounts();
     resetRightCounts();
 
@@ -405,8 +408,8 @@ void Drivetrain::encoderLeftMotorTurn(double angle, double speed){
 
     rightMotor.Stop();
     leftMotor.Stop();
-    
-    /*resetLeftCounts();
+    */
+    resetLeftCounts();
     resetRightCounts();
     if(angle  > 0){
         leftMotor.SetPercent(speed);
@@ -457,11 +460,11 @@ void Drivetrain::encoderLeftMotorTurn(double angle, double speed){
     }
 
     rightMotor.Stop();
-    leftMotor.Stop();*/
+    leftMotor.Stop();
 }
 
 void Drivetrain::encoderRightMotorTurn(double angle, double speed){
-
+    /*
     int timeout = 0;
     int oldRight;
     resetLeftCounts();
@@ -503,8 +506,9 @@ void Drivetrain::encoderRightMotorTurn(double angle, double speed){
 
     rightMotor.Stop();
     leftMotor.Stop();
+    */
 
-    /*int timeout = 0;
+    int timeout = 0;
     int oldRight;
     resetLeftCounts();
     resetRightCounts();
@@ -554,7 +558,7 @@ void Drivetrain::encoderRightMotorTurn(double angle, double speed){
     }
 
     rightMotor.Stop();
-    leftMotor.Stop();*/
+    leftMotor.Stop();
 }
 
 void Drivetrain::encoderTurnToHeading(double heading, double speed){

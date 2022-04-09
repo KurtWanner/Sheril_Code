@@ -42,17 +42,69 @@ int main(void)
 
     if(input == RunCode){
         LCD.WriteAt("RunCode", 5, 5);
+
         /*
-        int x, y;
-        RPS.InitializeTouchMenu();
-        while(!LCD.Touch(&x, &y)){
-            printRPSValues();
-        }
-        RPS.Calibrate();
-        while(true){
-            printRPSValues();
-        }
-        */
+       while(true){
+           LCD.WriteAt(Robot.CdS.Value(), 10, 10);
+           Sleep(15);
+       }
+       */
+
+       Robot.drivetrain.encoderForward(10, 90);
+       for(int i = 0; i < 30; i++){
+            LCD.Clear();
+            LCD.WriteAt("Left 1 Enc:", 5, 5);
+            LCD.WriteAt("Left 2 Enc:", 5, 30);
+            LCD.WriteAt("Right 1 Enc:", 5, 55);
+            LCD.WriteAt("Right 2 Enc:", 5, 80);
+            LCD.WriteAt(Robot.drivetrain.getLeftEnc1(), 180, 5);
+            LCD.WriteAt(Robot.drivetrain.getLeftEnc2(), 180, 30);
+            LCD.WriteAt(Robot.drivetrain.getRightEnc1(), 180, 55);
+            LCD.WriteAt(Robot.drivetrain.getRightEnc2(), 180, 80);   
+            Sleep(30);
+       }
+       Robot.drivetrain.encoderBackward(10, 90);
+       for(int i = 0; i < 30; i++){
+            LCD.Clear();
+            LCD.WriteAt("Left 1 Enc:", 5, 5);
+            LCD.WriteAt("Left 2 Enc:", 5, 30);
+            LCD.WriteAt("Right 1 Enc:", 5, 55);
+            LCD.WriteAt("Right 2 Enc:", 5, 80);
+            LCD.WriteAt(Robot.drivetrain.getLeftEnc1(), 180, 5);
+            LCD.WriteAt(Robot.drivetrain.getLeftEnc2(), 180, 30);
+            LCD.WriteAt(Robot.drivetrain.getRightEnc1(), 180, 55);
+            LCD.WriteAt(Robot.drivetrain.getRightEnc2(), 180, 80);   
+            Sleep(30);
+       }
+
+       Robot.drivetrain.encoderLeftMotorTurn(90, 90);
+       for(int i = 0; i < 30; i++){
+            LCD.Clear();
+            LCD.WriteAt("Left 1 Enc:", 5, 5);
+            LCD.WriteAt("Left 2 Enc:", 5, 30);
+            LCD.WriteAt("Right 1 Enc:", 5, 55);
+            LCD.WriteAt("Right 2 Enc:", 5, 80);
+            LCD.WriteAt(Robot.drivetrain.getLeftEnc1(), 180, 5);
+            LCD.WriteAt(Robot.drivetrain.getLeftEnc2(), 180, 30);
+            LCD.WriteAt(Robot.drivetrain.getRightEnc1(), 180, 55);
+            LCD.WriteAt(Robot.drivetrain.getRightEnc2(), 180, 80);   
+            Sleep(30);
+       }
+       Robot.drivetrain.encoderRightMotorTurn(90, 90);
+       for(int i = 0; i < 30; i++){
+            LCD.Clear();
+            LCD.WriteAt("Left 1 Enc:", 5, 5);
+            LCD.WriteAt("Left 2 Enc:", 5, 30);
+            LCD.WriteAt("Right 1 Enc:", 5, 55);
+            LCD.WriteAt("Right 2 Enc:", 5, 80);
+            LCD.WriteAt(Robot.drivetrain.getLeftEnc1(), 180, 5);
+            LCD.WriteAt(Robot.drivetrain.getLeftEnc2(), 180, 30);
+            LCD.WriteAt(Robot.drivetrain.getRightEnc1(), 180, 55);
+            LCD.WriteAt(Robot.drivetrain.getRightEnc2(), 180, 80);   
+            Sleep(30);
+       }
+
+       Sleep(30.0);
 
        
 
