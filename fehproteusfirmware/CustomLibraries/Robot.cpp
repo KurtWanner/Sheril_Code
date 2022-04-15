@@ -12,25 +12,19 @@ int RobotClass::readCdSEncoderForward(double distance, double speed){
 
     bool leftDone = false;
     bool rightDone = false;
-    // TODO See if using average of encoders is better
+    
+    // Continue until both left and right motors have reached their desired values
     while(!leftDone || !rightDone){
         if(CdS.Value() < CdSmin){
             CdSmin = CdS.Value();
         }
         int diff = drivetrain.getRightEnc1() - drivetrain.getLeftEnc1();
-        LCD.Clear();
-        LCD.WriteAt("Left 1 Enc:", 5, 5);
-        LCD.WriteAt("Left 2 Enc:", 5, 30);
-        LCD.WriteAt("Right 1 Enc:", 5, 55);
-        LCD.WriteAt("Right 2 Enc:", 5, 80);
-        LCD.WriteAt("Left M S", 5, 110);
-        LCD.WriteAt("Right M S", 5, 140);
-        LCD.WriteAt(drivetrain.getLeftEnc1(), 190, 5);
-        LCD.WriteAt(drivetrain.getLeftEnc2(), 190, 30);
-        LCD.WriteAt(drivetrain.getRightEnc1(), 190, 55);
-        LCD.WriteAt(drivetrain.getRightEnc2(), 190, 80);
+
+        // Print debugging values to LCD
+        drivetrain.printEncoderValues();
         LCD.WriteAt(0.88 * (-speed - drivetrain.sigmoid(diff)), 190, 110);
         LCD.WriteAt(speed - drivetrain.sigmoid(diff), 190, 140);
+
         if(!leftDone){
             drivetrain.leftMotor.SetPercent(0.88 * (speed + drivetrain.sigmoid(diff)));
         }
