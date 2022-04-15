@@ -5,6 +5,7 @@
 #include "FEHIO.h"
 #include "Constants.h"
 
+// Servo class for burger flip mechanism
 class BurgerFliperServo: public FEHServo {
 
     public:
@@ -16,6 +17,7 @@ class BurgerFliperServo: public FEHServo {
     void returnPlate();
 };
 
+// Servo class for lever arm mechanism
 class IceCreamTrayServo: public FEHServo {
 
     public:

@@ -3,6 +3,7 @@
 
 #include "FEHIO.h"
 
+// FEH Analog input pin with additional methods
 class CdSSensor: public AnalogInputPin {
     using AnalogInputPin::AnalogInputPin;
 
@@ -15,6 +16,5 @@ class CdSSensor: public AnalogInputPin {
     int getLight(double value);
 
 };
-
 
 #endif

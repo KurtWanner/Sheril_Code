@@ -8,13 +8,18 @@
 
 class RobotClass {
     public:
-    Drivetrain drivetrain;
-    CdSSensor CdS = CdSSensor(FEHIO::P1_0);
-    BurgerFliperServo burgerServo = BurgerFliperServo(FEHServo::Servo0);
 
+    // Drivetrain initialization
+    Drivetrain drivetrain;
+
+    // CdS Initialization
+    CdSSensor CdS = CdSSensor(FEHIO::P1_0);
+
+    // Servo initializations
+    BurgerFliperServo burgerServo = BurgerFliperServo(FEHServo::Servo0);
     IceCreamTrayServo iceCreamTrayServo = IceCreamTrayServo(FEHServo::Servo2);
 
-    //use to drive over jukebox
+    // Used to drive over jukebox
     int readCdSEncoderForward(double distance, double speed);
 
 };

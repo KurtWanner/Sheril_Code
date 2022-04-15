@@ -4,61 +4,65 @@
 #include "FEHLCD.h"
 
 // Burger Flipper
-// TODO Add functionality
 void BurgerFliperServo::flipBurger(){
         LCD.WriteAt(burgerUp, 5, 5);
         SetDegree(burgerUp);
 
 }
 
-// TODO Add functionality
+// Return burger flip servo
 void BurgerFliperServo::returnPlate(){
+
+    // Gradual return
     for(int i = burgerUp; i > burgerDown; i--){
         SetDegree(i);
         Sleep(10);
     }
 }
 
-// Ice Cream Tray
-// TODO Add functionality
+// Default position for lever arm
 void IceCreamTrayServo::restingPosition(){
     LCD.WriteAt(restAngle, 5, 5);
     SetDegree(restAngle);
 }
 
-// TODO Add functionality
+// Drop tray into sunk using lever arm
 void IceCreamTrayServo::dumpTray(){
+
+    // Gradual drop
     for(int i = StartAngle; i < DumpAngle; i++){
         SetDegree(i);
         Sleep(.01);
     }
 }
 
-// TODO Add functionality
+// Prepare to flip up ice cream lever
 void IceCreamTrayServo::setBelowLever(){
     SetDegree(leverDown);
-    //LCD.WriteAt(leverDown, 5, 5);
 }
 
-// TODO Add functionality
+// Prepare to flip down ice cream lever
 void IceCreamTrayServo::setAboveLever(){
     LCD.WriteAt(leverUp, 5, 5);
     SetDegree(leverUp);
 }
 
-// TODO Add functionality
+// Flip down ice cream lever
 void IceCreamTrayServo::flipLeverFromAbove(){
     LCD.WriteAt(leverDown, 5, 5);
     SetDegree(leverDown);
 }
 
-// TODO Add functionality
+// Flip up ice cream lever
 void IceCreamTrayServo::flipLeverFromBelow(){
     LCD.WriteAt(leverUp, 5, 5);
     SetDegree(leverUp);
 }
 
+// Set lever arm to ground
 void IceCreamTrayServo::setToTicket(){
+    
+    // Gradual drop
     for(int i = 50; i < 180; i++){
         SetDegree(i);
         Sleep(5);

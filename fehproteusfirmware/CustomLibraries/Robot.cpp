@@ -5,6 +5,7 @@
 int RobotClass::readCdSEncoderForward(double distance, double speed){
     drivetrain.resetLeftCounts();
     drivetrain.resetRightCounts();
+    // Set to max value of CdS value
     double CdSmin = 3.0;
     drivetrain.leftMotor.SetPercent(speed * 0.88);
     drivetrain.rightMotor.SetPercent(speed);
@@ -36,11 +37,11 @@ int RobotClass::readCdSEncoderForward(double distance, double speed){
         if(!rightDone){
             drivetrain.rightMotor.SetPercent(speed - drivetrain.sigmoid(diff));
         }
-        if(drivetrain.getRightEnc1() > distance * CountsPerInch){
+        if(drivetrain.getRightEnc1() > distance * COUNTS_PER_INCH){
             rightDone = true;
             drivetrain.rightMotor.Stop();
         }
-        if(drivetrain.getLeftEnc1() > distance * CountsPerInch){
+        if(drivetrain.getLeftEnc1() > distance * COUNTS_PER_INCH){
             leftDone = true;
             drivetrain.leftMotor.Stop();
         }
